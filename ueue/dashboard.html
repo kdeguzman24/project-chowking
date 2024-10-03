@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: #eaeaea; /* Light background for the entire page */
+        }
+
+        /* Sidebar (fixed to the left) */
+        .sidebar {
+            height: 100%; /* Full-height */
+            width: 125px; /* Reduced width of sidebar */
+            position: fixed; /* Stay in place */
+            top: 0;
+            left: 0;
+            background-color: #922023; /* Set navbar color */
+            padding: 20px 0; /* Vertical padding for sidebar */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3); /* Add a slight shadow for depth */
+            transition: width 0.3s; /* Smooth transition for width change */
+        }
+
+        /* Navbar image */
+        .sidebar .navbar-title img {
+            width: 90px; /* Adjust size of the image */
+            display: block;
+            margin-bottom: 20px; /* Space below the logo */
+        }
+
+        /* Sidebar links */
+        .sidebar a {
+            padding: 10px 15px; /* Reduced padding for a neater appearance */
+            text-decoration: none;
+            font-size: 16px; /* Slightly smaller font size */
+            color: white; /* White text for better contrast */
+            display: block;
+            width: 100%; /* Full width of the sidebar */
+            text-align: center; /* Center text */
+            border-radius: 5px; /* Rounded corners */
+            transition: background 0.3s;
+            margin: 5px 0; /* Space between links */
+        }
+
+        .sidebar a:hover {
+            background-color: #b13333; /* Darker shade on hover */
+        }
+
+        /* Main content styling */
+        .main-content {
+            margin-left: 125px; /* Adjusted space for the sidebar */
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f4f4f4; /* Light background to contrast the sidebar */
+            height: 100vh;
+            overflow-y: auto; /* Enable scrolling within the content */
+            border-left: 2px solid #922023; /* Border to separate sidebar from content */
+            transition: margin-left 0.3s; /* Smooth transition for margin change */
+        }
+
+        h1 {
+            color: #922023; /* Main heading color */
+            font-size: 24px; /* Adjusted font size for the heading */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+
+        p {
+            color: #333; /* Darker text color for readability */
+            line-height: 1.6; /* Improved line spacing for readability */
+            margin-bottom: 15px; /* Space between paragraphs */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100px; /* Reduced width on smaller screens */
+            }
+
+            .main-content {
+                margin-left: 100px; /* Adjusted space for the sidebar */
+            }
+
+            /* Sidebar links */
+            .sidebar a {
+                font-size: 14px; /* Smaller font size for mobile */
+                padding: 8px 10px; /* Adjusted padding for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%; /* Full width on very small screens */
+                position: relative; /* Position relative to the content */
+                height: auto; /* Adjust height for better fit */
+                flex-direction: row; /* Align items in a row */
+                justify-content: space-around; /* Space items evenly */
+                padding: 10px 0; /* Reduced padding for mobile */
+            }
+
+            .main-content {
+                margin-left: 0; /* No margin needed for mobile */
+                padding-top: 60px; /* Space for the navbar */
+            }
+
+            .sidebar a {
+                flex: 1; /* Each link takes equal space */
+                text-align: center; /* Center text */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="navbar-title">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+        </div>
+        <a href="#">Dashboard</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Notifications</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>This is where the main content of the dashboard will be displayed.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id eros vehicula, ullamcorper odio at, consectetur elit. Fusce in magna vitae elit ullamcorper venenatis. Integer dapibus auctor diam, id interdum erat sodales nec.</p>
+        <p>Here you can access different sections through the side navbar on the left.</p>
+    </div>
+
+</body>
+</html>
