@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,6 +53,10 @@
             border-radius: 5px; /* Rounded corners */
             transition: background 0.3s;
             margin: 5px 0; /* Space between links */
+        }
+
+        .sidebar a i {
+            margin-right: 5px; /* space BETWEEN nung icon and text */
         }
 
         .sidebar a:hover {
@@ -126,11 +133,11 @@
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
         </div>
-        <a href="#">Dashboard</a>
-        <a href="#">Profile</a>
-        <a href="#">Settings</a>
-        <a href="#">Notifications</a>
-        <a href="#">Logout</a>
+        <a href="#"><i class="fas fa-house"> Dashboard</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sliders-h"> Settings</a>
+        <a href="#"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="#"><i class="fas fa-sign-out-alt"> Logout</a>
     </div>
 
     <!-- Main content -->
