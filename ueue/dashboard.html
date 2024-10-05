@@ -89,6 +89,43 @@
             margin-bottom: 15px; /* Space between paragraphs */
         }
 
+        /* Fixed header styles */
+        .fixed-header {
+            display: flex; /* Use flexbox to align items horizontally */
+            align-items: center; /* Align items vertically */
+            padding: 35px 15px; /* Adjust padding */
+            background-color: #f4f4f4; /* Optional: background color for the header section */
+            border-bottom: 2px solid #922023; /* Optional: Border for separation */
+            margin-bottom: 20px; /* Space below the fixed header */
+        }
+
+        .fixed-header img {
+            width: 90px; /* Size of the profile picture */
+            height: auto;
+            border-radius: 50%; /* Round profile picture */
+            margin-right: 20px; /* Space between image and text */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position {
+            display: flex;
+            flex-direction: column; /* Ensure the name and position stack vertically */
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px; /* Adjust font size */
+            color: #922023; /* Match sidebar color */
+        }
+
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #555; /* Subtle color for position */
+        }
+
+
+
 
 
 
@@ -148,6 +185,13 @@
 
     <!-- Main content -->
     <div class="main-content">
+        <div class="fixed-header">
+            <img src="ProfilePic.png" alt="Profile Picture">
+            <div class="name-position">
+                <h2>Dela Rosa, Juana A.</h2>
+                <p>Estudyante</p>
+            </div>
+        </div>
         <h1>Welcome to Your Dashboard</h1>
         <p>This is where the main content of the dashboard will be displayed.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id eros vehicula, ullamcorper odio at, consectetur elit. Fusce in magna vitae elit ullamcorper venenatis. Integer dapibus auctor diam, id interdum erat sodales nec.</p>
