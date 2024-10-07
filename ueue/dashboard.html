@@ -15,50 +15,80 @@
             display: flex;
             height: 100vh;
             overflow: hidden; /* Prevent scrolling */
-            background-color: #eaeaea; /* Light background for the entire page */
+            background-color: #eaeaea;
         }
 
         /* Sidebar (fixed to the left) */
         .sidebar {
-            height: 100%; /* Full-height */
-            width: 190px; /* Reduced width of sidebar */
-            position: fixed; /* Stay in place */
+            height: 100%;
+            width: 490px;
+            position: fixed;
             top: 0;
             left: 0;
-            background-color: #ab252b; /* Set navbar color */
-            padding: 20px 0; /* Vertical padding for sidebar */
+            background-color: #940b10;
+            padding: 20px 0;
             display: flex;
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center items horizontally */
-            box-shadow: 2px 0 5px rgba(0,0,0,0.3); /* Add a slight shadow for depth */
-            transition: width 0.3s; /* Smooth transition for width change */
+            flex-direction: column;
+            align-items: center; /* Center all the sidebar links vertically */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: width 0.3s;
+        }
+
+        /* Navbar title styling */
+        .sidebar .navbar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center logo and text horizontally */
+            margin-bottom: 20px; /* Space below the logo */
         }
 
         /* Navbar image */
         .sidebar .navbar-title img {
             width: 100px; /* Adjust size of the image */
             display: block;
-            margin-bottom: 20px; /* Space below the logo */
+            margin-right: 15px; /* Space between the logo and the text */
+            margin-top: 30px;
+        }
+
+        /* Navbar text */
+        .navbar-text {
+            display: flex;
+            flex-direction: column;
+            color: white;
+            margin-top: 30px
+        }
+
+        .navbar-text h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .navbar-text p {
+            font-size: 14px;
+            margin: 0;
+            color: white;
         }
 
         /* Sidebar links */
         .sidebar a {
-            padding: 10px 15px; /* Reduced padding for a neater appearance */
+            padding: 10px 15px;
             text-decoration: none;
-            font-size: 16px; /* Slightly smaller font size */
-            color: white; /* White text for better contrast */
+            font-size: 16px;
+            color: white;
             display: flex;
-            flex-direction: column;
-            align-items: center;    
-            width: 100%; /* Full width of the sidebar */
-            text-align: center; /* Center text */
-            border-radius: 5px; /* Rounded corners */
+            align-items: center; /* Vertically align icon and text */
+            justify-content: flex-start; /* Keep icon and text aligned left */
+            width: 80%; /* Adjust width so the link is not full-width */
+            text-align: left;
+            border-radius: 5px;
             transition: background 0.3s;
-            margin: 5px 0; /* Space between links */
+            margin: 15px 0;
+            margin-left: 260px;
         }
 
+        /* Space between icon and text */
         .sidebar a i {
-            margin-bottom: 5px; /* space BETWEEN nung icon and text */
+            margin-right: 20px;
         }
 
         .sidebar a:hover {
@@ -67,7 +97,7 @@
 
         /* Main content styling */
         .main-content {
-            margin-left: 190px; /* Adjusted space for the sidebar */
+            margin-left: 490px; /* Adjusted space for the sidebar */
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4; /* Light background to contrast the sidebar */
@@ -124,11 +154,6 @@
             color: #555; /* Subtle color for position */
         }
 
-
-
-
-
-
         /* Responsive styles */
         @media (max-width: 768px) {
             .sidebar {
@@ -174,12 +199,16 @@
     <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <div class="navbar-text">
+                <h2>UNIVERSITY OF THE EAST</h2>
+                <p>MANILA CAMPUS</p>
+            </div>
         </div><br><br><br>
-        <a href="#"><i class="fas fa-house"></i> Dashboard</a>
-        <a href="#"><i class="fas fa-user"></i> Statistics</a>
-        <a href="#"><i class="fas fa-user"></i> Report</a>
-        <a href="#"><i class="fas fa-sliders-h"> </i>Settings</a>
-        <a href="#"><i class="fas fa-bell"></i> Notification</a><br><br><br><br><br><br>
+        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
+        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
+        <a href="#"><i class="fas fa-bell"></i> Notification</a><br><br><br><br>
         <a href="#"><i class="fas fa-user"></i> Profile</a>
         <a href="#"><i class="fas fa-sign-out-alt"> </i>Logout</a>
     </div>
