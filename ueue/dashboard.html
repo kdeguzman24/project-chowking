@@ -3,110 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compose Report</title>
+    <title>Dashboard</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('lualhati2.png'); /* Replace with your background image URL */
-            background-size: cover; /* Cover the entire page */
-            background-position: center; /* Center the background image */
-            background-repeat: no-repeat; /* Prevent image from repeating */
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: #eaeaea;
         }
 
-        .container {
-            width: 60%;
-            margin: 40px auto;
-            background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        /* Sidebar (fixed to the left) */
+        .sidebar {
+            height: 100%;
+            width: 490px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #940b10;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center all the sidebar links vertically */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: width 0.3s;
+        }
+
+        /* Navbar title styling */
+        .sidebar .navbar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center logo and text horizontally */
+            margin-bottom: 20px; /* Space below the logo */
+        }
+
+        /* Navbar image */
+        .sidebar .navbar-title img {
+            width: 100px; /* Adjust size of the image */
+            display: block;
+            margin-right: 15px; /* Space between the logo and the text */
+            margin-top: 30px;
+        }
+
+        /* Navbar text */
+        .navbar-text {
+            display: flex;
+            flex-direction: column;
+            color: white;
+            margin-top: 30px
+        }
+
+        .navbar-text h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .navbar-text p {
+            font-size: 14px;
+            margin: 0;
+            color: white;
+        }
+
+        /* Sidebar links */
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center; /* Vertically align icon and text */
+            justify-content: flex-start; /* Keep icon and text aligned left */
+            width: 80%; /* Adjust width so the link is not full-width */
+            text-align: left;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin: 15px 0;
+            margin-left: 260px;
+        }
+
+        /* Space between icon and text */
+        .sidebar a i {
+            margin-right: 20px;
+        }
+
+        .sidebar a:hover {
+            background-color: #b13333; /* Darker shade on hover */
+        }
+
+        /* Main content styling */
+        .main-content {
+            margin-left: 490px; /* Adjusted space for the sidebar */
             padding: 20px;
+            flex-grow: 1;
+            background-color: #f4f4f4; /* Light background to contrast the sidebar */
+            height: 100vh;
+            overflow-y: auto; /* Enable scrolling within the content */
+            border-left: 2px solid #ab252b; /* Border to separate sidebar from content */
+            transition: margin-left 0.3s; /* Smooth transition for margin change */
         }
 
         h1 {
+            color: #940b10; /* Main heading color */
+            font-size: 24px; /* Adjusted font size for the heading */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+
+        /* Fixed header styles */
+        .fixed-header {
+            display: flex; /* Use flexbox to align items horizontally */
+            align-items: center; /* Align items vertically */
+            padding: 35px 15px; /* Adjust padding */
+            background-color: #f4f4f4; /* Optional: background color for the header section */
+            border-bottom: 2px solid #940b10; /* Optional: Border for separation */
+            margin-bottom: 20px; /* Space below the fixed header */
+        }
+
+        .fixed-header img {
+            width: 90px; /* Size of the profile picture */
+            height: auto;
+            border-radius: 50%; /* Round profile picture */
+            margin-right: 20px; /* Space between image and text */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position {
+            display: flex;
+            flex-direction: column; /* Ensure the name and position stack vertically */
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px; /* Adjust font size */
+            color: #940b10; /* Match sidebar color */
+        }
+
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000; /* Subtle color for position */
+        }
+
+        /* Widgets Section */
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 150px;
             text-align: center;
-            color: #333333;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        /* Recent Activity Section */
+        .recent-activity {
+            margin-top: 20px;
         }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            color: #666666;
+        .recent-activity ul {
+            list-style-type: none;
+            padding: 0;
         }
 
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
+        .recent-activity li {
+            background-color: white;
             padding: 10px;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        textarea {
-            height: 150px;
-            resize: vertical;
+        /* Calendar Section */
+        .calendar {
+            background-color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .submit-btn {
+        /* Quick Actions Section */
+        .quick-actions {
+            margin-top: 20px;
+        }
+
+        .quick-actions button {
+            padding: 10px 20px;
+            margin: 5px;
             background-color: #940b10;
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s ease;
         }
 
-        .submit-btn:hover {
-            background-color: #7b0910;
+        .quick-actions button:hover {
+            background-color: #b13333;
         }
 
-        .footer {
+        /* Footer Section */
+        footer {
+            padding: 20px;
+            background-color: #940b10;
+            color: white;
             text-align: center;
             margin-top: 20px;
-            color: #999999;
-            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100px; /* Reduced width on smaller screens */
+            }
+
+            .main-content {
+                margin-left: 100px; /* Adjusted space for the sidebar */
+            }
+
+            /* Sidebar links */
+            .sidebar a {
+                font-size: 14px; /* Smaller font size for mobile */
+                padding: 8px 10px; /* Adjusted padding for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%; /* Full width on very small screens */
+                position: relative; /* Position relative to the content */
+                height: auto; /* Adjust height for better fit */
+                flex-direction: row; /* Align items in a row */
+                justify-content: space-around; /* Space items evenly */
+                padding: 10px 0; /* Reduced padding for mobile */
+            }
+
+            .main-content {
+                margin-left: 0; /* No margin needed for mobile */
+                padding-top: 60px; /* Space for the navbar */
+            }
+
+            .sidebar a {
+                flex: 1; /* Each link takes equal space */
+                text-align: center; /* Center text */
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Compose Report</h1>
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="report-title">Report Title</label>
-                <input type="text" id="report-title" name="report-title" required>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="navbar-title">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <div class="navbar-text">
+                <h2>UNIVERSITY OF THE EAST</h2>
+                <p>MANILA CAMPUS</p>
             </div>
-
-            <div class="form-group">
-                <label for="reporter-email">Your Email</label>
-                <input type="email" id="reporter-email" name="reporter-email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="report-description">Description</label>
-                <textarea id="report-description" name="report-description" required></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn">Submit Report</button>
-        </form>
-        <div class="footer">
-            <p>&copy; 2024 Your Organization. All Rights Reserved.</p>
         </div>
+        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
+        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
+        <a href="#"><i class="fas fa-bell"></i> Notification</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="fixed-header">
+            <img src="ProfilePic.png" alt="Profile Picture"> <!-- Replace with your profile picture -->
+            <div class="name-position">
+                <h2>Kathlen Mae Merindo</h2>
+                <p> Student</p>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <input type="text" placeholder="Search..." style="padding: 10px; width: 200px; border-radius: 5px;">
+
+        <h1>Welcome to Your Dashboard!</h1>
+
+        <!-- Widgets Section -->
+        <div class="widgets">
+            <div class="widget">
+                <h3>Report</h3>
+                <p>9</p>
+            </div>
+            <div class="widget">
+                <h3>Resolve</h3>
+                <p>4</p>
+            </div>
+            <div class="widget">
+                <h3>Pending Issue</h3>
+                <p>3 New</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <ul>
+                <li>Submitted report on <strong>Oct 5, 2024</strong></li>
+                <li>Notification: New Report posted</li>
+            </ul>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar">
+            <h3>Upcoming Deadlines</h3>
+            <p>Assignment Due: <strong>October 10, 2024</strong></p>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="quick-actions">
+            <button>Submit Report</button>
+            <button>Request Transcript</button>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 University of the East. All rights reserved.</p>
+            <a href="#">Privacy Policy</a> | <a href="#">Contact Support</a>
+        </footer>
+    </div>
 </body>
 </html>
