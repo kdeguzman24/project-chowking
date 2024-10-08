@@ -102,6 +102,32 @@
             margin-bottom: 20px;
         }
 
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 20%;
+        }
+
+        .widget h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #940b10;
+        }
+
+        .widget p {
+            font-size: 18px;
+            color: #666;
+        }
+
         .chart-container {
             display: flex;
             justify-content: space-around;
@@ -128,6 +154,9 @@
             .chart-box {
                 width: 90%;
             }
+            .widget {
+                width: 45%;
+            }
         }
     </style>
 </head>
@@ -145,15 +174,35 @@
         <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
         <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
         <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
-        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
+        <a href="#"><i class="fas fa-sliders-h"></i> Settings</a>
         <a href="#"><i class="fas fa-bell"></i> Notification</a><br><br><br><br>
         <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt"> </i> Logout</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <!-- Main content -->
     <div class="main-content">
         <h1>Statistics Dashboard</h1>
+
+        <!-- Widgets Section -->
+        <div class="widgets">
+            <div class="widget">
+                <h2>Total Reports</h2>
+                <p>150</p>
+            </div>
+            <div class="widget">
+                <h2>Total Resolved</h2>
+                <p>120</p>
+            </div>
+            <div class="widget">
+                <h2>Pending Issues</h2>
+                <p>30</p>
+            </div>
+            <div class="widget">
+                <h2>Suggestions</h2>
+                <p>25</p>
+            </div>
+        </div>
 
         <div class="chart-container">
             <!-- Radar Chart -->
@@ -167,8 +216,14 @@
                 <h2>Progress Over Time</h2>
                 <canvas id="lineChart"></canvas>
             </div>
+
+            <!-- Additional Chart: Reports Over Time -->
+            <div class="chart-box">
+                <h2>Reports Over Time</h2>
+                <canvas id="reportsChart"></canvas>
+            </div>
         </div>
-    </div>
+
 
     <script>
         // Radar Chart
@@ -176,20 +231,32 @@
         const radarChart = new Chart(radarCtx, {
             type: 'radar',
             data: {
-                labels: ['Communication', 'Teamwork', 'Problem Solving', 'Leadership', 'Creativity', 'Adaptability'],
+                labels: ['Comfort Room', 'Room', 'Hallway', 'Electronics', 'Stuff', 'Elevator'],
                 datasets: [{
-                    label: 'Student Performance',
+                    label: 'Progress Performance',
                     data: [85, 75, 90, 80, 60, 70],
                     backgroundColor: 'rgba(148, 11, 16, 0.2)',
                     borderColor: 'rgba(148, 11, 16, 1)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    pointBackgroundColor: '#940b10',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
                 }]
             },
             options: {
                 scales: {
                     r: {
+                        angleLines: {
+                            display: true,
+                            color: '#cccccc'
+                        },
+                        grid: {
+                            circular: true,
+                            color: '#cccccc'
+                        },
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            showLabelBackdrop: false
                         }
                     }
                 }
@@ -220,6 +287,31 @@
                 }
             }
         });
+
+        // Reports Over Time Chart
+        const reportsCtx = document.getElementById('reportsChart').getContext('2d');
+        const reportsChart = new Chart(reportsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                datasets: [{
+                    label: 'Reports Submitted',
+                    data: [10, 20, 15, 25, 30],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+             
     </script>
 
 </body>
