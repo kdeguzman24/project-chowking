@@ -148,6 +148,82 @@
             color: #000000; /* Subtle color for position */
         }
 
+        /* Widgets Section */
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            text-align: center;
+        }
+
+        /* Recent Activity Section */
+        .recent-activity {
+            margin-top: 20px;
+        }
+
+        .recent-activity ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recent-activity li {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Calendar Section */
+        .calendar {
+            background-color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Quick Actions Section */
+        .quick-actions {
+            margin-top: 20px;
+        }
+
+        .quick-actions button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #940b10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quick-actions button:hover {
+            background-color: #b13333;
+        }
+
+        /* Footer Section */
+        footer {
+            padding: 20px;
+            background-color: #940b10;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
         /* Responsive styles */
         @media (max-width: 768px) {
             .sidebar {
@@ -203,22 +279,67 @@
         <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
         <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
         <a href="#"><i class="fas fa-bell"></i> Notification</a><br><br><br><br>
-        <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt"> </i>Logout</a>
+        <footer>© 2024 UE. All rights reserved.</footer>
     </div>
 
-
-    <!-- Main content -->
+    <!-- Main Content -->
     <div class="main-content">
         <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture">
+            <img src="ProfilePic.png" alt="Profile Picture"> <!-- Replace with your profile picture -->
             <div class="name-position">
-                <h2>Dela Rosa, Juana A.</h2>
-                <p>Estudyante</p>
+                <h2>Kathlen Mae Merindo</h2>
+                <p>Computer Engineering Student</p>
             </div>
         </div>
-        <h1>Dashboard</h1>
-    </div>
 
+        <!-- Search Bar -->
+        <input type="text" placeholder="Search..." style="padding: 10px; width: 200px; border-radius: 5px;">
+
+        <h1>Welcome to Your Dashboard!</h1>
+
+        <!-- Widgets Section -->
+        <div class="widgets">
+            <div class="widget">
+                <h3>Report</h3>
+                <p>9</p>
+            </div>
+            <div class="widget">
+                <h3>Resolve</h3>
+                <p>4</p>
+            </div>
+            <div class="widget">
+                <h3>Pending Issue(s)</h3>
+                <p>3 New</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <ul>
+                <li>Submitted report on <strong>Oct 5, 2024</strong></li>
+                <li>Notification: New Report posted</li>
+                <li>Profile updated successfully</li>
+            </ul>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar">
+            <h3>Upcoming Deadlines</h3>
+            <p>Assignment Due: <strong>October 10, 2024</strong></p>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="quick-actions">
+            <button>Submit Report</button>
+            <button>Request Transcript</button>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 University of the East. All rights reserved.</p>
+            <a href="#">Privacy Policy</a> | <a href="#">Contact Support</a>
+        </footer>
+    </div>
 </body>
 </html>
