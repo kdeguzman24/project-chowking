@@ -14,11 +14,13 @@
             background-size: cover; /* Cover the entire page */
             background-position: center; /* Center the background image */
             background-repeat: no-repeat; /* Prevent image from repeating */
-          
+            display: flex; /* Use flexbox for layout */
+            justify-content: flex-end; /* Align items to the right */
+            padding: 20px; /* Add padding around the container */
         }
 
         .container {
-            width: 400px; /* Fixed width for the container */
+            width: 600px; /* Increased width for the container */
             background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -53,8 +55,8 @@
         }
 
         textarea {
-            height: 150px;
-            resize: vertical;
+            height: 200px; /* Increased height for the textarea */
+            resize: vertical; /* Allow vertical resizing */
         }
 
         .submit-btn {
