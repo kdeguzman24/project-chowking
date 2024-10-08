@@ -12,9 +12,9 @@
             align-items: center;
             height: 100vh;
             padding-right: 150px; /* Adjusted to not be too close to the right edge */
-            background-image: url('lualhati.png'); 
+            background-image: url('lualhati2.png'); 
             overflow: hidden;
-            background-color: #ab252b;
+            background-color: #841c21;
             background-size: 90%;  /* Keeps the image's original size */
             background-repeat: no-repeat; /* Prevents repeating */
             background-position: center; /* Centers the image */
@@ -27,6 +27,10 @@
             width: 400px;  /* Increased width of the login box */
             text-align: center;
             box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        .login-container img {
+            max-width: 100px; /* Set the size of the logo */
+            margin-bottom: 20px; /* Add space between the logo and heading */
         }
         .login-container h2 {
             margin-bottom: 20px;
@@ -63,29 +67,15 @@
 </head>
 <body>
     <div class="login-container">
+        <img src="UE logo.png" alt="UE Logo"> <!-- UE Logo here -->
         <h2>Login</h2>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+        <form>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
         <p>or</p>
         <button class="google-btn">Login with Google</button>
     </div>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevents form from refreshing the page
-            // Simulate a successful login
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            if (email === "test@example.com" && password === "password") {
-                window.location.href = "dashboard.html"; // Redirect to dashboard
-            } else {
-                alert("Invalid email or password. Please try again.");
-            }
-        });
-    </script>
 </body>
 </html>
