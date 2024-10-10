@@ -35,6 +35,12 @@
             flex-direction: column;
             align-items: center;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.active {
+            width: 0; /* Collapse sidebar */
+            overflow: hidden; /* Hide overflow when collapsed */
         }
 
         .sidebar .navbar-title {
@@ -94,6 +100,21 @@
             height: 100vh;
             overflow-y: auto;
             background-color: #f4f4f4;
+            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
         }
 
         h1 {
@@ -182,7 +203,12 @@
 
     <!-- Main content -->
     <div class="main-content">
-        <h1>Statistics Dashboard</h1>
+        <div class="header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Statistics Dashboard</h1>
+        </div>
 
         <!-- Widgets Section -->
         <div class="widgets">
@@ -224,40 +250,47 @@
             </div>
         </div>
 
-
     <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            const mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px'; // Adjust margin on toggle
+        }
+
         // Radar Chart
         const radarCtx = document.getElementById('radarChart').getContext('2d');
         const radarChart = new Chart(radarCtx, {
             type: 'radar',
             data: {
-                labels: ['Comfort Room', 'Room', 'Hallway', 'Electronics', 'Stuff', 'Elevator'],
+                labels: ['Quality', 'Speed', 'Efficiency', 'Communication', 'Teamwork'],
                 datasets: [{
-                    label: 'Progress Performance',
-                    data: [85, 75, 90, 80, 60, 70],
+                    label: 'Performance',
+                    data: [90, 80, 85, 70, 95],
                     backgroundColor: 'rgba(148, 11, 16, 0.2)',
                     borderColor: 'rgba(148, 11, 16, 1)',
                     borderWidth: 2,
-                    pointBackgroundColor: '#940b10',
+                    pointBackgroundColor: 'rgba(148, 11, 16, 1)', // Point color
+                    pointBorderColor: '#fff', // Point border color
                     pointRadius: 5,
-                    pointHoverRadius: 7
+                    pointHoverRadius: 7,
                 }]
             },
             options: {
                 scales: {
                     r: {
-                        angleLines: {
-                            display: true,
-                            color: '#cccccc'
-                        },
-                        grid: {
-                            circular: true,
-                            color: '#cccccc'
-                        },
                         ticks: {
                             beginAtZero: true,
-                            showLabelBackdrop: false
+                            max: 100
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.5)', // Grid line color
                         }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.4 // Smooth lines
                     }
                 }
             }
@@ -268,50 +301,73 @@
         const lineChart = new Chart(lineCtx, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 datasets: [{
-                    label: 'Monthly Progress',
-                    data: [20, 30, 25, 50, 40, 60, 70],
-                    backgroundColor: 'rgba(148, 11, 16, 0.2)',
+                    label: 'Reports Submitted',
+                    data: [30, 40, 25, 50, 60, 70, 80],
+                    fill: false,
                     borderColor: 'rgba(148, 11, 16, 1)',
+                    tension: 0.4,
                     borderWidth: 2,
-                    fill: true
+                    pointBackgroundColor: 'rgba(148, 11, 16, 1)',
+                    pointBorderColor: '#fff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
                 }]
             },
             options: {
-                responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        borderWidth: 2,
                     }
                 }
             }
         });
 
-        // Reports Over Time Chart
+        // Reports Over Time Chart (Bar Chart)
         const reportsCtx = document.getElementById('reportsChart').getContext('2d');
         const reportsChart = new Chart(reportsCtx, {
-            type: 'line',
+            type: 'bar',
             data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
                 datasets: [{
-                    label: 'Reports Submitted',
-                    data: [10, 20, 15, 25, 30],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: true
+                    label: 'Reports Filed',
+                    data: [15, 20, 25, 30],
+                    backgroundColor: 'rgba(148, 11, 16, 0.5)',
+                    borderColor: 'rgba(148, 11, 16, 1)',
+                    borderWidth: 2,
+                    borderRadius: 5, // Rounded corners for bars
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                        }
                     }
                 }
             }
         });
-             
     </script>
 
 </body>
