@@ -18,52 +18,47 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
 
-        /* Navigation Menu (Sidebar) */
-        .menu-icon {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .sidebar {
-            height: 100%;
-            width: 0;
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            background-color: #ab252b;
+            overflow: hidden;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #ab252b; /* Updated color */
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            z-index: 999;
+            z-index: 1000;
         }
 
-        .sidebar a {
-            padding: 10px 15px;
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        nav ul li {
+            padding: 14px 20px;
+        }
+
+        nav ul li a {
             text-decoration: none;
-            font-size: 18px;
             color: white;
+            font-size: 16px;
             display: block;
-            transition: 0.3s;
+            padding: 10px 15px;
         }
 
-        .sidebar a:hover {
+        nav ul li a:hover {
             background-color: #b93a41;
+            border-radius: 5px;
         }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 30px;
-        }
-
+        /* Container Styling */
         .container {
             width: 80%; 
             max-width: 800px; 
@@ -71,6 +66,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
+            margin-top: 80px; /* Adjust margin for top navigation bar */
         }
 
         h1 {
@@ -91,7 +87,8 @@
 
         input[type="text"],
         input[type="email"],
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             border: 1px solid #dddddd;
@@ -140,27 +137,48 @@
             font-size: 14px;
         }
 
+        /* Responsive design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul li {
+                padding: 10px;
+            }
+
+            .container {
+                width: 90%;
+                margin-top: 120px; /* Adjust for mobile */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Menu Icon and Sidebar -->
-    <span class="menu-icon" onclick="openNav()"><i class="fas fa-bars"></i></span>
-
-    <div id="sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
-        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a><br>
-        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a><br>
-        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a><br>
-        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a><br>
-        <a href="#"><i class="fas fa-bell"></i> Notification</a><br>
-        <a href="#"><i class="fas fa-user"></i> Profile</a><br>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a><br>
-    </div>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="reports.html">My Reports</a></li>
+            <li><a href="settings.html">Settings</a></li>
+        </ul>
+    </nav>
 
     <div class="container">
         <h1>Compose Report</h1>
         <form action="#" method="post">
+            <!-- Dropdown for Report Type -->
+            <div class="form-group">
+                <label for="report-type">Report Type</label>
+                <select id="report-type" name="report-type" required>
+                    <option value="bug">Bug Report</option>
+                    <option value="suggestion">Suggestion Report</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="report-title">Report Title</label>
                 <input type="text" id="report-title" name="report-title" required>
@@ -187,16 +205,6 @@
             <p>&copy; 2024 University of the East. All Rights Reserved.</p>
         </div>
     </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("sidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sidebar").style.width = "0";
-        }
-    </script>
 
 </body>
 </html>
