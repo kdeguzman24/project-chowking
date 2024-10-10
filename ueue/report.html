@@ -6,7 +6,7 @@
     <title>Compose Report</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,8 +16,52 @@
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             height: 100vh;
+        }
+
+        /* Navigation Menu (Sidebar) */
+        .menu-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #ab252b; /* Updated color */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #b93a41;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
         }
 
         .container {
@@ -57,8 +101,8 @@
         }
 
         textarea {
-            height: 200px; /* Increased height for the textarea */
-            resize: vertical; /* Allow vertical resizing */
+            height: 200px;
+            resize: vertical;
         }
 
         input[type="file"] {
@@ -68,20 +112,21 @@
             border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
-            background-color: #f9f9f9; /* Light background for file input */
+            background-color: #f9f9f9;
             cursor: pointer;
         }
 
         .submit-btn {
-            background-color: #940b10;
-            color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
             width: 100%;
+            background-color: #940b10;
+            color: white;
             transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
 
         .submit-btn:hover {
@@ -94,9 +139,24 @@
             color: #999999;
             font-size: 14px;
         }
+
     </style>
 </head>
 <body>
+
+    <!-- Menu Icon and Sidebar -->
+    <span class="menu-icon" onclick="openNav()"><i class="fas fa-bars"></i></span>
+
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a><br>
+        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a><br>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a><br>
+        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a><br>
+        <a href="#"><i class="fas fa-bell"></i> Notification</a><br>
+        <a href="#"><i class="fas fa-user"></i> Profile</a><br>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a><br>
+    </div>
 
     <div class="container">
         <h1>Compose Report</h1>
@@ -127,6 +187,16 @@
             <p>&copy; 2024 University of the East. All Rights Reserved.</p>
         </div>
     </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+        }
+    </script>
 
 </body>
 </html>
