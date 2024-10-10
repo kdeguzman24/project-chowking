@@ -6,27 +6,136 @@
     <title>Compose Report</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('report_bg.png');
-            background-size: cover;
+            background-color: #ffffff;
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
 
+        /* Sidebar (fixed to the left) */
+        .sidebar {
+            height: 100%;
+            width: 260px; /* Adjusted for a wider sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #940b10;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the start */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: width 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 80px; /* Collapsed width */
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            z-index: 100; /* Ensure the hamburger icon is clickable */
+        }
+
+        /* Navbar title styling */
+        .sidebar .navbar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center logo and text horizontally */
+            margin-bottom: 20px; /* Space below the logo */
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .navbar-title {
+            opacity: 0; /* Hide title when collapsed */
+        }
+
+        /* Navbar image */
+        .sidebar .navbar-title img {
+            width: 70px; /* Reduced size of the image */
+            margin-right: 10px; /* Reduced space between the logo and the text */
+        }
+
+        /* Navbar text */
+        .navbar-text {
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .navbar-text h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .navbar-text p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Sidebar links */
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center; /* Vertically align icon and text */
+            justify-content: flex-start; /* Keep icon and text aligned left */
+            width: 100%; /* Adjust width */
+            text-align: left;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin: 15px 0;
+        }
+
+        .sidebar.collapsed a {
+            justify-content: center; /* Center content when collapsed */
+            font-size: 0; /* Hide text when collapsed */
+            padding: 10px 0; /* Adjust padding */
+        }
+
+        /* Space between icon and text */
+        .sidebar a i {
+            margin-right: 20px;
+        }
+
+        .sidebar.collapsed a i {
+            margin-right: 0; /* Hide margin when collapsed */
+        }
+
+        .sidebar a:hover {
+            background-color: #b13333; /* Darker shade on hover */
+        }s1
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 80px; /* Adjusted margin when sidebar is collapsed */
+        }
+
+        /* Content */
         .container {
-            width: 80%; 
-            max-width: 800px; 
-            background-color: rgba(255, 255, 255, 0.9); 
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            margin-left: 60px; /* Adjusted for sidebar */
         }
 
         h1 {
@@ -47,7 +156,8 @@
 
         input[type="text"],
         input[type="email"],
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             border: 1px solid #dddddd;
@@ -57,8 +167,8 @@
         }
 
         textarea {
-            height: 200px; /* Increased height for the textarea */
-            resize: vertical; /* Allow vertical resizing */
+            height: 160px;
+            resize: vertical;
         }
 
         input[type="file"] {
@@ -68,20 +178,21 @@
             border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
-            background-color: #f9f9f9; /* Light background for file input */
+            background-color: #f9f9f9;
             cursor: pointer;
         }
 
         .submit-btn {
-            background-color: #940b10;
-            color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
             width: 100%;
+            background-color: #940b10;
+            color: white;
             transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
 
         .submit-btn:hover {
@@ -94,13 +205,61 @@
             color: #999999;
             font-size: 14px;
         }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                margin-top: 120px;
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px; /* Collapsed width on smaller screens */
+            }
+
+            .main-content {
+                margin-left: 80px; /* Adjusted space for the sidebar */
+            }
+        }
+
     </style>
 </head>
 <body>
 
+    < <div class="sidebar" id="sidebar">
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="navbar-title">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <div class="navbar-text">
+                <h2>UNIVERSITY OF THE EAST</h2>
+                <p>MANILA CAMPUS</p>
+            </div>
+        </div>
+        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
+        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
+        <a href="#"><i class="fas fa-bell"></i> Notification</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Content -->
     <div class="container">
         <h1>Compose Report</h1>
         <form action="#" method="post">
+            <div class="form-group">
+                <label for="report-type">Report Type</label>
+                <select id="report-type" name="report-type" required>
+                    <option value="bug">Bug Report</option>
+                    <option value="suggestion">Suggestion Report</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="report-title">Report Title</label>
                 <input type="text" id="report-title" name="report-title" required>
@@ -127,6 +286,18 @@
             <p>&copy; 2024 University of the East. All Rights Reserved.</p>
         </div>
     </div>
+
+     <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            // Ensure the main content margin adjusts smoothly
+            document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '260px';
+        });
+    </script>
+    <
 
 </body>
 </html>

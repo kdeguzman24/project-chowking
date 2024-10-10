@@ -21,7 +21,7 @@
         /* Sidebar (fixed to the left) */
         .sidebar {
             height: 100%;
-            width: 490px;
+            width: 260px; /* Adjusted for a wider sidebar */
             position: fixed;
             top: 0;
             left: 0;
@@ -29,9 +29,24 @@
             padding: 20px 0;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center all the sidebar links vertically */
+            align-items: flex-start; /* Align items to the start */
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
             transition: width 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 80px; /* Collapsed width */
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            z-index: 100; /* Ensure the hamburger icon is clickable */
         }
 
         /* Navbar title styling */
@@ -40,14 +55,18 @@
             align-items: center;
             justify-content: center; /* Center logo and text horizontally */
             margin-bottom: 20px; /* Space below the logo */
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .navbar-title {
+            opacity: 0; /* Hide title when collapsed */
         }
 
         /* Navbar image */
         .sidebar .navbar-title img {
-            width: 100px; /* Adjust size of the image */
-            display: block;
-            margin-right: 15px; /* Space between the logo and the text */
-            margin-top: 30px;
+            width: 70px; /* Reduced size of the image */
+            margin-right: 10px; /* Reduced space between the logo and the text */
         }
 
         /* Navbar text */
@@ -55,7 +74,6 @@
             display: flex;
             flex-direction: column;
             color: white;
-            margin-top: 30px
         }
 
         .navbar-text h2 {
@@ -66,7 +84,6 @@
         .navbar-text p {
             font-size: 14px;
             margin: 0;
-            color: white;
         }
 
         /* Sidebar links */
@@ -78,17 +95,26 @@
             display: flex;
             align-items: center; /* Vertically align icon and text */
             justify-content: flex-start; /* Keep icon and text aligned left */
-            width: 80%; /* Adjust width so the link is not full-width */
+            width: 100%; /* Adjust width */
             text-align: left;
             border-radius: 5px;
             transition: background 0.3s;
             margin: 15px 0;
-            margin-left: 260px;
+        }
+
+        .sidebar.collapsed a {
+            justify-content: center; /* Center content when collapsed */
+            font-size: 0; /* Hide text when collapsed */
+            padding: 10px 0; /* Adjust padding */
         }
 
         /* Space between icon and text */
         .sidebar a i {
             margin-right: 20px;
+        }
+
+        .sidebar.collapsed a i {
+            margin-right: 0; /* Hide margin when collapsed */
         }
 
         .sidebar a:hover {
@@ -97,6 +123,62 @@
 
         /* Main content styling */
         .main-content {
+            margin-left: 260px; /* Adjusted space for the sidebar */
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f4f4f4; /* Light background to contrast the sidebar */
+            height: 100vh;
+            overflow-y: auto; /* Enable scrolling within the content */
+            border-left: 2px solid #ab252b; /* Border to separate sidebar from content */
+            transition: margin-left 0.3s; /* Smooth transition for margin change */
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 80px; /* Adjusted margin when sidebar is collapsed */
+        }
+
+        h1 {
+            color: #940b10; /* Main heading color */
+            font-size: 24px; /* Adjusted font size for the heading */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+
+        /* Fixed header styles */
+        .fixed-header {
+            display: flex; /* Use flexbox to align items horizontally */
+            align-items: center; /* Align items vertically */
+            padding: 35px 15px; /* Adjust padding */
+            background-color: #f4f4f4; /* Optional: background color for the header section */
+            border-bottom: 2px solid #940b10; /* Optional: Border for separation */
+            margin-bottom: 20px; /* Space below the fixed header */
+        }
+
+        .fixed-header img {
+            width: 90px; /* Size of the profile picture */
+            height: auto;
+            border-radius: 50%; /* Round profile picture */
+            margin-right: 20px; /* Space between image and text */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position {
+            display: flex;
+            flex-direction: column; /* Ensure the name and position stack vertically */
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px; /* Adjust font size */
+            color: #940b10; /* Match sidebar color */
+        }
+
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000; /* Subtle color for position */
+        }
+          /* Main content styling */
+          .main-content {
             margin-left: 490px; /* Adjusted space for the sidebar */
             padding: 20px;
             flex-grow: 1;
@@ -227,46 +309,28 @@
         /* Responsive styles */
         @media (max-width: 768px) {
             .sidebar {
-                width: 100px; /* Reduced width on smaller screens */
-            }
-
-            .main-content {
-                margin-left: 100px; /* Adjusted space for the sidebar */
-            }
-
-            /* Sidebar links */
-            .sidebar a {
-                font-size: 14px; /* Smaller font size for mobile */
-                padding: 8px 10px; /* Adjusted padding for mobile */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 100%; /* Full width on very small screens */
-                position: relative; /* Position relative to the content */
-                height: auto; /* Adjust height for better fit */
-                flex-direction: row; /* Align items in a row */
-                justify-content: space-around; /* Space items evenly */
-                padding: 10px 0; /* Reduced padding for mobile */
+                width: 80px; /* Collapsed width on smaller screens */
             }
 
             .main-content {
                 margin-left: 0; /* No margin needed for mobile */
                 padding-top: 60px; /* Space for the navbar */
             }
-
-            .sidebar a {
-                flex: 1; /* Each link takes equal space */
-                text-align: center; /* Center text */
-            }
+              /* Sidebar links */
+              .sidebar a {
+                font-size: 14px; /* Smaller font size for mobile */
+                padding: 8px 10px; /* Adjusted padding for mobile */
+              }
         }
     </style>
 </head>
 <body>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
@@ -281,11 +345,10 @@
         <a href="#"><i class="fas fa-bell"></i> Notification</a>
         <a href="#"><i class="fas fa-user"></i> Profile</a>
         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
+      <!-- Main Content -->
+      <div class="main-content">
         <div class="fixed-header">
             <img src="ProfilePic.png" alt="Profile Picture"> <!-- Replace with your profile picture -->
             <div class="name-position">
@@ -342,5 +405,15 @@
             <a href="#">Privacy Policy</a> | <a href="#">Contact Support</a>
         </footer>
     </div>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            // Ensure the main content margin adjusts smoothly
+            document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '260px';
+        });
+    </script>
 </body>
 </html>
