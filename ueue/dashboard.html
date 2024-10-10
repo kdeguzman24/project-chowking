@@ -14,14 +14,14 @@
             padding: 0;
             display: flex;
             height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
             background-color: #eaeaea;
         }
 
-        /* Sidebar (fixed to the left) */
+        /* Sidebar */
         .sidebar {
             height: 100%;
-            width: 260px; /* Adjusted for a wider sidebar */
+            width: 250px; /* Adjusted for better responsiveness */
             position: fixed;
             top: 0;
             left: 0;
@@ -29,51 +29,26 @@
             padding: 20px 0;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align items to the start */
+            align-items: center;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
             transition: width 0.3s;
         }
 
-        .sidebar.collapsed {
-            width: 80px; /* Collapsed width */
-        }
-
-        /* Hamburger Icon */
-        .hamburger {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
-            z-index: 100; /* Ensure the hamburger icon is clickable */
-        }
-
-        /* Navbar title styling */
-        .sidebar .navbar-title {
+        .navbar-title {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center logo and text horizontally */
-            margin-bottom: 20px; /* Space below the logo */
-            opacity: 1;
-            transition: opacity 0.3s;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
-        .sidebar.collapsed .navbar-title {
-            opacity: 0; /* Hide title when collapsed */
+        .navbar-title img {
+            width: 100px;
+            margin-right: 15px;
         }
 
-        /* Navbar image */
-        .sidebar .navbar-title img {
-            width: 70px; /* Reduced size of the image */
-            margin-right: 10px; /* Reduced space between the logo and the text */
-        }
-
-        /* Navbar text */
         .navbar-text {
-            display: flex;
-            flex-direction: column;
             color: white;
+            text-align: center; /* Centered text */
         }
 
         .navbar-text h2 {
@@ -84,153 +59,83 @@
         .navbar-text p {
             font-size: 14px;
             margin: 0;
+            color: white;
         }
 
-        /* Sidebar links */
         .sidebar a {
-            padding: 10px 15px;
+            padding: 15px 20px; /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
-            align-items: center; /* Vertically align icon and text */
-            justify-content: flex-start; /* Keep icon and text aligned left */
-            width: 100%; /* Adjust width */
-            text-align: left;
+            align-items: center;
+            justify-content: flex-start;
+            width: 90%; /* Adjusted for better spacing */
             border-radius: 5px;
-            transition: background 0.3s;
-            margin: 15px 0;
+            transition: background 0.3s, transform 0.2s; /* Added transform for hover */
+            margin: 10px 0; /* Reduced margin */
         }
 
-        .sidebar.collapsed a {
-            justify-content: center; /* Center content when collapsed */
-            font-size: 0; /* Hide text when collapsed */
-            padding: 10px 0; /* Adjust padding */
-        }
-
-        /* Space between icon and text */
         .sidebar a i {
-            margin-right: 20px;
-        }
-
-        .sidebar.collapsed a i {
-            margin-right: 0; /* Hide margin when collapsed */
+            margin-right: 15px;
+            font-size: 18px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
-            background-color: #b13333; /* Darker shade on hover */
+            background-color: #b13333;
+            transform: scale(1.05); /* Added scaling effect on hover */
         }
 
-        /* Main content styling */
         .main-content {
-            margin-left: 260px; /* Adjusted space for the sidebar */
+            margin-left: 250px; /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
-            background-color: #f4f4f4; /* Light background to contrast the sidebar */
+            background-color: #f4f4f4;
             height: 100vh;
-            overflow-y: auto; /* Enable scrolling within the content */
-            border-left: 2px solid #ab252b; /* Border to separate sidebar from content */
-            transition: margin-left 0.3s; /* Smooth transition for margin change */
-        }
-
-        .sidebar.collapsed ~ .main-content {
-            margin-left: 80px; /* Adjusted margin when sidebar is collapsed */
+            overflow-y: auto;
+            border-left: 2px solid #ab252b;
+            transition: margin-left 0.3s;
         }
 
         h1 {
-            color: #940b10; /* Main heading color */
-            font-size: 24px; /* Adjusted font size for the heading */
-            margin-bottom: 20px; /* Space below the heading */
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
-        /* Fixed header styles */
         .fixed-header {
-            display: flex; /* Use flexbox to align items horizontally */
-            align-items: center; /* Align items vertically */
-            padding: 35px 15px; /* Adjust padding */
-            background-color: #f4f4f4; /* Optional: background color for the header section */
-            border-bottom: 2px solid #940b10; /* Optional: Border for separation */
-            margin-bottom: 20px; /* Space below the fixed header */
+            display: flex;
+            align-items: center;
+            padding: 35px 15px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #940b10;
+            margin-bottom: 20px;
         }
 
         .fixed-header img {
-            width: 90px; /* Size of the profile picture */
-            height: auto;
-            border-radius: 50%; /* Round profile picture */
-            margin-right: 20px; /* Space between image and text */
+            width: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
 
         .name-position {
             display: flex;
-            flex-direction: column; /* Ensure the name and position stack vertically */
+            flex-direction: column;
         }
 
         .name-position h2 {
             margin: 0;
-            font-size: 20px; /* Adjust font size */
-            color: #940b10; /* Match sidebar color */
+            font-size: 20px;
+            color: #940b10;
         }
 
         .name-position p {
             margin: 0;
             font-size: 14px;
-            color: #000000; /* Subtle color for position */
-        }
-          /* Main content styling */
-          .main-content {
-            margin-left: 490px; /* Adjusted space for the sidebar */
-            padding: 20px;
-            flex-grow: 1;
-            background-color: #f4f4f4; /* Light background to contrast the sidebar */
-            height: 100vh;
-            overflow-y: auto; /* Enable scrolling within the content */
-            border-left: 2px solid #ab252b; /* Border to separate sidebar from content */
-            transition: margin-left 0.3s; /* Smooth transition for margin change */
+            color: #000000;
         }
 
-        h1 {
-            color: #940b10; /* Main heading color */
-            font-size: 24px; /* Adjusted font size for the heading */
-            margin-bottom: 20px; /* Space below the heading */
-        }
-
-        /* Fixed header styles */
-        .fixed-header {
-            display: flex; /* Use flexbox to align items horizontally */
-            align-items: center; /* Align items vertically */
-            padding: 35px 15px; /* Adjust padding */
-            background-color: #f4f4f4; /* Optional: background color for the header section */
-            border-bottom: 2px solid #940b10; /* Optional: Border for separation */
-            margin-bottom: 20px; /* Space below the fixed header */
-        }
-
-        .fixed-header img {
-            width: 90px; /* Size of the profile picture */
-            height: auto;
-            border-radius: 50%; /* Round profile picture */
-            margin-right: 20px; /* Space between image and text */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .name-position {
-            display: flex;
-            flex-direction: column; /* Ensure the name and position stack vertically */
-        }
-
-        .name-position h2 {
-            margin: 0;
-            font-size: 20px; /* Adjust font size */
-            color: #940b10; /* Match sidebar color */
-        }
-
-        .name-position p {
-            margin: 0;
-            font-size: 14px;
-            color: #000000; /* Subtle color for position */
-        }
-
-        /* Widgets Section */
         .widgets {
             display: flex;
             justify-content: space-around;
@@ -246,36 +151,25 @@
             text-align: center;
         }
 
-        /* Recent Activity Section */
-        .recent-activity {
-            margin-top: 20px;
-        }
-
-        .recent-activity ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .recent-activity li {
-            background-color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Calendar Section */
-        .calendar {
-            background-color: white;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Quick Actions Section */
+        .recent-activity,
+        .calendar,
         .quick-actions {
             margin-top: 20px;
+        }
+
+        .recent-activity ul,
+        .calendar {
+            list-style-type: none;
+            padding: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-activity li,
+        .calendar p {
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
         .quick-actions button {
@@ -286,13 +180,14 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s, transform 0.2s; /* Added transition for buttons */
         }
 
         .quick-actions button:hover {
             background-color: #b13333;
+            transform: scale(1.05); /* Scale effect on hover */
         }
 
-        /* Footer Section */
         footer {
             padding: 20px;
             background-color: #940b10;
@@ -306,60 +201,73 @@
             text-decoration: none;
         }
 
-        /* Responsive styles */
         @media (max-width: 768px) {
             .sidebar {
-                width: 80px; /* Collapsed width on smaller screens */
+                width: 100px;
             }
 
             .main-content {
-                margin-left: 0; /* No margin needed for mobile */
-                padding-top: 60px; /* Space for the navbar */
+                margin-left: 100px;
             }
-              /* Sidebar links */
-              .sidebar a {
-                font-size: 14px; /* Smaller font size for mobile */
-                padding: 8px 10px; /* Adjusted padding for mobile */
-              }
+
+            .sidebar a {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 10px 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+
+            .sidebar a {
+                flex: 1;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="hamburger" id="hamburger">
-            <i class="fas fa-bars"></i>
-        </div>
+    <nav class="sidebar" role="navigation">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <img src="UE logo.png" alt="University of the East Logo">
             <div class="navbar-text">
                 <h2>UNIVERSITY OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
-        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
-        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
-        <a href="#"><i class="fas fa-sliders-h"> </i> Settings</a>
-        <a href="#"><i class="fas fa-bell"></i> Notification</a>
-        <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
+        <a href="#"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
+        <a href="#"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Report</a>
+        <a href="#"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
+        <a href="#"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
+        <a href="#"><i class="fas fa-user" aria-hidden="true"></i> Profile</a>
+        <a href="#"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
+    </nav>
 
-      <!-- Main Content -->
-      <div class="main-content">
+    <!-- Main Content -->
+    <div class="main-content" role="main">
         <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture"> <!-- Replace with your profile picture -->
+            <img src="ProfilePic.png" alt="Profile Picture of Kathlen Mae Merindo">
             <div class="name-position">
                 <h2>Kathlen Mae Merindo</h2>
-                <p> Student</p>
+                <p>Student</p>
             </div>
         </div>
-
-        <!-- Search Bar -->
-        <input type="text" placeholder="Search..." style="padding: 10px; width: 200px; border-radius: 5px;">
-
+        
         <h1>Welcome to Your Dashboard!</h1>
 
         <!-- Widgets Section -->
@@ -370,50 +278,47 @@
             </div>
             <div class="widget">
                 <h3>Resolve</h3>
-                <p>4</p>
+                <p>3</p>
             </div>
             <div class="widget">
-                <h3>Pending Issue</h3>
-                <p>3 New</p>
+                <h3>Feedback</h3>
+                <p>5</p>
+            </div>
+            <div class="widget">
+                <h3>Approved</h3>
+                <p>12</p>
             </div>
         </div>
 
-        <!-- Recent Activity Section -->
+        <!-- Recent Activity -->
         <div class="recent-activity">
-            <h3>Recent Activity</h3>
+            <h2>Recent Activity</h2>
             <ul>
-                <li>Submitted report on <strong>Oct 5, 2024</strong></li>
-                <li>Notification: New Report posted</li>
+                <li>Submitted report #12345</li>
+                <li>Feedback received from admin</li>
+                <li>Resolved issue #67890</li>
             </ul>
         </div>
 
         <!-- Calendar Section -->
         <div class="calendar">
-            <h3>Upcoming Deadlines</h3>
-            <p>Assignment Due: <strong>October 10, 2024</strong></p>
+            <h2>Calendar</h2>
+            <p>Oct 2024: University Events</p>
         </div>
 
-        <!-- Quick Actions Section -->
+        <!-- Quick Actions -->
         <div class="quick-actions">
-            <button>Submit Report</button>
-            <button>Request Transcript</button>
+            <h2>Quick Actions</h2>
+            <button>Add Event</button>
+            <button>Send Message</button>
+            <button>View Reports</button>
         </div>
 
         <!-- Footer -->
         <footer>
-            <p>© 2024 University of the East. All rights reserved.</p>
-            <a href="#">Privacy Policy</a> | <a href="#">Contact Support</a>
+            <p>&copy; 2024 University of the East. All Rights Reserved.</p>
         </footer>
     </div>
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
 
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            // Ensure the main content margin adjusts smoothly
-            document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('collapsed') ? '80px' : '260px';
-        });
-    </script>
 </body>
 </html>
