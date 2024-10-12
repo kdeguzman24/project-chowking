@@ -153,10 +153,6 @@
             margin: 5px 0;
         }
 
-        .skills, .education, .contact {
-            margin-top: 20px;
-        }
-
         footer {
             padding: 20px;
             background-color: #940b10;
@@ -170,6 +166,15 @@
             text-decoration: none;
         }
 
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+        }
+
+        /* Responsive styles */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100px;
@@ -219,13 +224,16 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="#"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
-        <a href="#"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
-        <a href="#"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Report</a>
-        <a href="#"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
-        <a href="#"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
-        <a href="#"><i class="fas fa-user" aria-hidden="true"></i> Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
+        <button id="hamburger" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
+        <a href="#"><i class="fas fa-sliders-h"></i> Settings</a>
+        <a href="#"><i class="fas fa-bell"></i> Notification</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
 
     <!-- Main Content -->
@@ -238,10 +246,16 @@
             </div>
         </div>
 
-        <h1>Profile</h1>
+       
 
-
-    </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
+        }
+    </script>
 
 </body>
 
