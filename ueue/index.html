@@ -12,21 +12,22 @@
             align-items: center;
             height: 100vh;
             padding-right: 150px; /* Adjusted to not be too close to the right edge */
-            background-image: url('lualhati2.png'); 
+            background-image: url('lualhati3.jpg'); 
             overflow: hidden;
-            background-color: #841c21;
-            background-size: 90%;  /* Keeps the image's original size */
+           /* background-color: #841c21; */
+            background-size: cover;  /* Keeps the image's original size */
             background-repeat: no-repeat; /* Prevents repeating */
             background-position: center; /* Centers the image */
         }
         .login-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255,  0.8); /* Black with 80% opacity */
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;  /* Increased width of the login box */
             text-align: center;
             box-sizing: border-box; /* Ensures padding is included in width */
+            color: white; /* Set text color to white for contrast */
         }
         .login-container img {
             max-width: 100px; /* Set the size of the logo */
@@ -53,6 +54,7 @@
             font-size: 16px;
             cursor: pointer;
             box-sizing: border-box;
+            
         }
         .login-container button:hover {
             background-color: #218838;
@@ -63,7 +65,12 @@
         .login-container .google-btn:hover {
             background-color: #c23321;
         }
+        h2{
+            color: black;
+        }
     </style>
+
+
 </head>
 <body>
     <div class="login-container">
@@ -72,7 +79,7 @@
         <form>
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <button type="submit",  onclick="window.location.href= 'dashboard.html'">Login</button>
         </form>
         <p>or</p>
         <button class="google-btn">Login with Google</button>
