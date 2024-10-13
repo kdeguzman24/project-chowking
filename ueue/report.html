@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compose Report</title>
+    <title>Report Section</title>
+
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
-            background-position: center;
-            background-repeat: no-repeat;
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            flex-direction: column;
+            overflow: hidden;
+            background-color: #eaeaea;
         }
 
-        /* Sidebar (fixed to the left) */
+        /* Sidebar styling */
         .sidebar {
             height: 100%;
-            width: 260px; /* Adjusted for a wider sidebar */
+            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
@@ -31,211 +33,216 @@
             padding: 20px 0;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align items to the start */
+            align-items: center;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-            transition: width 0.3s, padding 0.3s; /* Smooth transition for width and padding */
+            transition: width 0.3s ease;
         }
 
-        .sidebar.collapsed {
-            width: 80px; /* Collapsed width */
-            padding: 20px 5px; /* Adjusted padding when collapsed */
+        .sidebar.active {
+            width: 0; /* Collapse sidebar */
+            overflow: hidden; /* Hide overflow when collapsed */
         }
 
-        /* Hamburger Icon */
-        .hamburger {
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
-            z-index: 100; /* Ensure the hamburger icon is clickable */
-            margin: 20px; /* Added margin for spacing */
-        }
-
-        /* Navbar title styling */
-        .navbar-title {
+        .sidebar .navbar-title {
             display: flex;
-            flex-direction: column; /* Change to column layout */
-            align-items: center; /* Center items horizontally */
-            margin-bottom: 20px; /* Space below the title */
-            opacity: 1;
-            transition: opacity 0.3s;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
-        .sidebar.collapsed .navbar-title {
-            opacity: 0; /* Hide title when collapsed */
+        .sidebar .navbar-title img {
+            width: 70px;
+            margin-right: 10px;
         }
 
-        /* Navbar image */
-        .navbar-title img {
-            width: 70px; /* Reduced size of the image */
-            margin-bottom: 10px; /* Space below the logo */
-        }
-
-        /* Navbar text */
         .navbar-text {
-            display: flex;
-            flex-direction: column;
             color: white;
-            text-align: center; /* Center text */
+            text-align: center;
         }
 
         .navbar-text h2 {
-            font-size: 18px;
+            font-size: 16px;
             margin: 0;
         }
 
         .navbar-text p {
-            font-size: 14px;
+            font-size: 12px;
             margin: 0;
         }
 
         /* Sidebar links */
         .sidebar a {
-            padding: 10px 15px;
+            padding: 10px 20px;
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
-            align-items: center; /* Vertically align icon and text */
-            justify-content: flex-start; /* Keep icon and text aligned left */
-            width: 100%; /* Adjust width */
-            text-align: left;
+            align-items: center;
+            justify-content: flex-start;
+            width: 80%;
             border-radius: 5px;
-            transition: background 0.3s;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
-        .sidebar.collapsed a {
-            justify-content: center; /* Center content when collapsed */
-            font-size: 0; /* Hide text when collapsed */
-            padding: 10px 0; /* Adjust padding */
-        }
-
-        /* Space between icon and text */
         .sidebar a i {
-            margin-right: 20px;
-        }
-
-        .sidebar.collapsed a i {
-            margin-right: 0; /* Hide margin when collapsed */
+            margin-right: 10px;
         }
 
         .sidebar a:hover {
-            background-color: #b13333; /* Darker shade on hover */
+            background-color: #b13333;
         }
 
-        .sidebar.collapsed ~ .main-content {
-            margin-left: 80px; /* Adjusted margin when sidebar is collapsed */
-        }
-
-        /* Content */
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
             padding: 20px;
-            margin-left: 60px; /* Adjusted for sidebar */
-            transition: margin-left 0.3s; /* Smooth transition for content margin */
+            flex-grow: 1;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #f4f4f4;
+            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
         }
 
         h1 {
-            text-align: center;
-            color: #333333;
-        }
-
-        .form-group {
+            color: #940b10;
+            font-size: 24px;
             margin-bottom: 20px;
         }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            color: #666666;
+        /* Report Section Styling */
+        .report-section {
+            margin-top: 20px;
         }
 
-        input[type="text"],
-        input[type="email"],
-        textarea,
-        select {
+        .report-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .report-box h2 {
+            color: #940b10;
+            margin-bottom: 20px;
+        }
+
+        table {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 160px;
-            resize: vertical;
-        }
-
-        input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-
-        .submit-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            background-color: #940b10;
-            color: white;
-            transition: background-color 0.3s ease;
+            border-collapse: collapse;
             margin-top: 10px;
         }
 
-        .submit-btn:hover {
-            background-color: #7b0910;
+        table, th, td {
+            border: 1px solid #ddd;
         }
 
-        .footer {
-            text-align: center;
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Compose Message Form */
+        .compose-message {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            color: #999999;
+        }
+
+        .compose-message h2 {
+            color: #940b10;
+            margin-bottom: 20px;
+        }
+
+        .compose-message form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .compose-message label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .compose-message input[type="text"],
+        .compose-message textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             font-size: 14px;
         }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-                margin-top: 120px;
-                margin-left: 0;
-            }
-
-            .sidebar {
-                width: 80px; /* Collapsed width on smaller screens */
-            }
-
-            .main-content {
-                margin-left: 80px; /* Adjusted space for the sidebar */
-            }
+        .compose-message button {
+            padding: 10px;
+            background-color: #940b10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
+        .compose-message button:hover {
+            background-color: #b13333;
+        }
+
+        /* Radio Button Choices */
+        .compose-message .choice {
+            margin-bottom: 15px;
+        }
+
+        .compose-message input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* File Input */
+        .compose-message input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0; /* Remove margin on small screens */
+            }
+            .sidebar {
+                width: 0; /* Collapse sidebar on small screens */
+            }
+            .sidebar.active {
+                width: 250px; /* Expand sidebar when active */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar" id="sidebar">
-        <div class="hamburger" id="hamburger">
-            <i class="fas fa-bars"></i>
-        </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
-                <h2> UNIVERSITY OF THE EAST </h2>
+                <h2>UNIVERSITY OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
@@ -248,54 +255,46 @@
         <a href="#"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
     </div>
 
-    <!-- Content -->
-    <div class="container main-content">
-        <h1>Compose Report</h1>
-        <form action="#" method="post">
-            <!-- Dropdown for Report Type -->
-            <div class="form-group">
-                <label for="report-type">Report Type</label>
-                <select id="report-type" name="report-type" required>
-                    <option value="bug">Bug Report</option>
-                    <option value="suggestion">Suggestion Report</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="report-title">Report Title</label>
-                <input type="text" id="report-title" name="report-title" required>
-            </div>
-
-            <div class="form-group">
-                <label for="reporter-email">Your Email</label>
-                <input type="email" id="reporter-email" name="reporter-email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="report-description">Report Description</label>
-                <textarea id="report-description" name="report-description" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="attachment">Attachment</label>
-                <input type="file" id="attachment" name="attachment">
-            </div>
-
-            <button type="submit" class="submit-btn">Submit Report</button>
-        </form>
-
-        <div class="footer">
-            © 2024 University of the East. All rights reserved.
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Report Section</h1>
         </div>
-    </div>
+
+        <!-- Compose Message Section -->
+        <div class="compose-message">
+            <h2>Compose Message</h2>
+            <form>
+                <div class="choice">
+                    <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
+                    <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>
+                </div>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                
+                <label for="file">Attach a file:</label>
+                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+                
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+      
 
     <script>
-        const sidebar = document.getElementById('sidebar');
-        const hamburger = document.getElementById('hamburger');
-
-        hamburger.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-        });
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
+        }
     </script>
+
 </body>
 </html>
