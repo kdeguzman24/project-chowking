@@ -24,7 +24,7 @@
 
         /* Sidebar styling */
         .sidebar {
-            height: 100%;
+            height: 96%;
             width: 250px;
             position: fixed;
             top: 0;
@@ -34,7 +34,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            border-top-right-radius: 30px; /* Rounded top-right corner */
+            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            box-shadow:
+            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
+            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
+            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
+            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
+            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+            47.3px 0px 28px rgba(0, 0, 0, 0.056),
+            84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
 
@@ -58,11 +70,10 @@
         .navbar-text {
             color: white;
             text-align: center;
-
         }
 
         .navbar-text h2 {
-            font-size: 12px;
+            font-size: 17px;
             margin: 0;
         }
 
@@ -189,10 +200,10 @@
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
-                <h2>UNIVERSITY OF THE EAST</h2>
+                <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
-        </div><br><br><br>
+        </div>
         <a href="dashboard.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
         <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
         <a href="report.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Report</a>

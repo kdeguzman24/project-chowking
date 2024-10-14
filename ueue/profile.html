@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,9 +18,9 @@
             background-color: #eaeaea;
         }
 
-        /* Sidebar */
+        /* Sidebar styling */
         .sidebar {
-            height: 100%;
+            height: 96%;
             width: 250px;
             position: fixed;
             top: 0;
@@ -31,20 +30,37 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-            transition: width 0.3s;
+            border-top-right-radius: 30px; /* Rounded top-right corner */
+            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            box-shadow:
+            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
+            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
+            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
+            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
+            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+            47.3px 0px 28px rgba(0, 0, 0, 0.056),
+            84px 0px 53px rgba(0, 0, 0, 0.038);
+            transition: width 0.3s ease;
         }
 
-        .navbar-title {
+        .sidebar.active {
+            width: 0; /* Collapse sidebar */
+            overflow: hidden; /* Hide overflow when collapsed */
+        }
+
+        .sidebar .navbar-title {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
         }
 
-        .navbar-title img {
-            width: 100px;
-            margin-right: 15px;
+        .sidebar .navbar-title img {
+            width: 58px;
+            margin-right: 10px;
         }
 
         .navbar-text {
@@ -53,49 +69,54 @@
         }
 
         .navbar-text h2 {
-            font-size: 18px;
+            font-size: 17px;
             margin: 0;
         }
 
         .navbar-text p {
-            font-size: 14px;
+            font-size: 10px;
             margin: 0;
-            color: white;
         }
 
+        /* Sidebar links */
         .sidebar a {
-            padding: 15px 20px;
+            padding: 10px 20px;
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            width: 90%;
+            width: 80%;
             border-radius: 5px;
-            transition: background 0.3s, transform 0.2s;
             margin: 10px 0;
         }
 
         .sidebar a i {
-            margin-right: 15px;
-            font-size: 18px;
+            margin-right: 10px;
         }
 
         .sidebar a:hover {
             background-color: #b13333;
-            transform: scale(1.05);
         }
 
+        /* Main content */
         .main-content {
             margin-left: 250px;
             padding: 20px;
             flex-grow: 1;
-            background-color: #f4f4f4;
             height: 100vh;
             overflow-y: auto;
-            border-left: 2px solid #ab252b;
-            transition: margin-left 0.3s;
+            background-color: #f4f4f4;
+            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+        }
+
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
         }
 
         h1 {
@@ -120,11 +141,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .name-position {
-            display: flex;
-            flex-direction: column;
-        }
-
         .name-position h2 {
             margin: 0;
             font-size: 20px;
@@ -145,34 +161,7 @@
             margin-top: 20px;
         }
 
-        .profile-details h2 {
-            margin: 0 0 10px;
-        }
 
-        .profile-details p {
-            margin: 5px 0;
-        }
-
-        footer {
-            padding: 20px;
-            background-color: #940b10;
-            color: white;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        #hamburger {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: #940b10;
-        }
 
         /* Responsive styles */
         @media (max-width: 768px) {
@@ -216,47 +205,53 @@
 <body>
 
     <!-- Sidebar -->
-    <nav class="sidebar" role="navigation">
+    <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="University of the East Logo">
             <div class="navbar-text">
-                <h2>UNIVERSITY OF THE EAST</h2>
+                <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <button id="hamburger" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a href="#"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
-        <a href="#"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
-        <a href="#"><i class="fa-solid fa-envelope"></i> Report</a>
-        <a href="#"><i class="fas fa-sliders-h"></i> Settings</a>
-        <a href="#"><i class="fas fa-bell"></i> Notification</a>
-        <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </nav>
+        <a href="dashboard.html"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
+        <a href="statistics.html"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
+        <a href="report.html"><i class="fa-solid fa-envelope"></i> Report</a>
+        <a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a>
+        <a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 
-    <!-- Main Content -->
-    <div class="main-content" role="main">
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Profile content goes here -->
         <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture of Kathlen Mae Merindo">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <img src="ProfilePic.png" alt="Profile Picture">
             <div class="name-position">
                 <h2>Kathlen Mae Merindo</h2>
                 <p>Student</p>
             </div>
         </div>
 
-       
+        <div class="profile-details">
+            <h2>Profile Information</h2>
+            <p>Program:</p>
+            <p>Age:</p>
+        </div>
+
+    </div>
 
     <script>
         function toggleSidebar() {
-            var sidebar = document.querySelector('.sidebar');
+            const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
-            var mainContent = document.querySelector('.main-content');
+            const mainContent = document.querySelector('.main-content');
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
         }
     </script>
 
 </body>
-
 </html>
