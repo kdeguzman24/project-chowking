@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Settings</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -30,8 +30,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top-right-radius: 30px; /* Rounded top-right corner */
-            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
             box-shadow:
             1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
             2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
@@ -47,8 +47,8 @@
         }
 
         .sidebar.active {
-            width: 0; /* Collapse sidebar */
-            overflow: hidden; /* Hide overflow when collapsed */
+            width: 0;
+            overflow: hidden;
         }
 
         .sidebar .navbar-title {
@@ -108,7 +108,7 @@
             height: 100vh;
             overflow-y: auto;
             background-color: #f4f4f4;
-            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+            transition: margin-left 0.3s ease;
         }
 
         #hamburger {
@@ -153,7 +153,7 @@
             color: #000000;
         }
 
-        .profile-details {
+        .settings-details {
             background-color: white;
             padding: 15px;
             border-radius: 5px;
@@ -161,7 +161,34 @@
             margin-top: 20px;
         }
 
+        .settings-details h2 {
+            color: #940b10;
+        }
 
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section label {
+            display: block;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .settings-section input, .settings-section select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .settings-section input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+        }
 
         /* Responsive styles */
         @media (max-width: 768px) {
@@ -224,7 +251,6 @@
 
     <!-- Main content -->
     <div class="main-content">
-        <!-- Profile content goes here -->
         <div class="fixed-header">
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
@@ -232,25 +258,59 @@
             <img src="ProfilePic.png" alt="Profile Picture">
             <div class="name-position">
                 <h2>Kathlen Mae Merindo</h2>
-                <p>Student</p>
+                <p>Settings</p>
             </div>
         </div>
 
-        <div class="profile-details">
-            <h2>Profile Information</h2>
-            <p>Program:</p>
-            <p>Age:</p>
-            <p>Contact No.:</p>
+        <div class="settings-details">
+            <h2>Account Settings</h2>
+            <div class="settings-section">
+                <label for="username">Username</label>
+                <input type="text" id="username" value="KathlenMae123">
+            </div>
+            <div class="settings-section">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="kathlenmae@example.com">
+            </div>
+            <div class="settings-section">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter new password">
+            </div>
+            <div class="settings-section">
+                <label for="language">Language</label>
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
         </div>
 
+        <div class="settings-details">
+            <h2>Security Settings</h2>
+            <div class="settings-section">
+                <label for="2fa">Enable Two-Factor Authentication</label>
+                <input type="checkbox" id="2fa">
+            </div>
+        </div>
+
+        <div class="settings-details">
+            <h2>Notification Settings</h2>
+            <div class="settings-section">
+                <label for="email-notifications">Email Notifications</label>
+                <input type="checkbox" id="email-notifications" checked>
+            </div>
+            <div class="settings-section">
+                <label for="sms-notifications">SMS Notifications</label>
+                <input type="checkbox" id="sms-notifications">
+            </div>
+        </div>
     </div>
 
     <script>
         function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-            const mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
         }
     </script>
 
