@@ -22,10 +22,10 @@
             background-color: #eaeaea;
         }
 
-        /* Sidebar styling */
+        /* Sidebar */
         .sidebar {
             height: 96%;
-            width: 250px;
+            width: 250px; /* Adjusted for better responsiveness */
             position: fixed;
             top: 0;
             left: 0;
@@ -47,29 +47,24 @@
             30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
             47.3px 0px 28px rgba(0, 0, 0, 0.056),
             84px 0px 53px rgba(0, 0, 0, 0.038);
-            transition: width 0.3s ease;
+            transition: width 0.3s;
         }
 
-        .sidebar.active {
-            width: 0; /* Collapse sidebar */
-            overflow: hidden; /* Hide overflow when collapsed */
-        }
-
-        .sidebar .navbar-title {
+        .navbar-title {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
         }
 
-        .sidebar .navbar-title img {
+        .navbar-title img {
             width: 58px;
             margin-right: 10px;
         }
 
         .navbar-text {
             color: white;
-            text-align: center;
+            text-align: center; /* Centered text */
         }
 
         .navbar-text h2 {
@@ -80,55 +75,182 @@
         .navbar-text p {
             font-size: 10px;
             margin: 0;
+            color: white;
         }
 
-        /* Sidebar links */
         .sidebar a {
-            padding: 10px 20px;
+            padding: 15px 20px; /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            width: 80%;
+            width: 90%; /* Adjusted for better spacing */
             border-radius: 5px;
-            margin: 10px 0;
+            transition: background 0.3s, transform 0.2s; /* Added transform for hover */
+            margin: 10px 0; /* Reduced margin */
         }
 
         .sidebar a i {
-            margin-right: 10px;
+            margin-right: 15px;
+            font-size: 18px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
             background-color: #b13333;
+            transform: scale(1.05); /* Added scaling effect on hover */
         }
 
-        /* Main content */
         .main-content {
-            margin-left: 250px;
+            margin-left: 250px; /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
+            background-color: #f4f4f4;
             height: 100vh;
             overflow-y: auto;
-            background-color: #f4f4f4;
-            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+            transition: margin-left 0.3s;
         }
 
-        .header {
+        h1 {
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .fixed-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            padding: 35px 15px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #940b10;
+            margin-bottom: 20px;
         }
 
-        #hamburger {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
+        .fixed-header img {
+            width: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px;
             color: #940b10;
         }
 
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            text-align: center;
+        }
+
+        .recent-activity,
+        .calendar,
+        .quick-actions {
+            margin-top: 20px;
+        }
+
+        .recent-activity ul,
+        .calendar {
+            list-style-type: none;
+            padding: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-activity li,
+        .calendar p {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .quick-actions button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #940b10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s; /* Added transition for buttons */
+        }
+
+        .quick-actions button:hover {
+            background-color: #b13333;
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+
+        footer {
+            padding: 20px;
+            background-color: #940b10;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100px;
+            }
+
+            .main-content {
+                margin-left: 100px;
+            }
+
+            .sidebar a {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 10px 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+
+            .sidebar a {
+                flex: 1;
+                text-align: center;
+            }
+        }
         h1 {
             color: #940b10;
             font-size: 24px;
@@ -232,19 +354,15 @@
         .compose-message input[type="file"] {
             margin-bottom: 15px;
         }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0; /* Remove margin on small screens */
-            }
-            .sidebar {
-                width: 0; /* Collapse sidebar on small screens */
-            }
-            .sidebar.active {
-                width: 250px; /* Expand sidebar when active */
-            }
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+            margin-right: 25px; /* Add some margin-right */
         }
+    
     </style>
 </head>
 <body>
@@ -263,7 +381,6 @@
         <a href="report.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Report</a>
         <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
         <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
-        <a href="profile.html"><i class="fas fa-user" aria-hidden="true"></i> Profile</a>
         <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
     </div>
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,109 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #eaeaea;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            height: 96%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #940b10;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-top-right-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow:
-            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
-            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
-            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
-            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
-            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
-            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
-            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
-            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
-            47.3px 0px 28px rgba(0, 0, 0, 0.056),
-            84px 0px 53px rgba(0, 0, 0, 0.038);
-            transition: width 0.3s ease;
-        }
-
-        .sidebar.active {
-            width: 0;
-            overflow: hidden;
-        }
-
-        .sidebar .navbar-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .sidebar .navbar-title img {
-            width: 58px;
-            margin-right: 10px;
-        }
-
-        .navbar-text {
-            color: white;
-            text-align: center;
-        }
-
-        .navbar-text h2 {
-            font-size: 17px;
-            margin: 0;
-        }
-
-        .navbar-text p {
-            font-size: 10px;
-            margin: 0;
-        }
-
-        /* Sidebar links */
-        .sidebar a {
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 80%;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-
-        .sidebar a i {
-            margin-right: 10px;
-        }
-
-        .sidebar a:hover {
-            background-color: #b13333;
-        }
-
-        /* Main content */
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-            height: 100vh;
-            overflow-y: auto;
-            background-color: #f4f4f4;
-            transition: margin-left 0.3s ease;
-        }
-
         #hamburger {
             background: none;
             border: none;
@@ -191,7 +88,245 @@
             display: inline-block;
         }
 
-        /* Responsive styles */
+        /* Editable field styles */
+        input[disabled] {
+            background-color: #f0f0f0;
+        }
+
+        input.editable {
+            background-color: #ffffff;
+            border: 1px solid #940b10;
+        }
+
+        .edit-btn, .save-btn {
+            background-color: #940b10;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            display: none;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #eaeaea;
+        }
+        /* Sidebar */
+        .sidebar {
+            height: 96%;
+            width: 250px; /* Adjusted for better responsiveness */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #940b10;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top-right-radius: 30px; /* Rounded top-right corner */
+            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            box-shadow:
+            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
+            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
+            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
+            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
+            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+            47.3px 0px 28px rgba(0, 0, 0, 0.056),
+            84px 0px 53px rgba(0, 0, 0, 0.038);
+            transition: width 0.3s;
+        }
+        .sidebar.active {
+            width: 0;
+            overflow: hidden;
+        }
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+            margin-right: 25px; /* Add some margin-right */
+        }
+
+        .navbar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .navbar-title img {
+            width: 58px;
+            margin-right: 10px;
+        }
+
+        .navbar-text {
+            color: white;
+            text-align: center; /* Centered text */
+        }
+
+        .navbar-text h2 {
+            font-size: 17px;
+            margin: 0;
+        }
+
+        .navbar-text p {
+            font-size: 10px;
+            margin: 0;
+            color: white;
+        }
+
+        .sidebar a {
+            padding: 15px 20px; /* Increased padding for better click area */
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 90%; /* Adjusted for better spacing */
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s; /* Added transform for hover */
+            margin: 10px 0; /* Reduced margin */
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 18px; /* Increased icon size for visibility */
+        }
+
+        .sidebar a:hover {
+            background-color: #b13333;
+            transform: scale(1.05); /* Added scaling effect on hover */
+        }
+
+        .main-content {
+            margin-left: 250px; /* Adjusted margin */
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f4f4f4;
+            height: 100vh;
+            overflow-y: auto;
+            transition: margin-left 0.3s;
+        }
+
+        h1 {
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .fixed-header {
+            display: flex;
+            align-items: center;
+            padding: 35px 15px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #940b10;
+            margin-bottom: 20px;
+        }
+
+        .fixed-header img {
+            width: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #940b10;
+        }
+
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            text-align: center;
+        }
+
+        .recent-activity,
+        .calendar,
+        .quick-actions {
+            margin-top: 20px;
+        }
+
+        .recent-activity ul,
+        .calendar {
+            list-style-type: none;
+            padding: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-activity li,
+        .calendar p {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .quick-actions button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #940b10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s; /* Added transition for buttons */
+        }
+
+        .quick-actions button:hover {
+            background-color: #b13333;
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+
+        footer {
+            padding: 20px;
+            background-color: #940b10;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 width: 100px;
@@ -246,7 +381,6 @@
         <a href="report.html"><i class="fa-solid fa-envelope"></i> Report</a>
         <a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a>
         <a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
         <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -267,51 +401,60 @@
             <h2>Account Settings</h2>
             <div class="settings-section">
                 <label for="username">Username</label>
-                <input type="text" id="username" value="KathlenMae123">
+                <input type="text" id="username" value="kathlenmae01" disabled>
+                <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
+                <button class="save-btn" onclick="saveField('username')">Save</button>
             </div>
+
             <div class="settings-section">
                 <label for="email">Email</label>
-                <input type="email" id="email" value="kathlenmae@example.com">
+                <input type="email" id="email" value="kathlenmae01@gmail.com" disabled>
+                <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
+                <button class="save-btn" onclick="saveField('email')">Save</button>
             </div>
+
             <div class="settings-section">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter new password">
-            </div>
-            <div class="settings-section">
-                <label for="language">Language</label>
-                <select id="language">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="settings-details">
-            <h2>Security Settings</h2>
-            <div class="settings-section">
-                <label for="2fa">Enable Two-Factor Authentication</label>
-                <input type="checkbox" id="2fa">
-            </div>
-        </div>
-
-        <div class="settings-details">
-            <h2>Notification Settings</h2>
-            <div class="settings-section">
-                <label for="email-notifications">Email Notifications</label>
-                <input type="checkbox" id="email-notifications" checked>
-            </div>
-            <div class="settings-section">
-                <label for="sms-notifications">SMS Notifications</label>
-                <input type="checkbox" id="sms-notifications">
+                <input type="password" id="password" value="******" disabled>
+                <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
+                <button class="save-btn" onclick="saveField('password')">Save</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Sidebar toggle function
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('active');
-            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
+        }
+
+        // Toggle edit mode for input fields
+        function toggleEdit(fieldId) {
+            var inputField = document.getElementById(fieldId);
+            var editButton = inputField.nextElementSibling;
+            var saveButton = editButton.nextElementSibling;
+
+            if (inputField.disabled) {
+                inputField.disabled = false;
+                inputField.classList.add('editable');
+                saveButton.style.display = 'inline-block';
+                editButton.style.display = 'none';
+            }
+        }
+
+        // Save the edited field and switch back to non-editable mode
+        function saveField(fieldId) {
+            var inputField = document.getElementById(fieldId);
+            var editButton = inputField.nextElementSibling;
+            var saveButton = editButton.nextElementSibling;
+
+            inputField.disabled = true;
+            inputField.classList.remove('editable');
+            saveButton.style.display = 'none';
+            editButton.style.display = 'inline-block';
+
+            // Add your code to handle saving the updated field value here
+            console.log(fieldId + " saved with value: " + inputField.value);
         }
     </script>
 
