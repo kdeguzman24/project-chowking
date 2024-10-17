@@ -401,14 +401,28 @@
                     <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
                     <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>
                 </div>
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
+                <label for="subject">Subject: </label>
+                <select>
+                    <option value="hallway">Hallway</option>
+                    <option value="classroom">Classroom</option>
+                    <option value="cr">Comfort Room (CR)</option>
+                    <option value="elevator">Elevator</option>
+                    <option value="stairs">Stairs</option>
+                    <option value="library">Library</option>
+                    <option value="others">Others</option>
+                </select>
+               
                 
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
                 
                 <label for="file">Attach a file:</label>
                 <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+                <label for="file">Attach a file:</label>
+                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+                <label for="file">Attach a file:</label>
+                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+                
                 
                 <button type="submit">Send</button>
             </form>
