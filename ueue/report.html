@@ -50,6 +50,11 @@
             transition: width 0.3s;
         }
 
+        .sidebar.active {
+            width: 0;
+            overflow: hidden; /* Hides content */
+        }
+
         .navbar-title {
             display: flex;
             align-items: center;
@@ -411,7 +416,7 @@
                     <option value="library">Library</option>
                     <option value="others">Others</option>
                 </select>
-               
+
                 
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
@@ -428,7 +433,7 @@
             </form>
         </div>
 
-      
+
 
     <script>
         function toggleSidebar() {

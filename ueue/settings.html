@@ -425,7 +425,10 @@
     <script>
         // Sidebar toggle function
         function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
         }
 
         // Toggle edit mode for input fields
