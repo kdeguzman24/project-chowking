@@ -22,7 +22,6 @@
             background-color: #eaeaea;
         }
 
-        /* Sidebar */
         .sidebar {
             height: 96%;
             width: 250px; /* Adjusted for better responsiveness */
@@ -49,6 +48,12 @@
             84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s;
         }
+        
+        .sidebar.active {
+            width: 0px;
+            overflow: hidden;
+        }
+
 
         .navbar-title {
             display: flex;
@@ -78,6 +83,21 @@
             color: white;
         }
 
+        /* Collapsed sidebar */
+        .sidebar.collapsed {
+            width: 0px; /* Shrink sidebar width to 0px */
+            padding: 0; /* Remove padding when collapsed */
+            overflow: hidden; /* Hide all content when collapsed */
+        }
+
+        /* Hide all text, icons, and the logo when collapsed */
+        .sidebar.collapsed .navbar-title,
+        .sidebar.collapsed a {
+            display: none;
+        }
+
+
+
         .sidebar a {
             padding: 15px 20px; /* Increased padding for better click area */
             text-decoration: none;
@@ -93,6 +113,7 @@
         }
 
         .sidebar a i {
+            margin-left: 23px;
             margin-right: 15px;
             font-size: 18px; /* Increased icon size for visibility */
         }
@@ -332,12 +353,13 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
-        <a href="report.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Report</a>
-        <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
-        <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
-        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
+        <a href="dashboard.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
+        <a href="report.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
+        <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
+        <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
+        
     </div>
 
     <!-- Main content -->
@@ -391,11 +413,13 @@
 
     <script>
         function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-            const mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px'; // Adjust margin on toggle
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
         }
+
+
+
+
 
         // Radar Chart
         const radarCtx = document.getElementById('radarChart').getContext('2d');
