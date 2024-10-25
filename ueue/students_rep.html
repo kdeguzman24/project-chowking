@@ -400,52 +400,53 @@
         </div>
 
         <!-- Compose Message Section -->
-        <div class="compose-message">
-            <h2>Compose Message</h2>
-            <form>
-                <div class="choice">
-                    <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
-                    <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>
-                </div>
-                <label for="subject">Subject: </label>
-                <select><br>
-                    <option value="hallway">Hallway</option>
-                    <option value="classroom">Classroom</option>
-                    <option value="cr">Comfort Room (CR)</option>
-                    <option value="elevator">Elevator</option>
-                    <option value="stairs">Stairs</option>
-                    <option value="library">Library</option>
-                    <option value="others">Others</option>
-                    <label for="issue">Issue</label>
-                <input type="text" id="issue" name="issue" placeholder="Enter the issue">
-                </select>
-
-                
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-                
-                <label for="file">Attach a file:</label>
-                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
-                <label for="file">Attach a file:</label>
-                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
-                <label for="file">Attach a file:</label>
-                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
-                
-                
-                <button type="submit">Send</button>
-            </form>
+      <!-- Compose Message Section -->
+<div class="compose-message">
+    <h2>Compose Message</h2>
+    <form>
+        
+        <div class="choice">
+            <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
+            <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>       
         </div>
+        <label for="subject">Subject: </label>
+        <select id="subject" name="subject" required>
+            <option value="" disabled selected>Select Subject</option>
+            <option value="hallway">Hallway</option>
+            <option value="classroom">Classroom</option>
+            <option value="cr">Comfort Room (CR)</option>
+            <option value="elevator">Elevator</option>
+            <option value="stairs">Stairs</option>
+            <option value="library">Library</option>
+            <option value="others">Others</option>
+        </select>        
+
+        <label for="issue">Issue</label>
+        <input type="text" id="issue" name="issue" placeholder="Enter the issue">
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        
+        <label for="file">Attach a file:</label>
+        <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+
+        <button type="submit">Send Message</button>
+    </form>
+</div>
 
 
 
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-            var mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '0' : '250px';
+<script>
+    function toggleSidebar() {
+        document.querySelector(".sidebar").classList.toggle("active");
+        const mainContent = document.querySelector(".main-content");
+        if (document.querySelector(".sidebar").classList.contains("active")) {
+            mainContent.style.marginLeft = "0";
+        } else {
+            mainContent.style.marginLeft = "250px"; // Adjust to original sidebar width
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
