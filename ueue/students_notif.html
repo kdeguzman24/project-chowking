@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Notifications</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -17,7 +17,6 @@
             overflow: hidden;
             background-color: #eaeaea;
         }
-
         /* Sidebar */
         .sidebar {
             height: 96%;
@@ -44,6 +43,18 @@
             47.3px 0px 28px rgba(0, 0, 0, 0.056),
             84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s;
+        }
+        .sidebar.active {
+            width: 0;
+            overflow: hidden;
+        }
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+            margin-right: 25px; /* Add some margin-right */
         }
 
         .navbar-title {
@@ -250,10 +261,11 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
-    <nav class="sidebar" role="navigation">
+    <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="University of the East Logo">
             <div class="navbar-text">
@@ -261,74 +273,66 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="#"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
-        <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
-        <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
-        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="main-content" role="main">
-        <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture of Kathlen Mae Merindo">
-            <div class="name-position">
-                <h2>UE ADMIN</h2>
-                <p>Admin</p>
-            </div>
-        </div>
-        
-        <h1>Welcome to Your Dashboard!</h1>
-
-        <!-- Widgets Section -->
-        <div class="widgets">
-            <div class="widget">
-                <h3>Report</h3>
-                <p>9</p>
-            </div>
-            <div class="widget">
-                <h3>Resolve</h3>
-                <p>3</p>
-            </div>
-            <div class="widget">
-                <h3>Feedback</h3>
-                <p>5</p>
-            </div>
-            <div class="widget">
-                <h3>Approved</h3>
-                <p>12</p>
-            </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="recent-activity">
-            <h2>Recent Activity</h2>
-            <ul>
-                <li>Submitted report #12345</li>
-                <li>Feedback received from admin</li>
-                <li>Resolved issue #67890</li>
-            </ul>
-        </div>
-
-        <!-- Calendar Section -->
-        <div class="calendar">
-            <h2>Calendar</h2>
-            <p>Oct 2024: University Events</p>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <h2>Quick Actions</h2>
-            <button>Add Event</button>
-            <button>Send Message</button>
-            <button>View Reports</button>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2024 University of the East. All Rights Reserved.</p>
-        </footer>
+        <a href="students_db.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="students_stats.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
+        <a href="students_rep.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
+        <a href="students_sett.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
+        <a href="students_notifs.html"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
     </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="fixed-header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <img src="ProfilePic.png" alt="Profile Picture">
+            <div class="name-position">
+                <h2>Kathlen Mae Merindo</h2>
+                <p>Notifications</p>
+            </div>
+        </div>
+
+        <div class="notification-details">
+            <h2>Recent Notifications</h2>
+            <div class="notification-item">
+                <p>Your account has been updated successfully.</p>
+                <button>Dismiss</button>
+            </div>
+            <div class="notification-item">
+                <p>New login from an unknown device.</p>
+                <button>Dismiss</button>
+            </div>
+            <div class="notification-item">
+                <p>You have 3 unread messages.</p>
+                <button>Dismiss</button>
+            </div>
+        </div>
+
+        <div class="notification-details">
+            <h2>Notification Preferences</h2>
+            <div class="notification-section">
+                <label for="email-notifications">Email Notifications</label>
+                <input type="checkbox" id="email-notifications" checked>
+            </div>
+            <div class="notification-section">
+                <label for="sms-notifications">SMS Notifications</label>
+                <input type="checkbox" id="sms-notifications">
+            </div>
+            <div class="notification-section">
+                <label for="push-notifications">Push Notifications</label>
+                <input type="checkbox" id="push-notifications">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
+        }
+    </script>
 
 </body>
 </html>

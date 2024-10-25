@@ -86,21 +86,30 @@
         function validateForm() {
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
-
+    
             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 alert("Invalid email format.");
                 return false;
             }
-
+    
             if (password.length < 8) {
                 alert("Password must be at least 8 characters long.");
                 return false;
             }
-
-            window.location.href = 'dashboard.html';
-            return false; 
+    
+            // Redirect based on email
+            if (email === "admin@ue.edu.ph") {
+                window.location.href = 'dashboard.html';
+            } else if (email === "student@ue.edu.ph") {
+                window.location.href = 'students_db.html';
+            } else {
+                alert("Unauthorized user.");
+                return false;
+            }
+            
+            return false; // Prevents form submission to stay on the same page after redirection
         }
-    </script>
+    </script>    
 </body>
 </html>
