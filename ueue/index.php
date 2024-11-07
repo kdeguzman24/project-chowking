@@ -72,70 +72,26 @@
     <div class="login-container">
         <img src="UE logo.png" alt="UE Logo">
         <h2 id="form-title">Sign In</h2>
-        <form id="sign-in-form" onsubmit="return validateSignInForm()" style="display: block;">
-            <input type="email" id="sign-in-email" placeholder="Email" required>
-            <input type="password" id="sign-in-password" placeholder="Password" required>
-            <button type="submit">Sign In</button>
+
+        <!-- Sign-In Form -->
+        <form id="sign-in-form" action="auth.php" method="post" style="display: block;">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" name="signin">Sign In</button>
         </form>
 
-        <form id="sign-up-form" onsubmit="return validateSignUpForm()" style="display: none;">
-            <input type="text" id="sign-up-username" placeholder="Username" required>
-            <input type="email" id="sign-up-email" placeholder="Email" required>
-            <input type="password" id="sign-up-password" placeholder="Password" required>
-            <button type="submit">Sign Up</button>
+        <!-- Sign-Up Form -->
+        <form id="sign-up-form" action="auth.php" method="post" style="display: none;">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" name="signup">Sign Up</button>
         </form>
 
         <span id="toggle-link" class="toggle-link" onclick="toggleForms()">Don’t have an account? Sign Up</span>
     </div>
 
     <script>
-        function validateSignInForm() {
-            var email = document.getElementById("sign-in-email").value;
-            var password = document.getElementById("sign-in-password").value;
-
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Invalid email format.");
-                return false;
-            }
-
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return false;
-            }
-
-            if (email === "admin@ue.edu.ph") {
-                window.location.href = 'dashboard.html';
-            } else if (email === "student@ue.edu.ph") {
-                window.location.href = 'students_db.html';
-            } else {
-                alert("Unauthorized user.");
-                return false;
-            }
-
-            return false;
-        }
-
-        function validateSignUpForm() {
-            var username = document.getElementById("sign-up-username").value;
-            var email = document.getElementById("sign-up-email").value;
-            var password = document.getElementById("sign-up-password").value;
-
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Invalid email format.");
-                return false;
-            }
-
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return false;
-            }
-
-            alert("Sign-up successful!");
-            return false;
-        }
-
         function toggleForms() {
             var signInForm = document.getElementById("sign-in-form");
             var signUpForm = document.getElementById("sign-up-form");
