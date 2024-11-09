@@ -121,7 +121,7 @@
             overflow: hidden;
             background-color: #eaeaea;
         }
-        /* Sidebar */
+
         .sidebar {
             height: 96%;
             width: 250px; /* Adjusted for better responsiveness */
@@ -148,16 +148,17 @@
             84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
+
         .sidebar.active {
-            width: 90px; /* Instead of 5%, this ensures there's enough space for the icons */
+            width: 90px;
         }
 
         .sidebar.active + .main-content {
-            margin-left: 90px; /* Align with the collapsed sidebar width */
+            margin-left: 90px;
         }
 
         .main-content {
-            margin-left: 250px; /* Adjusted margin */
+            margin-left: 250px; 
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -166,29 +167,29 @@
             transition: margin-left 0.3s;
         }
 
-        /* Hide the text when sidebar is active */
+        /* ============================================================ */
         .sidebar.active a span {
-            display: none; /* This will hide the text */
+            display: none;
         }
 
         .sidebar.active .navbar-title h2, 
         .sidebar.active .navbar-title p {
-            display: none; /* This hides the University title and campus name */
+            display: none;
         }
 
         .sidebar.active img {
-            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
+            width: 58px;
             margin-left: 10px;
         }
 
         .sidebar a span {
-            margin-left: 10px; /* Adjust margin when text is visible */
+            margin-left: 10px;
         }
 
-        /* Optional: Adjust icon size when the sidebar is collapsed */
         .sidebar.active a i {
             margin-left: 26px;
         }
+        /* ============================================================ */
 
 
 
