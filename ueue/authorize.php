@@ -37,7 +37,19 @@ if (isset($_POST['signin'])) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
+
+        // Debugging output: see what the password hash looks like
+        echo "<pre>";
+        var_dump($user); // This will show user data including the hashed password
+        echo "</pre>";
+
+        // Check if the password matches the hashed password stored in the database
         if (password_verify($password, $user['password'])) {
+            // Start session to track logged-in user
+            session_start();
+            $_SESSION['user'] = $user['email'];  // Store user email in session (can store ID or role as well)
+            
+            // Redirect based on user role
             if ($email === "admin@ue.edu.ph") {
                 header("Location: dashboard.html");
             } else {
@@ -45,9 +57,11 @@ if (isset($_POST['signin'])) {
             }
             exit();
         } else {
+            // Show alert if password doesn't match
             echo "<script>alert('Invalid password.');</script>";
         }
     } else {
+        // Show alert if email doesn't exist
         echo "<script>alert('No user found with this email.');</script>";
     }
 }

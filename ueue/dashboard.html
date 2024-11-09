@@ -43,7 +43,7 @@
             30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
             47.3px 0px 28px rgba(0, 0, 0, 0.056),
             84px 0px 53px rgba(0, 0, 0, 0.038);
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
 
         .navbar-title {
@@ -89,9 +89,9 @@
         }
 
         .sidebar a i {
-            margin-left: 23px;
+            margin-left: 30px;
             margin-right: 15px;
-            font-size: 18px; /* Increased icon size for visibility */
+            font-size: 24px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
@@ -107,6 +107,10 @@
             height: 100vh;
             overflow-y: auto;
             transition: margin-left 0.3s;
+        }
+
+        .sidebar a span {
+            margin-left: 10px;
         }
 
         h1 {
@@ -261,11 +265,12 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="#"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> Dashboard</a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> Statistics</a>
-        <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> Settings</a>
-        <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> Notifications</a>
-        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout</a>
+        <a href="dashboard.html"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.html"><i class="fa-regular fa-user"></i> <span>Students</span></a>
+        <a href="statistics.html"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="settings.html"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="notifications.html"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </nav>
 
     <!-- Main Content -->
@@ -273,8 +278,8 @@
         <div class="fixed-header">
             <img src="ProfilePic.png" alt="Profile Picture of Kathlen Mae Merindo">
             <div class="name-position">
-                <h2>UE ADMIN</h2>
-                <p>Admin</p>
+                <h2>Kathlen Mae Merindo</h2>
+                <p>Student</p>
             </div>
         </div>
         

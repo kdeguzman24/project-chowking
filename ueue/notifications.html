@@ -17,7 +17,7 @@
             overflow: hidden;
             background-color: #eaeaea;
         }
-        /* Sidebar */
+
         .sidebar {
             height: 96%;
             width: 250px; /* Adjusted for better responsiveness */
@@ -42,12 +42,17 @@
             30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
             47.3px 0px 28px rgba(0, 0, 0, 0.056),
             84px 0px 53px rgba(0, 0, 0, 0.038);
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
+        
         .sidebar.active {
-            width: 0;
-            overflow: hidden;
+            width: 90px;
         }
+
+        .sidebar.active + .main-content {
+            margin-left: 90px; /* Align with the collapsed sidebar width */
+        }
+
         #hamburger {
             background: none;
             border: none;
@@ -100,18 +105,18 @@
         }
 
         .sidebar a i {
-            margin-left: 23px;
+            margin-left: 30px;
             margin-right: 15px;
-            font-size: 18px; /* Increased icon size for visibility */
+            font-size: 24px;
         }
 
         .sidebar a:hover {
             background-color: #b13333;
-            transform: scale(1.05); /* Added scaling effect on hover */
+            transform: scale(1.05);
         }
 
         .main-content {
-            margin-left: 250px; /* Adjusted margin */
+            margin-left: 250px;
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -119,6 +124,31 @@
             overflow-y: auto;
             transition: margin-left 0.3s;
         }
+
+        /* ============================================================ */
+        .sidebar.active a span {
+            display: none;
+        }
+
+        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title p {
+            display: none;
+        }
+
+        .sidebar.active img {
+            width: 58px;
+            margin-left: 10px;
+        }
+
+        .sidebar a span {
+            margin-left: 10px;
+        }
+
+        .sidebar.active a i {
+            margin-left: 26px;
+        }
+        /* ============================================================ */
+
 
         h1 {
             color: #940b10;
@@ -273,11 +303,12 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.html"><i class="fa-solid fa-chalkboard"></i> Dashboard</a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt"></i> Statistics</a>
-        <a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a>
-        <a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="dashboard.html"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.html"><i class="fa-regular fa-user"></i> <span>Students</span></a>
+        <a href="statistics.html"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="settings.html"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="notifications.html"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
@@ -328,8 +359,10 @@
 
     <script>
         function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
-            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
     </script>
 
