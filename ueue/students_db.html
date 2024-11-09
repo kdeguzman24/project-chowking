@@ -43,7 +43,7 @@
             30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
             47.3px 0px 28px rgba(0, 0, 0, 0.056),
             84px 0px 53px rgba(0, 0, 0, 0.038);
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
 
         .navbar-title {
@@ -89,9 +89,9 @@
         }
 
         .sidebar a i {
-            margin-left: 23px;
+            margin-left: 30px;
             margin-right: 15px;
-            font-size: 18px; /* Increased icon size for visibility */
+            font-size: 24px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
@@ -107,6 +107,10 @@
             height: 100vh;
             overflow-y: auto;
             transition: margin-left 0.3s;
+        }
+
+        .sidebar a span {
+            margin-left: 10px; /* Adjust margin when text is visible */
         }
 
         h1 {

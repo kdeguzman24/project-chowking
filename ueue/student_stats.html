@@ -50,8 +50,11 @@
         }
         
         .sidebar.active {
-            width: 0px;
-            overflow: hidden;
+            width: 90px;
+        }
+
+        .sidebar.active + .main-content {
+            margin-left: 90px;
         }
 
 
@@ -83,20 +86,6 @@
             color: white;
         }
 
-        /* Collapsed sidebar */
-        .sidebar.collapsed {
-            width: 0px; /* Shrink sidebar width to 0px */
-            padding: 0; /* Remove padding when collapsed */
-            overflow: hidden; /* Hide all content when collapsed */
-        }
-
-        /* Hide all text, icons, and the logo when collapsed */
-        .sidebar.collapsed .navbar-title,
-        .sidebar.collapsed a {
-            display: none;
-        }
-
-
 
         .sidebar a {
             padding: 15px 20px; /* Increased padding for better click area */
@@ -113,9 +102,9 @@
         }
 
         .sidebar a i {
-            margin-left: 23px;
+            margin-left: 30px;
             margin-right: 15px;
-            font-size: 18px; /* Increased icon size for visibility */
+            font-size: 24px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
@@ -132,6 +121,31 @@
             overflow-y: auto;
             transition: margin-left 0.3s;
         }
+
+        /* Hide the text when sidebar is active */
+        .sidebar.active a span {
+            display: none; /* This will hide the text */
+        }
+
+        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title p {
+            display: none; /* This hides the University title and campus name */
+        }
+
+        .sidebar.active img {
+            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
+            margin-left: 10px;
+        }
+
+        .sidebar a span {
+            margin-left: 10px; /* Adjust margin when text is visible */
+        }
+
+        /* Optional: Adjust icon size when the sidebar is collapsed */
+        .sidebar.active a i {
+            margin-left: 26px;
+        }
+
 
         h1 {
             color: #940b10;
@@ -412,8 +426,10 @@
 
     <script>
         function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
-            document.querySelector('.main-content').style.marginLeft = document.querySelector('.sidebar').classList.contains('active') ? '0' : '250px';
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
 
 
