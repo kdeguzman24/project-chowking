@@ -368,12 +368,12 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.html"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
-        <a href="students.html"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
-        <a href="settings.html"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="notifications.html"><i class="fas fa-bell"></i> <span>Notifications</span></a>
-        <a href="index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
+        <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
         
     </div>
 

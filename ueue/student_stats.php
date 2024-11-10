@@ -367,12 +367,12 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
-        <a href="students_stats.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
-        <a href="students_rep.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="students_sett.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="students_notifs.html"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
-        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>   
+        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
+        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
+        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>   
     </div>
 
     <!-- Main content -->

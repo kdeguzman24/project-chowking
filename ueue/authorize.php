@@ -51,9 +51,9 @@ if (isset($_POST['signin'])) {
             
             // Redirect based on user role
             if ($email === "admin@ue.edu.ph") {
-                header("Location: dashboard.html");
+                header("Location: dashboard.php");
             } else {
-                header("Location: students_db.html");
+                header("Location: students_db.php");
             }
             exit();
         } else {

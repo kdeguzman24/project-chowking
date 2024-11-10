@@ -410,12 +410,12 @@
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.html"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
-        <a href="statistics.html"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
-        <a href="report.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="settings.html"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="notifications.html"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
-        <a href="index.html"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
+        <a href="dashboard.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="statistics.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
+        <a href="report.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
+        <a href="settings.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
+        <a href="notifications.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
