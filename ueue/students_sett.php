@@ -1,3 +1,48 @@
+<?php
+// Process delete operation after confirmation
+if (isset($_POST["id"]) && !empty($_POST["id"])) {
+    // Include config file
+    require_once "config.php";
+
+    // Prepare a delete statement for the users table (delete account)
+    $sql = "DELETE FROM users WHERE id = ?";
+
+    if ($stmt = $mysqli->prepare($sql)) {
+        // Bind variables to the prepared statement as parameters
+        $stmt->bind_param("i", $param_id);
+
+        // Set parameters
+        $param_id = trim($_POST["id"]);
+
+        // Attempt to execute the prepared statement
+        if ($stmt->execute()) {
+            // Records deleted successfully. Redirect to landing page or login page
+            session_start(); // Start the session to clear user data
+            session_unset(); // Unset all session variables
+            session_destroy(); // Destroy the session
+
+            header("location: index.php"); // Redirect to homepage after account deletion
+            exit();
+        } else {
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+    }
+
+    // Close statement
+    $stmt->close();
+
+    // Close connection
+    $mysqli->close();
+} else {
+    // Check existence of id parameter
+    if (empty(trim($_GET["id"]))) {
+        // URL doesn't contain id parameter. Redirect to error page
+        header("location: error.php");
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -98,7 +143,7 @@
             border: 1px solid #940b10;
         }
 
-        .edit-btn, .save-btn {
+        .edit-btn, .save-btn, .delete-btn {
             background-color: #940b10;
             color: white;
             border: none;
@@ -111,6 +156,15 @@
         .save-btn {
             display: none;
         }
+
+         .delete-btn {
+             background-color: #d9534f;
+                color: white;
+         }
+
+        .delete-btn:hover {
+             background-color: #c9302c;
+         }
 
         body {
             font-family: Arial, sans-serif;
@@ -461,6 +515,11 @@
                 <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
                 <button class="save-btn" onclick="saveField('password')">Save</button>
             </div>
+            <div class="settings-section">
+                <h2>Delete Account</h2>
+                <p style="color: red;">This action is irreversible. Please be sure you want to delete your account.</p>
+                 <button class="delete-btn" onclick="confirmDelete()">Delete Account</button>
+             </div>
         </div>
     </div>
 
@@ -487,6 +546,18 @@
                 editButton.style.display = 'none';
             }
         }
+
+        function confirmDelete() {
+        const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        
+        if (confirmation) {
+            // Proceed with account deletion process (e.g., call an API, redirect to a delete page, etc.)
+            alert("Account deleted successfully!"); // Placeholder for actual deletion logic
+            window.location.href = "delete_account.php"; // Redirect to a page that handles the account deletion
+        } else {
+            alert("Account deletion canceled.");
+        }
+    }
 
         // Save the edited field and switch back to non-editable mode
         function saveField(fieldId) {
