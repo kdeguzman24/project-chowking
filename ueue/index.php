@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Bind the parameter (email)
             $stmt->bind_param("s", $input_email);
             $input_email = trim($_POST['sign_in_email']);
-            $input_password = trim($_POST['sign_in_password']);
+            $input_password = trim($_POST['sign_in_password']);  // Ensure no spaces
             
             // Execute the prepared statement
             if ($stmt->execute()) {
@@ -27,31 +27,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 // Fetch the results and verify password
                 if ($stmt->fetch()) {
-                    // Debugging: check entered password
-                    echo "Entered password: " . $input_password . "<br>";
-                    echo "Hashed password from DB: " . $hashed_password . "<br>";
+                    // Debugging: Log the fetched values
+                    error_log("Fetched username: " . $username);
+                    error_log("Fetched email: " . $email);
+                    error_log("Fetched hashed_password: " . $hashed_password);
 
-                    // Use password_verify to check the password
-                    if (password_verify($input_password, $hashed_password)) {
-                        session_start();
-                        // Password is correct; start a new session
-                        $_SESSION["loggedin"] = true;
-                        $_SESSION["username"] = $username;
-                        
-                        // Redirect to the appropriate page
-                        if ($email == "admin@ue.edu.ph") {
-                            header("location: dashboard.php");
+                    if (!empty($hashed_password)) {  // Confirm we have a hash
+                        // Use password_verify to check the password
+                        if (password_verify($input_password, $hashed_password)) {
+                            // Password is correct; start a new session
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["username"] = $username;
+
+                            // Redirect to the appropriate page
+                            if ($email == "admin@ue.edu.ph") {
+                                header("location: dashboard.php");
+                                exit();
+                            } else {
+                                header("location: students_db.php");
+                                exit();
+                            }
                         } else {
-                            header("location: students_db.html");
+                            // Password is not valid
+                            $password_err = "The password you entered was not valid.";
+                            error_log("Password verification failed.");
                         }
-                        exit();
                     } else {
-                        // Password is not valid
-                        $password_err = "The password you entered was not valid.";
+                        $password_err = "Failed to retrieve password hash.";
+                        error_log("Error: Empty hash retrieved for email " . $input_email);
                     }
                 } else {
                     // No account found with that email
                     $email_err = "No account found with that email.";
+                    error_log("No account found with email: " . $input_email);
                 }
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
@@ -99,10 +107,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Close connection
+
+// Close connection
 $mysqli->close();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
