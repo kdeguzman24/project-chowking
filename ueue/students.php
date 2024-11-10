@@ -1,17 +1,117 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Section</title>
+    <title>Settings</title>
 
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+            margin-right: 25px; /* Add some margin-right */
+        }
+
+        h1 {
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .fixed-header {
+            display: flex;
+            align-items: center;
+            padding: 35px 15px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #940b10;
+            margin-bottom: 20px;
+        }
+
+        .fixed-header img {
+            width: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-position h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #940b10;
+        }
+
+        .name-position p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .settings-details {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .settings-details h2 {
+            color: #940b10;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section label {
+            display: block;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .settings-section input, .settings-section select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .settings-section input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+        }
+
+        /* Editable field styles */
+        input[disabled] {
+            background-color: #f0f0f0;
+        }
+
+        input.editable {
+            background-color: #ffffff;
+            border: 1px solid #940b10;
+        }
+
+        .edit-btn, .save-btn {
+            background-color: #940b10;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            display: none;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -22,7 +122,6 @@
             background-color: #eaeaea;
         }
 
-        /* Sidebar */
         .sidebar {
             height: 96%;
             width: 250px; /* Adjusted for better responsiveness */
@@ -56,6 +155,51 @@
 
         .sidebar.active + .main-content {
             margin-left: 90px;
+        }
+
+        .main-content {
+            margin-left: 250px; 
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f4f4f4;
+            height: 100vh;
+            overflow-y: auto;
+            transition: margin-left 0.3s;
+        }
+
+        /* ============================================================ */
+        .sidebar.active a span {
+            display: none;
+        }
+
+        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title p {
+            display: none;
+        }
+
+        .sidebar.active img {
+            width: 58px;
+            margin-left: 10px;
+        }
+
+        .sidebar a span {
+            margin-left: 10px;
+        }
+
+        .sidebar.active a i {
+            margin-left: 26px;
+        }
+        /* ============================================================ */
+
+
+
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+            margin-right: 25px; /* Add some margin-right */
         }
 
         .navbar-title {
@@ -119,30 +263,6 @@
             height: 100vh;
             overflow-y: auto;
             transition: margin-left 0.3s;
-        }
-
-        /* Hide the text when sidebar is active */
-        .sidebar.active a span {
-            display: none; /* This will hide the text */
-        }
-
-        .sidebar.active .navbar-title h2, 
-        .sidebar.active .navbar-title p {
-            display: none; /* This hides the University title and campus name */
-        }
-
-        .sidebar.active img {
-            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
-            margin-left: 10px;
-        }
-
-        .sidebar a span {
-            margin-left: 10px; /* Adjust margin when text is visible */
-        }
-
-        /* Optional: Adjust icon size when the sidebar is collapsed */
-        .sidebar.active a i {
-            margin-left: 26px;
         }
 
         h1 {
@@ -284,126 +404,15 @@
                 text-align: center;
             }
         }
-        h1 {
-            color: #940b10;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        /* Report Section Styling */
-        .report-section {
-            margin-top: 20px;
-        }
-
-        .report-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-        }
-
-        .report-box h2 {
-            color: #940b10;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Compose Message Form */
-        .compose-message {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .compose-message h2 {
-            color: #940b10;
-            margin-bottom: 20px;
-        }
-
-        .compose-message form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .compose-message label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .compose-message input[type="text"],
-        .compose-message textarea {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .compose-message button {
-            padding: 10px;
-            background-color: #940b10;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .compose-message button:hover {
-            background-color: #b13333;
-        }
-
-        /* Radio Button Choices */
-        .compose-message .choice {
-            margin-bottom: 15px;
-        }
-
-        .compose-message input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        /* File Input */
-        .compose-message input[type="file"] {
-            margin-bottom: 15px;
-        }
-        #hamburger {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: #940b10;
-            margin-right: 25px; /* Add some margin-right */
-        }
-    
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <img src="UE logo.png" alt="University of the East Logo">
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
@@ -419,22 +428,79 @@
 
     <!-- Main content -->
     <div class="main-content">
-        <div class="header">
+        <div class="fixed-header">
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>students</h1>
+            <img src="ProfilePic.png" alt="Profile Picture">
+            <div class="name-position">
+                <h2>Kathlen Mae Merindo</h2>
+                <p>Settings</p>
+            </div>
         </div>
 
+        <div class="settings-details">
+            <h2>Account Settings</h2>
+            <div class="settings-section">
+                <label for="username">Username</label>
+                <input type="text" id="username" value="kathlenmae01" disabled>
+                <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
+                <button class="save-btn" onclick="saveField('username')">Save</button>
+            </div>
 
+            <div class="settings-section">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="kathlenmae01@gmail.com" disabled>
+                <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
+                <button class="save-btn" onclick="saveField('email')">Save</button>
+            </div>
 
+            <div class="settings-section">
+                <label for="password">Password</label>
+                <input type="password" id="password" value="******" disabled>
+                <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
+                <button class="save-btn" onclick="saveField('password')">Save</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Sidebar toggle function
         function toggleSidebar() {
             var sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             var mainContent = document.querySelector('.main-content');
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+        }
+
+
+        // Toggle edit mode for input fields
+        function toggleEdit(fieldId) {
+            var inputField = document.getElementById(fieldId);
+            var editButton = inputField.nextElementSibling;
+            var saveButton = editButton.nextElementSibling;
+
+            if (inputField.disabled) {
+                inputField.disabled = false;
+                inputField.classList.add('editable');
+                saveButton.style.display = 'inline-block';
+                editButton.style.display = 'none';
+            }
+        }
+
+        // Save the edited field and switch back to non-editable mode
+        function saveField(fieldId) {
+            var inputField = document.getElementById(fieldId);
+            var editButton = inputField.nextElementSibling;
+            var saveButton = editButton.nextElementSibling;
+
+            inputField.disabled = true;
+            inputField.classList.remove('editable');
+            saveButton.style.display = 'none';
+            editButton.style.display = 'inline-block';
+
+            // Add your code to handle saving the updated field value here
+            console.log(fieldId + " saved with value: " + inputField.value);
         }
     </script>
 

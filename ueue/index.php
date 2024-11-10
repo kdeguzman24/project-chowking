@@ -7,19 +7,25 @@ require_once "config.php";
 $username = $email = $password = "";
 $username_err = $email_err = $password_err = "";
 
+// Check database connection
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
+
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle Sign In
     if ($_POST['action'] == 'sign_in') {
         // Prepare the SQL statement to fetch user by email
-        $sql = "SELECT username, email, password FROM users WHERE email = ?";
+        $sql = "SELECT username, email, password FROM users WHERE LOWER(email) = LOWER(?)";
 
         if ($stmt = $mysqli->prepare($sql)) {
             // Bind the parameter (email)
-            $stmt->bind_param("s", $input_email);
             $input_email = trim($_POST['sign_in_email']);
+            error_log("Email entered: " . $input_email);  // Log the email
+            $stmt->bind_param("s", $input_email);
             $input_password = trim($_POST['sign_in_password']);  // Ensure no spaces
-            
+
             // Execute the prepared statement
             if ($stmt->execute()) {
                 // Bind result variables for each field
@@ -63,9 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
+                error_log("Execute error: " . $stmt->error);
             }
             // Close statement
             $stmt->close();
+        } else {
+            error_log("Prepare error: " . $mysqli->error);
         }
     }
 
@@ -105,8 +114,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-// Close connection
 
 // Close connection
 $mysqli->close();
