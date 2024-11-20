@@ -337,10 +337,7 @@ $username = $_SESSION['username'];
         <div class="quick-actions">
             <h2>Quick Actions</h2>
             <button>Add Event</button>
-        <a href="students_rep.php">
-             <button>Send Message</button>
-        </a>
-
+            <button>Send Message</button>
             <button>View Reports</button>
         </div>
 
