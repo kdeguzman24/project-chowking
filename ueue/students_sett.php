@@ -468,6 +468,41 @@ $username = $_SESSION['username'];
 .eye-icon {
     font-size: 18px;
 }
+/* Ensure the Edit and Save buttons are in the same row */
+.button-container {
+    display: inline-flex;  /* Use inline-flex to make sure they appear side by side */
+    gap: 10px;  /* Space between the buttons */
+}
+
+/* Hide the Save button by default */
+.save-btn {
+    display: none;  /* Hidden by default */
+}
+
+/* Show the Save button when the input is editable */
+input:enabled + .button-container .save-btn {
+    display: inline-block;
+}
+
+/* Styling for buttons */
+.edit-btn, .save-btn {
+    background-color: #940b10;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.save-btn {
+    display: none;  /* Initially hidden */
+}
+
+.edit-btn {
+    display: inline-block;  /* Ensure edit button is always visible */
+}
+
+
 
 
 
@@ -531,8 +566,6 @@ $username = $_SESSION['username'];
             <i class="fas fa-eye-slash" id="eye-icon"></i> <!-- Initially set as 'eye-slash' (hidden password) -->
         </button>
     </div>
-    <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-    <button class="save-btn" onclick="saveField('password')">Save</button>
 </div>
 
         <!-- Archive Account Section -->
@@ -558,74 +591,6 @@ $username = $_SESSION['username'];
             var mainContent = document.querySelector('.main-content');
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
-
-
-        // Toggle edit mode for input fields
-        
-// Toggle edit mode for password
-function toggleEdit(field) {
-    if (field === 'password') {
-        var passwordInput = document.getElementById('password');
-        var editButton = passwordInput.previousElementSibling;
-        var saveButton = editButton.nextElementSibling; // Save button is after the edit button
-
-        // Toggle editability of the password field
-        passwordInput.disabled = !passwordInput.disabled;
-        passwordInput.classList.toggle('editable');
-
-        // Show or hide the edit and save buttons
-        if (passwordInput.disabled) {
-            editButton.style.display = 'inline-block';  // Show edit button when disabled
-            saveButton.style.display = 'none';          // Hide save button when disabled
-        } else {
-            editButton.style.display = 'none';          // Hide edit button when enabled
-            saveButton.style.display = 'inline-block';  // Show save button when enabled
-        }
-    }
-}
-
-        // Save the edited field and switch back to non-editable mode
-      // Save the edited field (including password)
-function saveField(fieldId) {
-    var inputField = document.getElementById(fieldId);
-    var editButton = inputField.previousElementSibling;
-    var saveButton = editButton.nextElementSibling;
-
-    // Disable input field and hide save button after saving
-    inputField.disabled = true;
-    inputField.classList.remove('editable');
-    saveButton.style.display = 'none';
-    editButton.style.display = 'inline-block';
-
-    // Send the new password to the server if it's the password field
-    if (fieldId === 'password') {
-        var newPassword = inputField.value;
-        // Send new password to the server
-        fetch('update_password.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ password: newPassword })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Password updated successfully');
-            } else {
-                alert('Error updating password: ' + data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while updating the password.');
-        });
-    } else {
-        console.log(fieldId + " saved with value: " + inputField.value);
-    }
-}
-
-
         function togglePasswordVisibility() {
     const passwordInput = document.getElementById('password');
     const eyeIcon = document.getElementById('eye-icon');
@@ -661,6 +626,7 @@ function saveField(fieldId) {
         eyeIcon.classList.add('fa-eye-slash');
     }
 }
+
 
 
 </script>
