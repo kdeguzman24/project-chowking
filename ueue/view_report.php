@@ -1,18 +1,15 @@
-<?php
-session_start();
-
-// Check if session variables exist
-
-$username = $_SESSION['username'];
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>View Reports</title>
 
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         body {
@@ -27,7 +24,7 @@ $username = $_SESSION['username'];
 
         .sidebar {
             height: 96%;
-            width: 250px; /* Adjusted for better responsiveness */
+            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
@@ -51,6 +48,15 @@ $username = $_SESSION['username'];
             84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
+        
+        .sidebar.active {
+            width: 90px;
+        }
+
+        .sidebar.active + .main-content {
+            margin-left: 90px;
+        }
+
 
         .navbar-title {
             display: flex;
@@ -66,7 +72,7 @@ $username = $_SESSION['username'];
 
         .navbar-text {
             color: white;
-            text-align: center;
+            text-align: center; /* Centered text */
         }
 
         .navbar-text h2 {
@@ -80,8 +86,11 @@ $username = $_SESSION['username'];
             color: white;
         }
 
+
+
+
         .sidebar a {
-            padding: 15px 20px;
+            padding: 15px 20px; /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
@@ -97,16 +106,16 @@ $username = $_SESSION['username'];
         .sidebar a i {
             margin-left: 30px;
             margin-right: 15px;
-            font-size: 24px;
+            font-size: 24px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
             background-color: #b13333;
-            transform: scale(1.05);
+            transform: scale(1.05); /* Added scaling effect on hover */
         }
 
         .main-content {
-            margin-left: 250px;
+            margin-left: 250px; /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -114,11 +123,30 @@ $username = $_SESSION['username'];
             overflow-y: auto;
             transition: margin-left 0.3s;
         }
-        
-        .sidebar a span {
+
+        /* Hide the text when sidebar is active */
+        .sidebar.active a span {
+            display: none; /* This will hide the text */
+        }
+
+        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title p {
+            display: none; /* This hides the University title and campus name */
+        }
+
+        .sidebar.active img {
+            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
             margin-left: 10px;
         }
-        
+
+        .sidebar a span {
+            margin-left: 10px; /* Adjust margin when text is visible */
+        }
+
+        /* Optional: Adjust icon size when the sidebar is collapsed */
+        .sidebar.active a i {
+            margin-left: 26px;
+        }
 
         h1 {
             color: #940b10;
@@ -259,96 +287,117 @@ $username = $_SESSION['username'];
                 text-align: center;
             }
         }
+        #hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #940b10;
+        }
+        h1 {
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 20%;
+        }
+
+        .widget h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #940b10;
+        }
+
+        .widget p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            width: 45%;
+            min-width: 300px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .chart-box {
+                width: 90%;
+            }
+            .widget {
+                width: 45%;
+            }}
     </style>
 </head>
 <body>
 
     <!-- Sidebar -->
-    <nav class="sidebar" role="navigation">
+    <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="University of the East Logo">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
-        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
-    </nav>
- 
-    <!-- Main Content -->
-    <div class="main-content" role="main">
-    <div class="fixed-header">
-        <img src="ProfilePic.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
-        <div class="name-position">
-            <h2><?php echo htmlspecialchars($_SESSION['username']); ?></h2>
-            
-            <!-- Check if the user's email is 'admin@ue.edu.ph' -->
-            <?php if ($_SESSION['email'] == 'admin@ue.edu.ph'): ?>
-                <p>Admin</p>
-            <?php else: ?>
-                <p>Student</p>
-            <?php endif; ?>
-        </div>
+        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
+        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        
     </div>
-        <h1>Welcome to Your Dashboard!</h1>
 
-        <!-- Widgets Section -->
-        <div class="widgets">
-            <div class="widget">
-                <h3>Report</h3>
-                <p>9</p>
-            </div>
-            <div class="widget">
-                <h3>Resolve</h3>
-                <p>3</p>
-            </div>
-            <div class="widget">
-                <h3>Feedback</h3>
-                <p>5</p>
-            </div>
-            <div class="widget">
-                <h3>Approved</h3>
-                <p>12</p>
-            </div>
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Reports</h1>
         </div>
 
-        <!-- Recent Activity -->
-        <div class="recent-activity">
-            <h2>Recent Activity</h2>
-            <ul>
-                <li>Submitted report #12345</li>
-                <li>Feedback received from admin</li>
-                <li>Resolved issue #67890</li>
-            </ul>
-        </div>
 
-        <!-- Calendar Section -->
-        <div class="calendar">
-            <h2>Calendar</h2>
-            <p>Oct 2024: University Events</p>
-        </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+        }
 
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-        <a href="students_rep.php">
-                <button>Send Message</button>
-            </a>
-
-            <a href="view_report.php">
-                <button>View Reports</button>
-            </a>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2024 University of the East. All Rights Reserved.</p>
-        </footer>
-    </div>
+    </script>
+    
 
 </body>
 </html>
