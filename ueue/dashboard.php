@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+// Check if session variables exist
+
+$username = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -275,14 +282,22 @@
 
     <!-- Main Content -->
     <div class="main-content" role="main">
-        <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture of Kathlen Mae Merindo">
-            <div class="name-position">
-                <h2>Kathlen Mae Merindo</h2>
+    <div class="fixed-header">
+        <img src="ProfilePic.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
+        <div class="name-position">
+            <h2><?php echo htmlspecialchars($_SESSION['username']); ?></h2>
+            
+            <!-- Check if the user's email is 'admin@ue.edu.ph' -->
+            <?php if ($_SESSION['email'] == 'admin@ue.edu.ph'): ?>
+                <p>Admin</p>
+            <?php else: ?>
                 <p>Student</p>
-            </div>
+            <?php endif; ?>
         </div>
-        
+    </div>
+
+
+
         <h1>Welcome to Your Dashboard!</h1>
 
         <!-- Widgets Section -->
