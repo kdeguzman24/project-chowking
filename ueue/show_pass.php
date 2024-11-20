@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "config.php";  // Make sure this file includes your database connection
+require_once "config.php";  // Ensure your DB connection is correct
 
 // Check if the user is logged in
 if (!isset($_SESSION['email'])) {
@@ -10,15 +10,11 @@ if (!isset($_SESSION['email'])) {
 
 $email = $_SESSION['email'];  // Get the logged-in user's email
 
-// Debugging: log session email to ensure it's set
-error_log("Session email: " . $email);
-
-// Fetch the password from the database
+// Fetch the password (plain text) from the database (just for testing)
 $sql = "SELECT password FROM users WHERE email = ?";
 $stmt = $mysqli->prepare($sql);
 
 if ($stmt === false) {
-    // If there was an error preparing the statement
     echo json_encode(['success' => false, 'error' => 'Error preparing statement: ' . $mysqli->error]);
     exit();
 }
@@ -28,13 +24,12 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
-    // Fetch the password from the database
+    // Fetch the plain password from the database
     $stmt->bind_result($password);
     $stmt->fetch();
 
-    echo json_encode(['success' => true, 'password' => $password]);  // Return the password (for demonstration purposes)
+    echo json_encode(['success' => true, 'password' => $password]);  // Return the plain password for testing
 } else {
-    // If no password was found for the user
     echo json_encode(['success' => false, 'error' => 'Password not found']);
 }
 
