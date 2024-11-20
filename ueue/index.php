@@ -5,7 +5,7 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 $username = $email = $password = "";
-$username_err = $email_err = $password_err = ""; // Ensure these are always initialized
+$username_err = $email_err = $password_err = "";
 
 // Check database connection
 if ($mysqli->connect_error) {
@@ -24,15 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $input_password = trim($_POST['sign_in_password']);
 
             if ($stmt->execute()) {
-                $stmt->bind_result($username, $email, $hashed_password);
+                $stmt->bind_result($username, $email, $stored_password);
                 if ($stmt->fetch()) {
-                    if (!empty($hashed_password)) {
-                        if (password_verify($input_password, $hashed_password)) {
+                    if (!empty($stored_password)) {
+                        if ($input_password == $stored_password) {
                             // Set session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
                             $_SESSION["email"] = $email;
-                            $_SESSION["hashed_password"] = $hashed_password;
 
                             // Redirect based on user type (Admin or Student)
                             if ($email == "admin@ue.edu.ph") {
@@ -45,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $password_err = "The password you entered was not valid.";
                         }
                     } else {
-                        $password_err = "Failed to retrieve password hash.";
+                        $password_err = "Failed to retrieve password.";
                     }
                 } else {
                     $email_err = "No account found with that email.";
@@ -65,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Check if email already exists
         $sql = "SELECT username, email FROM users WHERE email = ?";
@@ -80,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Insert new user into the database
                 $insert_sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
                 if ($stmt_insert = $mysqli->prepare($insert_sql)) {
-                    $stmt_insert->bind_param("sss", $username, $email, $hashed_password);
+                    $stmt_insert->bind_param("sss", $username, $email, $password);
                     if ($stmt_insert->execute()) {
                         // Redirect to index after successful sign-up
                         header("location: index.php");
@@ -96,8 +94,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Close connection
 $mysqli->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -221,6 +221,15 @@ $mysqli->close();
             <!-- Error message for sign-up -->
             <div class="error"><?php echo $email_err; ?></div>
         </form>
+        <!-- Forgot Password Form -->
+<form id="forgot-password-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" style="display: none;">
+    <input type="email" name="forgot_email" id="forgot-email" placeholder="Enter your email" required>
+    <button type="submit">Submit</button>
+    <div class="error"><?php echo $email_err; ?></div>
+</form>
+
+        <!-- Forgot Password Link -->
+<span id="forgot-password-link" class="toggle-link" onclick="toggleForgotPasswordForm()">Forgot Password?</span>
 
         <span id="toggle-link" class="toggle-link" onclick="toggleForms()">Don’t have an account? Sign Up</span>
     </div>
@@ -276,6 +285,22 @@ $mysqli->close();
                 toggleLink.textContent = "Already have an account? Sign In";
             }
         }
+        function toggleForgotPasswordForm() {
+    var signInForm = document.getElementById("sign-in-form");
+    var forgotPasswordForm = document.getElementById("forgot-password-form");
+    var forgotPasswordLink = document.getElementById("forgot-password-link");
+
+    if (forgotPasswordForm.style.display === "none") {
+        signInForm.style.display = "none";
+        forgotPasswordForm.style.display = "block";
+        forgotPasswordLink.textContent = "Back to Sign In";
+    } else {
+        signInForm.style.display = "block";
+        forgotPasswordForm.style.display = "none";
+        forgotPasswordLink.textContent = "Forgot Password?";
+    }
+}
+
     </script>
 </body>
 </html>
