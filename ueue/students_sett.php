@@ -544,17 +544,18 @@ $email = $_SESSION['email'];
         }
 
         function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
-    const showPasswordBtn = document.getElementById('show-password-btn');
+    const passwordInput = document.getElementById('password'); // The password input field
+    const showPasswordBtn = document.getElementById('show-password-btn'); // Button to toggle visibility
 
     if (passwordInput.type === 'password') {
+        // If the password is currently hidden, fetch the password and show it
         fetch('show_password.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    passwordInput.value = data.password; // Set the actual password
-                    passwordInput.type = 'text';
-                    showPasswordBtn.innerText = 'Hide Password';
+                    passwordInput.value = data.password; // Set the actual password value
+                    passwordInput.type = 'text'; // Show password
+                    showPasswordBtn.innerText = 'Hide Password'; // Change button text
                 } else {
                     alert(data.error || "Unable to fetch password.");
                 }
@@ -564,11 +565,13 @@ $email = $_SESSION['email'];
                 alert('An error occurred while fetching the password.');
             });
     } else {
-        passwordInput.type = 'password';
-        passwordInput.value = '******'; // Replace with placeholder
-        showPasswordBtn.innerText = 'Show Password';
+        // If the password is visible, hide it
+        passwordInput.type = 'password'; // Hide password
+        passwordInput.value = '******'; // Set placeholder or mask value
+        showPasswordBtn.innerText = 'Show Password'; // Change button text
     }
 }
+
 
 
 </script>
