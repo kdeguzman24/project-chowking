@@ -1,10 +1,20 @@
+
 <?php
 session_start();
 
-// Check if session variables exist
+// Check if user is logged in by verifying session variable
+if (!isset($_SESSION['email'])) {
+    echo json_encode(['success' => false, 'error' => 'User not logged in']);
+    exit();
+}
+
+// If logged in, fetch the session email
+$email = $_SESSION['email'];
+
+// Continue with your database query or logic...
 
 $username = $_SESSION['username'];
-$email = $_SESSION['email'];
+
 
 ?>
 
@@ -583,10 +593,13 @@ $email = $_SESSION['email'];
 
     if (passwordInput.type === 'password') {
         // Fetch the password from the server (this could be done via AJAX or a fetch call)
-        fetch('get_password.php')
-            .then(response => response.json())
+        fetch('show_pass.php')
+            .then(response => {
+                console.log('Response:', response);  // Log the raw response
+                return response.json();
+            })
             .then(data => {
-                console.log(data); // Check the data returned by the PHP script
+                console.log('Data:', data);  // Log the data returned by the PHP script
 
                 if (data.success) {
                     passwordInput.value = data.password;  // Replace with actual password
@@ -609,10 +622,6 @@ $email = $_SESSION['email'];
         eyeIcon.classList.add('fa-eye-slash');
     }
 }
-
-
-
-
 
 
 </script>

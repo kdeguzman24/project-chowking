@@ -5,7 +5,7 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 $username = $email = $password = "";
-$username_err = $email_err = $password_err = "";
+$username_err = $email_err = $password_err = ""; // Ensure these are always initialized
 
 // Check database connection
 if ($mysqli->connect_error) {
@@ -105,6 +105,8 @@ $mysqli->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login and Registration</title>
+    <!-- Include Font Awesome for the eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -171,6 +173,17 @@ $mysqli->close();
             font-size: 14px;
             margin-top: 10px;
         }
+        /* Eye icon styling */
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .password-container {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -181,7 +194,13 @@ $mysqli->close();
         <form id="sign-in-form" onsubmit="return validateSignInForm()" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" style="display: block;">
             <input type="hidden" name="action" value="sign_in">
             <input type="email" name="sign_in_email" id="sign-in-email" placeholder="Email" required>
-            <input type="password" name="sign_in_password" id="sign-in-password" placeholder="Password" required>
+            
+            <!-- Password input with eye icon -->
+            <div class="password-container">
+                <input type="password" name="sign_in_password" id="sign-in-password" placeholder="Password" required>
+                <i class="fas fa-eye eye-icon" id="eye-icon" onclick="togglePasswordVisibility()"></i>
+            </div>
+
             <button type="submit">Sign In</button>
             <!-- Error message for sign-in -->
             <div class="error"><?php echo $email_err ? $email_err : $password_err; ?></div>
@@ -191,7 +210,13 @@ $mysqli->close();
             <input type="hidden" name="action" value="sign_up">
             <input type="text" name="username" id="sign-up-username" placeholder="Username" required>
             <input type="email" name="email" id="sign-up-email" placeholder="Email" required>
-            <input type="password" name="password" id="sign-up-password" placeholder="Password" required>
+
+            <!-- Password input with eye icon for sign up -->
+            <div class="password-container">
+                <input type="password" name="password" id="sign-up-password" placeholder="Password" required>
+                <i class="fas fa-eye eye-icon" id="sign-up-eye-icon" onclick="togglePasswordVisibility('sign-up-password', 'sign-up-eye-icon')"></i>
+            </div>
+
             <button type="submit">Sign Up</button>
             <!-- Error message for sign-up -->
             <div class="error"><?php echo $email_err; ?></div>
@@ -215,6 +240,22 @@ $mysqli->close();
                 return false;
             }
             return true;
+        }
+
+        function togglePasswordVisibility(passwordFieldId = 'sign-in-password', eyeIconId = 'eye-icon') {
+            var passwordField = document.getElementById(passwordFieldId);
+            var eyeIcon = document.getElementById(eyeIconId);
+
+            // Toggle the type attribute
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
         }
 
         function toggleForms() {

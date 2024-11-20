@@ -10,6 +10,9 @@ if (!isset($_SESSION['email'])) {
 
 $email = $_SESSION['email'];  // Get the logged-in user's email
 
+// Debugging: log session email to ensure it's set
+error_log("Session email: " . $email);
+
 // Fetch the password from the database
 $sql = "SELECT password FROM users WHERE email = ?";
 $stmt = $mysqli->prepare($sql);
