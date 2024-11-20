@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Check if session variables exist
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+
+?>
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -435,51 +445,56 @@
         <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
     </div>
 
-    <!-- Main content -->
-    <div class="main-content">
-        <div class="fixed-header">
-            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <img src="ProfilePic.png" alt="Profile Picture">
-            <div class="name-position">
-                <h2>Kathlen Mae Merindo</h2>
-                <p>Settings</p>
-            </div>
-        </div>
-
-        <div class="settings-details">
-            <h2>Account Settings</h2>
-            <div class="settings-section">
-                <label for="username">Username</label>
-                <input type="text" id="username" value="kathlenmae01" disabled>
-                <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
-                <button class="save-btn" onclick="saveField('username')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="email">Email</label>
-                <input type="email" id="email" value="kathlenmae01@gmail.com" disabled>
-                <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
-                <button class="save-btn" onclick="saveField('email')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="password">Password</label>
-                <input type="password" id="password" value="******" disabled>
-                <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-                <button class="save-btn" onclick="saveField('password')">Save</button>
-            </div>
-            <div class="settings-section">
-                <h2>Delete Account</h2>
-                <form action="delete.php" method="post">
-                 <input type="hidden" name="email" value="<?php echo $userEmail; ?>">
-                 <input type="submit" class="delete-btn" value="Delete Account">
-                </form>
-
-             </div>
+ <!-- Main content -->
+ <div class="main-content">
+    <div class="fixed-header">
+        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="ProfilePic.png" alt="Profile Picture">
+        <div class="name-position">
+            <h2><?php echo htmlspecialchars($username); ?></h2>
+            <p>Settings</p>
         </div>
     </div>
+
+    <div class="settings-details">
+        <h2>Account Settings</h2>
+        <div class="settings-section">
+            <label for="username">Username</label>
+            <input type="text" id="username" value="<?php echo htmlspecialchars($username); ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
+            <button class="save-btn" onclick="saveField('username')">Save</button>
+        </div>
+
+        <div class="settings-section">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
+            <button class="save-btn" onclick="saveField('email')">Save</button>
+        </div>
+
+        <div class="settings-section">
+            <label for="password">Password</label>
+            <input type="password" id="password" value="<?php echo $password; ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
+            <button class="save-btn" onclick="saveField('password')">Save</button>
+        </div>
+
+        <!-- Archive Account Section -->
+        <div class="settings-section delete-account">
+    <h3>Delete Account</h3>
+    <p>Warning: Deleting your account will permanently remove all your data and cannot be undone.</p>
+    <form action="delete.php" method="POST">
+        <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+        <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.')">Delete Account</button>
+    </form>
+</div>
+
+    </div>
+</div>
+
 
     <script>
         // Sidebar toggle function
@@ -519,7 +534,36 @@
             // Add your code to handle saving the updated field value here
             console.log(fieldId + " saved with value: " + inputField.value);
         }
-    </script>
+
+        function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const showPasswordBtn = document.getElementById('show-password-btn');
+
+    if (passwordInput.type === 'password') {
+        fetch('show_password.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    passwordInput.value = data.password; // Set the actual password
+                    passwordInput.type = 'text';
+                    showPasswordBtn.innerText = 'Hide Password';
+                } else {
+                    alert(data.error || "Unable to fetch password.");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching password:', error);
+                alert('An error occurred while fetching the password.');
+            });
+    } else {
+        passwordInput.type = 'password';
+        passwordInput.value = '******'; // Replace with placeholder
+        showPasswordBtn.innerText = 'Show Password';
+    }
+}
+
+
+</script>
 
 </body>
 </html>

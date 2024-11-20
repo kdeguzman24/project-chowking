@@ -23,10 +23,10 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                 contains only one row, we don't need to use while loop */
                 $row = $result->fetch_array(MYSQLI_ASSOC);
 
-                // Retrieve individual field value
+                // Retrieve individual field values
                 $name = $row["name"];
-                $address = $row["address"];
-                $salary = $row["salary"];
+                $username = $row["username"];  // Added username
+                $email = $row["email"];        // Added email
             } else {
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -72,15 +72,15 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     <h1 class="mt-5 mb-3">View Record</h1>
                     <div class="form-group">
                         <label>Name</label>
-                        <p><b><?php echo $row["name"]; ?></b></p>
+                        <p><b><?php echo $name; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Address</label>
-                        <p><b><?php echo $row["address"]; ?></b></p>
+                        <label>Username</label>
+                        <p><b><?php echo $username; ?></b></p> <!-- Display username -->
                     </div>
                     <div class="form-group">
-                        <label>Salary</label>
-                        <p><b><?php echo $row["salary"]; ?></b></p>
+                        <label>Email</label>
+                        <p><b><?php echo $email; ?></b></p> <!-- Display email -->
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>

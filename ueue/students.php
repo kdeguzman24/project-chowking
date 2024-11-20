@@ -1,3 +1,58 @@
+<?php
+session_start();
+include 'config.php';
+
+// Capture the search query if provided
+$search = $_GET['search'] ?? '';
+
+// Start buffering the records table content
+ob_start();
+
+// Fetch and display all records matching the search query
+$sql = "SELECT username, email FROM users WHERE username LIKE ? OR email LIKE ?";
+$stmt = $mysqli->prepare($sql);
+$searchTerm = "%" . $search . "%"; // Add wildcards for partial matching
+$stmt->bind_param("ss", $searchTerm, $searchTerm);
+$stmt->execute();
+$result = $stmt->get_result();
+
+echo "<form method='get' class='search-form'>";
+echo "<div class='row'>";
+echo "<div class='col-md-12'>";
+echo "<input type='text' name='search' class='form-control' placeholder='Search...' value='" . htmlspecialchars($search) . "'>";
+echo "<button type='submit' class='btn btn-primary'>Search</button>";
+echo "</div>";
+echo "</div>";
+echo "</form>";
+
+if ($result->num_rows > 0) {
+    echo "<table class='table table-bordered table-striped'>";
+    echo "<thead class='thead-dark'><tr><th>#</th><th>Username</th><th>Email</th></tr></thead>";
+    echo "<tbody>";
+    $rowCount = 1;
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $rowCount++ . "</td>"; // Row number
+        echo "<td>" . htmlspecialchars($row['username']) . "</td>"; // Username
+        echo "<td>" . htmlspecialchars($row['email']) . "</td>"; // Email
+        echo "</tr>";
+    }
+    echo "</tbody>";
+    echo "</table>";
+} else {
+    echo "<p class='alert alert-warning'>No records found.</p>";
+}
+
+// Close the statement and database connection
+$stmt->close();
+$mysqli->close();
+
+// Store the generated content into a variable
+$recordsHtml = ob_get_clean();
+?>
+
+
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -8,6 +63,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
+        .records {
+    margin: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+.search-form .form-control {
+    width: 80%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.search-form .btn {
+    display: inline-block;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.thead-dark th {
+    background-color: #940b10;
+    color: #fff;
+    font-weight: bold;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #ffcccb;
+    color: #a33;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
         #hamburger {
             background: none;
             border: none;
@@ -426,43 +539,25 @@
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
-    <!-- Main content -->
-    <div class="main-content">
-        <div class="fixed-header">
-            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <img src="ProfilePic.png" alt="Profile Picture">
-            <div class="name-position">
-                <h2>Kathlen Mae Merindo</h2>
-                <p>Settings</p>
-            </div>
-        </div>
-
-        <div class="settings-details">
-            <h2>Account Settings</h2>
-            <div class="settings-section">
-                <label for="username">Username</label>
-                <input type="text" id="username" value="kathlenmae01" disabled>
-                <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
-                <button class="save-btn" onclick="saveField('username')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="email">Email</label>
-                <input type="email" id="email" value="kathlenmae01@gmail.com" disabled>
-                <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
-                <button class="save-btn" onclick="saveField('email')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="password">Password</label>
-                <input type="password" id="password" value="******" disabled>
-                <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-                <button class="save-btn" onclick="saveField('password')">Save</button>
-            </div>
+  <!-- Main content -->
+  <div class="main-content">
+    <div class="fixed-header">
+        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="ProfilePic.png" alt="Profile Picture">
+        <div class="name-position">
+            <h2>Students</h2>
         </div>
     </div>
+
+    <!-- Records Section -->
+    <div class="records">
+        <?php echo $recordsHtml; ?> <!-- Display the records here -->
+    </div>
+</div>
+
+
 
     <script>
         // Sidebar toggle function
@@ -473,35 +568,6 @@
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
 
-
-        // Toggle edit mode for input fields
-        function toggleEdit(fieldId) {
-            var inputField = document.getElementById(fieldId);
-            var editButton = inputField.nextElementSibling;
-            var saveButton = editButton.nextElementSibling;
-
-            if (inputField.disabled) {
-                inputField.disabled = false;
-                inputField.classList.add('editable');
-                saveButton.style.display = 'inline-block';
-                editButton.style.display = 'none';
-            }
-        }
-
-        // Save the edited field and switch back to non-editable mode
-        function saveField(fieldId) {
-            var inputField = document.getElementById(fieldId);
-            var editButton = inputField.nextElementSibling;
-            var saveButton = editButton.nextElementSibling;
-
-            inputField.disabled = true;
-            inputField.classList.remove('editable');
-            saveButton.style.display = 'none';
-            editButton.style.display = 'inline-block';
-
-            // Add your code to handle saving the updated field value here
-            console.log(fieldId + " saved with value: " + inputField.value);
-        }
     </script>
 
 </body>

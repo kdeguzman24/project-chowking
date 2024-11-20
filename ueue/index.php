@@ -15,77 +15,59 @@ if ($mysqli->connect_error) {
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle Sign In
-    if ($_POST['action'] == 'sign_in') {
-        // Prepare the SQL statement to fetch user by email
+    if (isset($_POST['action']) && $_POST['action'] == 'sign_in') {
         $sql = "SELECT username, email, password FROM users WHERE LOWER(email) = LOWER(?)";
 
         if ($stmt = $mysqli->prepare($sql)) {
-            // Bind the parameter (email)
             $input_email = trim($_POST['sign_in_email']);
-            error_log("Email entered: " . $input_email);  // Log the email
             $stmt->bind_param("s", $input_email);
-            $input_password = trim($_POST['sign_in_password']);  // Ensure no spaces
+            $input_password = trim($_POST['sign_in_password']);
 
-            // Execute the prepared statement
             if ($stmt->execute()) {
-                // Bind result variables for each field
                 $stmt->bind_result($username, $email, $hashed_password);
-                
-                // Fetch the results and verify password
                 if ($stmt->fetch()) {
-                    // Debugging: Log the fetched values
-                    error_log("Fetched username: " . $username);
-                    error_log("Fetched email: " . $email);
-                    error_log("Fetched hashed_password: " . $hashed_password);
-
-                    if (!empty($hashed_password)) {  // Confirm we have a hash
-                        // Use password_verify to check the password
+                    if (!empty($hashed_password)) {
                         if (password_verify($input_password, $hashed_password)) {
-                            // Password is correct; start a new session
+                            // Set session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
+                            $_SESSION["email"] = $email;
+                            $_SESSION["hashed_password"] = $hashed_password;
 
-                            // Redirect to the appropriate page
+                            // Redirect based on user type (Admin or Student)
                             if ($email == "admin@ue.edu.ph") {
                                 header("location: dashboard.php");
-                                exit();
                             } else {
                                 header("location: students_db.php");
-                                exit();
                             }
+                            exit();
                         } else {
-                            // Password is not valid
                             $password_err = "The password you entered was not valid.";
-                            error_log("Password verification failed.");
                         }
                     } else {
                         $password_err = "Failed to retrieve password hash.";
-                        error_log("Error: Empty hash retrieved for email " . $input_email);
                     }
                 } else {
-                    // No account found with that email
                     $email_err = "No account found with that email.";
-                    error_log("No account found with email: " . $input_email);
                 }
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
-                error_log("Execute error: " . $stmt->error);
             }
-            // Close statement
             $stmt->close();
         } else {
-            error_log("Prepare error: " . $mysqli->error);
+            echo "Prepare error: " . $mysqli->error;
         }
     }
 
     // Handle Sign Up
-    if ($_POST['action'] == 'sign_up') {
+    if (isset($_POST['action']) && $_POST['action'] == 'sign_up') {
+        // Get form data
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Check if the email already exists
+        // Check if email already exists
         $sql = "SELECT username, email FROM users WHERE email = ?";
         if ($stmt = $mysqli->prepare($sql)) {
             $stmt->bind_param("s", $email);
@@ -93,15 +75,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                // Email already exists
                 $email_err = "An account with this email already exists!";
             } else {
-                // Proceed with the insertion
+                // Insert new user into the database
                 $insert_sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
                 if ($stmt_insert = $mysqli->prepare($insert_sql)) {
                     $stmt_insert->bind_param("sss", $username, $email, $hashed_password);
                     if ($stmt_insert->execute()) {
-                        // Account created successfully, redirect to sign-in page
+                        // Redirect to index after successful sign-up
                         header("location: index.php");
                         exit();
                     } else {
@@ -115,7 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Close connection
 $mysqli->close();
 ?>
 

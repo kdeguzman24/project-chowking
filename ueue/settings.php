@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Check if session variables exist
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+
+?>
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -428,41 +438,42 @@
 
     <!-- Main content -->
     <div class="main-content">
-        <div class="fixed-header">
-            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <img src="ProfilePic.png" alt="Profile Picture">
-            <div class="name-position">
-                <h2>Kathlen Mae Merindo</h2>
-                <p>Settings</p>
-            </div>
-        </div>
-
-        <div class="settings-details">
-            <h2>Account Settings</h2>
-            <div class="settings-section">
-                <label for="username">Username</label>
-                <input type="text" id="username" value="kathlenmae01" disabled>
-                <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
-                <button class="save-btn" onclick="saveField('username')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="email">Email</label>
-                <input type="email" id="email" value="kathlenmae01@gmail.com" disabled>
-                <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
-                <button class="save-btn" onclick="saveField('email')">Save</button>
-            </div>
-
-            <div class="settings-section">
-                <label for="password">Password</label>
-                <input type="password" id="password" value="******" disabled>
-                <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-                <button class="save-btn" onclick="saveField('password')">Save</button>
-            </div>
+    <div class="fixed-header">
+        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="ProfilePic.png" alt="Profile Picture">
+        <div class="name-position">
+            <h2><?php echo htmlspecialchars($username); ?></h2>
+            <p>Settings</p>
         </div>
     </div>
+
+    <div class="settings-details">
+        <h2>Account Settings</h2>
+        <div class="settings-section">
+            <label for="username">Username</label>
+            <input type="text" id="username" value="<?php echo htmlspecialchars($username); ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
+            <button class="save-btn" onclick="saveField('username')">Save</button>
+        </div>
+
+        <div class="settings-section">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
+            <button class="save-btn" onclick="saveField('email')">Save</button>
+        </div>
+
+        <div class="settings-section">
+            <label for="password">Password</label>
+            <input type="password" id="password" value="<?php echo $password; ?>" disabled>
+            <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
+            <button class="save-btn" onclick="saveField('password')">Save</button>
+        </div>
+    </div>
+</div>
+
 
     <script>
         // Sidebar toggle function
