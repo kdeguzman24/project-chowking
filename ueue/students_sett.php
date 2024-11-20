@@ -475,11 +475,18 @@ $email = $_SESSION['email'];
         </div>
 
         <div class="settings-section">
-            <label for="password">Password</label>
-            <input type="password" id="password" value="<?php echo $password; ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-            <button class="save-btn" onclick="saveField('password')">Save</button>
-        </div>
+    <label for="password">Password</label>
+    <!-- Show the password as disabled, but give the user an option to change it -->
+    <input type="password" id="password" value="<?php echo $password ?? ''; ?>" disabled>
+    <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
+    
+    <!-- Allow the user to input a new password -->
+    <form action="update_pass.php" method="POST" id="passwordForm" style="display:none;">
+        <input type="password" name="new_password" placeholder="Enter new password" required>
+        <button type="submit" class="save-btn">Save</button>
+    </form>
+</div>
+
 
         <!-- Archive Account Section -->
         <div class="settings-section delete-account">
@@ -507,18 +514,19 @@ $email = $_SESSION['email'];
 
 
         // Toggle edit mode for input fields
-        function toggleEdit(fieldId) {
-            var inputField = document.getElementById(fieldId);
-            var editButton = inputField.nextElementSibling;
-            var saveButton = editButton.nextElementSibling;
-
-            if (inputField.disabled) {
-                inputField.disabled = false;
-                inputField.classList.add('editable');
-                saveButton.style.display = 'inline-block';
-                editButton.style.display = 'none';
-            }
+        
+    function toggleEdit(field) {
+        if (field === 'password') {
+            var passwordInput = document.getElementById('password');
+            var passwordForm = document.getElementById('passwordForm');
+            
+            // Toggle visibility of password input and form to update password
+            passwordInput.disabled = !passwordInput.disabled;
+            passwordForm.style.display = passwordForm.style.display === 'none' ? 'block' : 'none';
         }
+    }
+
+
 
         // Save the edited field and switch back to non-editable mode
         function saveField(fieldId) {
