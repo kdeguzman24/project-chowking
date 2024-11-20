@@ -98,14 +98,17 @@ $username = $_SESSION['username'];
             margin-bottom: 5px;
         }
 
-        .settings-section input, .settings-section select {
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
+        .settings-section input,
+.settings-section select {
+    width: 100%; /* Full width for responsiveness */
+    max-width: 1500px; /* Max width for larger screens */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Ensures padding doesn't increase the width */
+}
 
         .settings-section input[type="checkbox"] {
             width: auto;
@@ -446,23 +449,26 @@ $username = $_SESSION['username'];
 }
 
 #password {
-    width: calc(100% - 30px); /* Adjust width to leave space for the eye icon */
+    width: 100%; /* Set to 100% to match the others */
     padding: 8px;
+    padding-right: 40px; /* Add padding to the right to create space for the eye icon */
 }
 
 .show-password-btn {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
 }
 
 .eye-icon {
-    font-size: 18px; /* Adjust the size of the icon */
+    font-size: 18px;
 }
+
 
 
     </style>
@@ -505,18 +511,16 @@ $username = $_SESSION['username'];
         <div class="settings-section">
             <label for="username">Username</label>
             <input type="text" id="username" value="<?php echo htmlspecialchars($username); ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
-            <button class="save-btn" onclick="saveField('username')">Save</button>
+
         </div>
 
         <div class="settings-section">
             <label for="email">Email</label>
             <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
-            <button class="save-btn" onclick="saveField('email')">Save</button>
         </div>
 
-        <div class="settings-section">
+       <!-- Password Edit Section -->
+<div class="settings-section">
     <label for="password">Password</label>
     <div class="password-container">
         <!-- Password input field -->
@@ -530,7 +534,6 @@ $username = $_SESSION['username'];
     <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
     <button class="save-btn" onclick="saveField('password')">Save</button>
 </div>
-
 
         <!-- Archive Account Section -->
         <div class="settings-section delete-account">
@@ -559,33 +562,69 @@ $username = $_SESSION['username'];
 
         // Toggle edit mode for input fields
         
-    function toggleEdit(field) {
-        if (field === 'password') {
-            var passwordInput = document.getElementById('password');
-            var passwordForm = document.getElementById('passwordForm');
-            
-            // Toggle visibility of password input and form to update password
-            passwordInput.disabled = !passwordInput.disabled;
-            passwordForm.style.display = passwordForm.style.display === 'none' ? 'block' : 'none';
+// Toggle edit mode for password
+function toggleEdit(field) {
+    if (field === 'password') {
+        var passwordInput = document.getElementById('password');
+        var editButton = passwordInput.previousElementSibling;
+        var saveButton = editButton.nextElementSibling; // Save button is after the edit button
+
+        // Toggle editability of the password field
+        passwordInput.disabled = !passwordInput.disabled;
+        passwordInput.classList.toggle('editable');
+
+        // Show or hide the edit and save buttons
+        if (passwordInput.disabled) {
+            editButton.style.display = 'inline-block';  // Show edit button when disabled
+            saveButton.style.display = 'none';          // Hide save button when disabled
+        } else {
+            editButton.style.display = 'none';          // Hide edit button when enabled
+            saveButton.style.display = 'inline-block';  // Show save button when enabled
         }
     }
-
-
+}
 
         // Save the edited field and switch back to non-editable mode
-        function saveField(fieldId) {
-            var inputField = document.getElementById(fieldId);
-            var editButton = inputField.nextElementSibling;
-            var saveButton = editButton.nextElementSibling;
+      // Save the edited field (including password)
+function saveField(fieldId) {
+    var inputField = document.getElementById(fieldId);
+    var editButton = inputField.previousElementSibling;
+    var saveButton = editButton.nextElementSibling;
 
-            inputField.disabled = true;
-            inputField.classList.remove('editable');
-            saveButton.style.display = 'none';
-            editButton.style.display = 'inline-block';
+    // Disable input field and hide save button after saving
+    inputField.disabled = true;
+    inputField.classList.remove('editable');
+    saveButton.style.display = 'none';
+    editButton.style.display = 'inline-block';
 
-            // Add your code to handle saving the updated field value here
-            console.log(fieldId + " saved with value: " + inputField.value);
-        }
+    // Send the new password to the server if it's the password field
+    if (fieldId === 'password') {
+        var newPassword = inputField.value;
+        // Send new password to the server
+        fetch('update_password.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: newPassword })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Password updated successfully');
+            } else {
+                alert('Error updating password: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the password.');
+        });
+    } else {
+        console.log(fieldId + " saved with value: " + inputField.value);
+    }
+}
+
 
         function togglePasswordVisibility() {
     const passwordInput = document.getElementById('password');
