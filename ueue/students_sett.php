@@ -16,6 +16,10 @@ $email = $_SESSION['email'];
     <title>Settings</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome CDN (for Eye icon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    
 
     <style>
         #hamburger {
@@ -403,6 +407,8 @@ $email = $_SESSION['email'];
             }
         }
 
+
+
         @media (max-width: 480px) {
             .sidebar {
                 width: 100%;
@@ -423,6 +429,32 @@ $email = $_SESSION['email'];
                 text-align: center;
             }
         }
+
+        .password-container {
+    position: relative;
+    width: 100%;
+}
+
+#password {
+    width: calc(100% - 30px); /* Adjust width to leave space for the eye icon */
+    padding: 8px;
+}
+
+.show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.eye-icon {
+    font-size: 18px; /* Adjust the size of the icon */
+}
+
+
     </style>
 </head>
 
@@ -476,15 +508,17 @@ $email = $_SESSION['email'];
 
         <div class="settings-section">
     <label for="password">Password</label>
-    <!-- Show the password as disabled, but give the user an option to change it -->
-    <input type="password" id="password" value="<?php echo $password ?? ''; ?>" disabled>
+    <div class="password-container">
+        <!-- Password input field -->
+        <input type="password" id="password" name="password" value="******" disabled> <!-- Initially disabled -->
+
+        <!-- Eye icon button to toggle visibility -->
+        <button type="button" id="show-password-btn" class="show-password-btn" onclick="togglePasswordVisibility()">
+            <i class="fas fa-eye-slash" id="eye-icon"></i> <!-- Initially set as 'eye-slash' (hidden password) -->
+        </button>
+    </div>
     <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-    
-    <!-- Allow the user to input a new password -->
-    <form action="update_pass.php" method="POST" id="passwordForm" style="display:none;">
-        <input type="password" name="new_password" placeholder="Enter new password" required>
-        <button type="submit" class="save-btn">Save</button>
-    </form>
+    <button class="save-btn" onclick="saveField('password')">Save</button>
 </div>
 
 
@@ -544,20 +578,24 @@ $email = $_SESSION['email'];
         }
 
         function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password'); // The password input field
-    const showPasswordBtn = document.getElementById('show-password-btn'); // Button to toggle visibility
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
 
     if (passwordInput.type === 'password') {
-        // If the password is currently hidden, fetch the password and show it
-        fetch('show_password.php')
+        // Fetch the password from the server (this could be done via AJAX or a fetch call)
+        fetch('get_password.php')
             .then(response => response.json())
             .then(data => {
+                console.log(data); // Check the data returned by the PHP script
+
                 if (data.success) {
-                    passwordInput.value = data.password; // Set the actual password value
-                    passwordInput.type = 'text'; // Show password
-                    showPasswordBtn.innerText = 'Hide Password'; // Change button text
+                    passwordInput.value = data.password;  // Replace with actual password
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
                 } else {
-                    alert(data.error || "Unable to fetch password.");
+                    console.error('Error fetching password:', data.error);
+                    alert('Error fetching password: ' + data.error);
                 }
             })
             .catch(error => {
@@ -565,12 +603,15 @@ $email = $_SESSION['email'];
                 alert('An error occurred while fetching the password.');
             });
     } else {
-        // If the password is visible, hide it
-        passwordInput.type = 'password'; // Hide password
-        passwordInput.value = '******'; // Set placeholder or mask value
-        showPasswordBtn.innerText = 'Show Password'; // Change button text
+        passwordInput.type = 'password';
+        passwordInput.value = '******';  // Masked value again
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
     }
 }
+
+
+
 
 
 
