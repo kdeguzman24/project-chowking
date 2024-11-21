@@ -92,11 +92,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         }
     }
+
+    // Handle Forgot Password
+    if (isset($_POST['action']) && $_POST['action'] == 'forgot_password') {
+        $forgot_email = trim($_POST['forgot_email']);
+        $new_password = trim($_POST['new_password']);
+        $confirm_password = trim($_POST['confirm_password']);
+
+        // Validate new password and confirm password
+        if (strlen($new_password) < 8) {
+            $password_err = "Password must be at least 8 characters long.";
+        } elseif ($new_password !== $confirm_password) {
+            $password_err = "Passwords do not match.";
+        } else {
+            // Check if the email exists
+            $sql = "SELECT email FROM users WHERE email = ?";
+            if ($stmt = $mysqli->prepare($sql)) {
+                $stmt->bind_param("s", $forgot_email);
+                $stmt->execute();
+                $stmt->store_result();
+
+                if ($stmt->num_rows == 1) {
+                    // Update password
+                    $update_sql = "UPDATE users SET password = ? WHERE email = ?";
+                    if ($stmt_update = $mysqli->prepare($update_sql)) {
+                        $stmt_update->bind_param("ss", $new_password, $forgot_email);
+                        if ($stmt_update->execute()) {
+                            echo "<script>alert('Password updated successfully. Please sign in.');</script>";
+                        } else {
+                            echo "Error updating password: " . $stmt_update->error;
+                        }
+                        $stmt_update->close();
+                    }
+                } else {
+                    $email_err = "No account found with that email.";
+                }
+                $stmt->close();
+            }
+        }
+    }
 }
 
 // Close connection
 $mysqli->close();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -221,11 +261,24 @@ $mysqli->close();
             <!-- Error message for sign-up -->
             <div class="error"><?php echo $email_err; ?></div>
         </form>
-        <!-- Forgot Password Form -->
-<form id="forgot-password-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" style="display: none;">
+        <form id="forgot-password-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" style="display: none;">
+    <input type="hidden" name="action" value="forgot_password">
     <input type="email" name="forgot_email" id="forgot-email" placeholder="Enter your email" required>
+
+    <!-- New Password -->
+    <div class="password-container">
+        <input type="password" name="new_password" id="new-password" placeholder="New Password" required>
+        <i class="fas fa-eye eye-icon" id="new-password-eye-icon" onclick="togglePasswordVisibility('new-password', 'new-password-eye-icon')"></i>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="password-container">
+        <input type="password" name="confirm_password" id="confirm-password" placeholder="Confirm Password" required>
+        <i class="fas fa-eye eye-icon" id="confirm-password-eye-icon" onclick="togglePasswordVisibility('confirm-password', 'confirm-password-eye-icon')"></i>
+    </div>
+
     <button type="submit">Submit</button>
-    <div class="error"><?php echo $email_err; ?></div>
+    <div class="error"><?php echo $email_err ? $email_err : $password_err; ?></div>
 </form>
 
         <!-- Forgot Password Link -->
@@ -300,6 +353,21 @@ $mysqli->close();
         forgotPasswordLink.textContent = "Forgot Password?";
     }
 }
+function validateForgotPasswordForm() {
+    var newPassword = document.getElementById("new-password").value;
+    var confirmPassword = document.getElementById("confirm-password").value;
+
+    if (newPassword.length < 8) {
+        alert("Password must be at least 8 characters long.");
+        return false;
+    }
+    if (newPassword !== confirmPassword) {
+        alert("Passwords do not match.");
+        return false;
+    }
+    return true;
+}
+
 
     </script>
 </body>
