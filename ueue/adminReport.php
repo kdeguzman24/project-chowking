@@ -6,30 +6,7 @@ require_once "config.php";
 $query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
 $result = $mysqli->query($query);
 
-// Count the number of resolved reports
-$resolved_query = "SELECT COUNT(*) AS resolved_count FROM messages WHERE status = 'resolved'";
-$resolved_result = $mysqli->query($resolved_query);
-$resolved_row = $resolved_result->fetch_assoc();
-$resolved_count = $resolved_row['resolved_count'];
-
-// Handle "Resolve" button click
-if (isset($_POST['resolve'])) {
-    $message_id = $_POST['message_id'];
-    $update_query = "UPDATE messages SET status = 'resolved' WHERE id = ?";
-    $stmt = $mysqli->prepare($update_query);
-    $stmt->bind_param("i", $message_id);
-    if ($stmt->execute()) {
-        $_SESSION['message_sent'] = "Report resolved successfully!";
-    } else {
-        $_SESSION['message_sent_error'] = "Error: " . $stmt->error;
-    }
-    $stmt->close();
-    header("Location: viewReport.php"); // Redirect to refresh the page
-    exit();
-}
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +22,7 @@ if (isset($_POST['resolve'])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-                  body {
+          body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -57,7 +34,7 @@ if (isset($_POST['resolve'])) {
 
         .sidebar {
             height: 96%;
-            width: 250px; /* Adjusted for better responsiveness */
+            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
@@ -69,16 +46,16 @@ if (isset($_POST['resolve'])) {
             border-top-right-radius: 30px; /* Rounded top-right corner */
             border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
             box-shadow:
-            1.3px 0px 0.5px rgba(73, 73, 73, 0.18),
+            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
             2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
             4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
             7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
-            10.5px 0px 5.1px rgba(158, 158, 158, 0.1),
+            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
             14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
-            21.1px 0px 11.2px rgba(148, 148, 148, 0.08),
-            30.7px 0px 17.1px rgba(192, 192, 192, 0.069),
-            47.3px 0px 28px rgba(138, 138, 138, 0.056),
-            84px 0px 53px rgba(44, 44, 44, 0.038);
+            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+            47.3px 0px 28px rgba(0, 0, 0, 0.056),
+            84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
         
@@ -387,13 +364,12 @@ if (isset($_POST['resolve'])) {
             }
             .widget {
                 width: 45%;
-            }}  
+            }} 
     </style>
 </head>
 <body>
 
     <!-- Sidebar -->
-    <div class="sidebar">
     <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
@@ -402,15 +378,14 @@ if (isset($_POST['resolve'])) {
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
-        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
-        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
-    </div>
-
+        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
+            <span>Statistics</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
+        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
+        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
@@ -436,45 +411,33 @@ if (isset($_POST['resolve'])) {
                 <?php unset($_SESSION['message_sent_error']); ?>
             </div>
         <?php endif; ?>
-
-        <!-- Display Reports -->
-        <div class="reports">
-            <?php if ($result->num_rows > 0): ?>
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
-                    <thead>
-                        <tr>
-                            <th>Sender Email</th>
-                            <th>Subject</th>
-                            <th>Message</th>
-                            <th>Status</th>
-                            <th>Action</th> <!-- Added Action column for Resolve button -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo $row['sender_email']; ?></td>
-                                <td><?php echo $row['subject']; ?></td>
-                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>  
-                                <td><?php echo $row['status']; ?></td>  
-                                <td>
-                                    <?php if ($row['status'] !== 'resolved'): ?>
-                                        <form method="POST" action="viewReport.php">
-                                            <input type="hidden" name="message_id" value="<?php echo $row['id']; ?>">
-                                            <button type="submit" name="resolve" class="resolve-btn" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; cursor: pointer;">Resolve</button>
-                                        </form>
-                                    <?php else: ?>
-                                        <span>Resolved</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>No reports found.</p>
-            <?php endif; ?>
-        </div>
+<!-- Display Reports -->
+<div class="reports">
+    <?php if ($result->num_rows > 0): ?>
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
+            <thead>
+                <tr style="background-color: #940b10; color: white;">
+                    <th>Sender Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
+                        <td style=" color: black;"><?php echo $row['subject']; ?></td>
+                        <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                        <td><?php echo $row['status']; ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No reports found.</p>
+    <?php endif; ?>
+</div>
     </div>
 
     <script>
@@ -488,3 +451,4 @@ if (isset($_POST['resolve'])) {
 
 </body>
 </html>
+

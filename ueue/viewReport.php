@@ -411,35 +411,33 @@ $result = $mysqli->query($query);
                 <?php unset($_SESSION['message_sent_error']); ?>
             </div>
         <?php endif; ?>
-
-        <!-- Display Reports -->
-        <div class="reports">
-            <?php if ($result->num_rows > 0): ?>
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
-                    <thead>
-                        <tr>
-                            <th>Sender Email</th>
-                            <th>Subject</th>
-                            <th>Message</th>
-                            <th>Status</th>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo $row['sender_email']; ?></td>
-                                <td><?php echo $row['subject']; ?></td>
-                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>  
-                                <td><?php echo $row['status']; ?></td>  
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>No reports found.</p>
-            <?php endif; ?>
-        </div>
+<!-- Display Reports -->
+<div class="reports">
+    <?php if ($result->num_rows > 0): ?>
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
+            <thead>
+                <tr style="background-color: #940b10; color: white;">
+                    <th>Sender Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
+                        <td style=" color: black;"><?php echo $row['subject']; ?></td>
+                        <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                        <td><?php echo $row['status']; ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No reports found.</p>
+    <?php endif; ?>
+</div>
     </div>
 
     <script>

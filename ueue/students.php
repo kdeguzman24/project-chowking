@@ -556,9 +556,6 @@ $recordsHtml = ob_get_clean();
         </div>
     </div>
 
-
-
-
     <script>
         // Sidebar toggle function
         function toggleSidebar() {
