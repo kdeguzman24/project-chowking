@@ -1,29 +1,28 @@
 <?php
 session_start();
+require_once "config.php";
 
-// Check if user is logged in by verifying session variable
-if (!isset($_SESSION['email'])) {
-    echo json_encode(['success' => false, 'error' => 'User not logged in']);
-    exit();
-}
-
-// If logged in, fetch the session email
-$email = $_SESSION['email'];
-
+// Fetch reports from the database
+$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
+$result = $mysqli->query($query);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Section</title>
+    <title>View Reports</title>
+
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-           body {
+          body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -33,10 +32,9 @@ $email = $_SESSION['email'];
             background-color: #eaeaea;
         }
 
-        /* Sidebar */
         .sidebar {
             height: 96%;
-            width: 250px; /* Adjusted for better responsiveness */
+            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
@@ -60,7 +58,7 @@ $email = $_SESSION['email'];
             84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
-
+        
         .sidebar.active {
             width: 90px;
         }
@@ -68,6 +66,7 @@ $email = $_SESSION['email'];
         .sidebar.active + .main-content {
             margin-left: 90px;
         }
+
 
         .navbar-title {
             display: flex;
@@ -83,7 +82,7 @@ $email = $_SESSION['email'];
 
         .navbar-text {
             color: white;
-            text-align: center;
+            text-align: center; /* Centered text */
         }
 
         .navbar-text h2 {
@@ -96,6 +95,9 @@ $email = $_SESSION['email'];
             margin: 0;
             color: white;
         }
+
+
+
 
         .sidebar a {
             padding: 15px 20px; /* Increased padding for better click area */
@@ -114,7 +116,7 @@ $email = $_SESSION['email'];
         .sidebar a i {
             margin-left: 30px;
             margin-right: 15px;
-            font-size: 24px;
+            font-size: 24px; /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
@@ -132,30 +134,29 @@ $email = $_SESSION['email'];
             transition: margin-left 0.3s;
         }
 
-        /* ============================================================ */
+        /* Hide the text when sidebar is active */
         .sidebar.active a span {
-            display: none;
+            display: none; /* This will hide the text */
         }
 
         .sidebar.active .navbar-title h2, 
         .sidebar.active .navbar-title p {
-            display: none;
+            display: none; /* This hides the University title and campus name */
         }
 
         .sidebar.active img {
-            width: 58px;
+            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
             margin-left: 10px;
         }
 
         .sidebar a span {
-            margin-left: 10px;
+            margin-left: 10px; /* Adjust margin when text is visible */
         }
 
+        /* Optional: Adjust icon size when the sidebar is collapsed */
         .sidebar.active a i {
             margin-left: 26px;
         }
-        /* ============================================================ */
-
 
         h1 {
             color: #940b10;
@@ -296,136 +297,94 @@ $email = $_SESSION['email'];
                 text-align: center;
             }
         }
-        h1 {
-            color: #940b10;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        /* Report Section Styling */
-        .report-section {
-            margin-top: 20px;
-        }
-
-        .report-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-        }
-
-        .report-box h2 {
-            color: #940b10;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Compose Message Form */
-        .compose-message {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .compose-message h2 {
-            color: #940b10;
-            margin-bottom: 20px;
-        }
-
-        .compose-message form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .compose-message label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .compose-message input[type="text"],
-        .compose-message textarea {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .compose-message button {
-            padding: 10px;
-            background-color: #940b10;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .compose-message button:hover {
-            background-color: #b13333;
-        }
-
-        /* Radio Button Choices */
-        .compose-message .choice {
-            margin-bottom: 15px;
-        }
-
-        .compose-message input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        /* File Input */
-        .compose-message input[type="file"] {
-            margin-bottom: 15px;
-        }
         #hamburger {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 24px;
             color: #940b10;
-            margin-right: 25px; /* Add some margin-right */
-        } 
+        }
+        h1 {
+            color: #940b10;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .widgets {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 20%;
+        }
+
+        .widget h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #940b10;
+        }
+
+        .widget p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            width: 45%;
+            min-width: 300px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .chart-box {
+                width: 90%;
+            }
+            .widget {
+                width: 45%;
+            }} 
     </style>
 </head>
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
         <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
-        <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
+        <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
@@ -434,72 +393,75 @@ $email = $_SESSION['email'];
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Report Section</h1>
+            <h1>Reports</h1>
         </div>
 
-        <!-- Compose Message Section -->
-        <div class="compose-message">
-            <h2>Compose Message</h2>
-            <form method="POST" action="report.php" enctype="multipart/form-data">
-    <div class="choice">
-        <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
-        <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>
+        <!-- Display Success or Error Message -->
+        <?php if (isset($_SESSION['message_sent'])): ?>
+            <div style="color: green; padding: 10px; background-color: #dff0d8; margin-bottom: 20px;">
+                <?php echo $_SESSION['message_sent']; ?>
+                <?php unset($_SESSION['message_sent']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['message_sent_error'])): ?>
+            <div style="color: red; padding: 10px; background-color: #f2dede; margin-bottom: 20px;">
+                <?php echo $_SESSION['message_sent_error']; ?>
+                <?php unset($_SESSION['message_sent_error']); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Display Reports -->
+        <div class="reports">
+            <?php if ($result->num_rows > 0): ?>
+                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
+                    <thead>
+                        <tr>
+                            <th>Sender Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>File</th>
+                            <th>Status</th>
+                            <th>Date Sent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['sender_email']; ?></td>
+                                <td><?php echo $row['subject']; ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                                <td>
+                                    <?php if ($row['file_name']): ?>
+                                        <a href="uploads/<?php echo $row['file_name']; ?>" target="_blank">Download</a>
+                                    <?php else: ?>
+                                        No file
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo $row['status']; ?></td>
+                                <td><?php echo $row['date_sent']; ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No reports found.</p>
+            <?php endif; ?>
+        </div>
     </div>
-
-    <label for="subject">Subject: </label>
-    <select id="subject" name="subject" required>
-        <option value="" disabled selected>Select Subject</option>
-        <option value="hallway">Hallway</option>
-        <option value="classroom">Classroom</option>
-        <option value="cr">Comfort Room (CR)</option>
-        <option value="elevator">Elevator</option>
-        <option value="stairs">Stairs</option>
-        <option value="library">Library</option>
-        <option value="others">Others</option>
-    </select>
-
-    <label for="issue">Issue:</label>
-    <input type="text" id="issue" name="issue" placeholder="Enter the issue" required>
-
-    <label for="message">Message:</label>
-    <textarea id="message" name="message" rows="4" required></textarea>
-
-    <!-- Prefilled Sender Email -->
-    <label for="sender_email">Your Email:</label>
-    <input 
-        type="email" 
-        id="sender_email" 
-        name="sender_email" 
-        placeholder="Enter your email" 
-        required 
-        value="<?php echo $_SESSION['email']; ?>" 
-        readonly
-    >
-
-    <!-- Prefilled Recipient Email -->
-    <label for="recipient_email">Recipient Email:</label>
-    <input 
-        type="email" 
-        id="recipient_email" 
-        name="recipient_email" 
-        value="admin@ue.edu.ph" 
-        readonly 
-    >
-
-    <label for="file">Attach a file:</label>
-    <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
-
-    <button type="submit">Send Message</button>
-</form>
-
 
     <script>
         function toggleSidebar() {
             var sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             var mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px';
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
     </script>
+
 </body>
 </html>
+
+<?php
+$mysqli->close();
+?>
