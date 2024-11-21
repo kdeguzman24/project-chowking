@@ -6,6 +6,27 @@ require_once "config.php";
 $query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
 $result = $mysqli->query($query);
 
+// Count the number of resolved reports
+$resolved_query = "SELECT COUNT(*) AS resolved_count FROM messages WHERE status = 'resolved'";
+$resolved_result = $mysqli->query($resolved_query);
+$resolved_row = $resolved_result->fetch_assoc();
+$resolved_count = $resolved_row['resolved_count'];
+
+// Handle "Resolve" button click
+if (isset($_POST['resolve'])) {
+    $message_id = $_POST['message_id'];
+    $update_query = "UPDATE messages SET status = 'resolved' WHERE id = ?";
+    $stmt = $mysqli->prepare($update_query);
+    $stmt->bind_param("i", $message_id);
+    if ($stmt->execute()) {
+        $_SESSION['message_sent'] = "Report resolved successfully!";
+    } else {
+        $_SESSION['message_sent_error'] = "Error: " . $stmt->error;
+    }
+    $stmt->close();
+    header("Location: viewReport.php"); // Redirect to refresh the page
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +43,7 @@ $result = $mysqli->query($query);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-          body {
+                  body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -364,12 +385,13 @@ $result = $mysqli->query($query);
             }
             .widget {
                 width: 45%;
-            }} 
+            }}  
     </style>
 </head>
 <body>
 
     <!-- Sidebar -->
+    <div class="sidebar">
     <div class="sidebar">
         <div class="navbar-title">
             <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
@@ -380,11 +402,13 @@ $result = $mysqli->query($query);
         </div>
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
         <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+    </div>
+
     </div>
 
     <!-- Main content -->
@@ -420,9 +444,8 @@ $result = $mysqli->query($query);
                             <th>Sender Email</th>
                             <th>Subject</th>
                             <th>Message</th>
-                            <th>File</th>
                             <th>Status</th>
-                            <th>Date Sent</th>
+                            <th>Action</th> <!-- Added Action column for Resolve button -->
                         </tr>
                     </thead>
                     <tbody>
@@ -430,16 +453,18 @@ $result = $mysqli->query($query);
                             <tr>
                                 <td><?php echo $row['sender_email']; ?></td>
                                 <td><?php echo $row['subject']; ?></td>
-                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>  
+                                <td><?php echo $row['status']; ?></td>  
                                 <td>
-                                    <?php if ($row['file_name']): ?>
-                                        <a href="uploads/<?php echo $row['file_name']; ?>" target="_blank">Download</a>
+                                    <?php if ($row['status'] !== 'resolved'): ?>
+                                        <form method="POST" action="viewReport.php">
+                                            <input type="hidden" name="message_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" name="resolve" class="resolve-btn" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; cursor: pointer;">Resolve</button>
+                                        </form>
                                     <?php else: ?>
-                                        No file
+                                        <span>Resolved</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo $row['status']; ?></td>
-                                <td><?php echo $row['date_sent']; ?></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
@@ -461,7 +486,3 @@ $result = $mysqli->query($query);
 
 </body>
 </html>
-
-<?php
-$mysqli->close();
-?>

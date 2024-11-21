@@ -341,7 +341,7 @@ $username = $_SESSION['username'];
                 <button>Send Message</button>
             </a>
 
-            <a href="view_report.php">
+            <a href="viewReport.php">
                 <button>View Reports</button>
             </a>
         </div>

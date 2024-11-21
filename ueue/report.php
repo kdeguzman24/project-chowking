@@ -41,26 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
 
-    // Handle file upload if provided
-    $file_name = null;
-    if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = 'uploads/';
-        $file_name = basename($_FILES['file']['name']);
-        $target_file = $upload_dir . $file_name;
+    // Handle file upload if provided (removed)
+    // No need to check for file upload since we're no longer handling it
 
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true); // Create the directory if not exists
-        }
-
-        if (!move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
-            die("Error: Failed to upload file.");
-        }
-    }
-
-    // Insert the message into the database
-    $query = "INSERT INTO messages (sender_email, recipient_email, message_text, status, subject, file_name) VALUES (?, ?, ?, ?, ?, ?)";
+    // Insert the message into the database (removed file_name column)
+    $query = "INSERT INTO messages (sender_email, recipient_email, message_text, status, subject) VALUES (?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("ssssss", $sender_email, $recipient_email, $message_text, $status, $subject, $file_name);
+    $stmt->bind_param("sssss", $sender_email, $recipient_email, $message_text, $status, $subject);
 
     if ($stmt->execute()) {
         // Set a session variable to display a success message on the next page

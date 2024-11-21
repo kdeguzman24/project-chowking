@@ -1,9 +1,28 @@
 <?php
+// Start the session
 session_start();
 
 // Check if session variables exist
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} else {
+    $username = "Guest"; // Default to Guest if session variable is not set
+}
 
-$username = $_SESSION['username'];
+// Include config file
+require_once "config.php";
+
+// Count the number of messages (reports)
+$query = "SELECT COUNT(*) AS report_count FROM messages";
+$result = $mysqli->query($query);
+
+// Check if the query was successful
+if ($result) {
+    $row = $result->fetch_assoc();
+    $report_count = $row['report_count'];
+} else {
+    $report_count = 0; // If there's an error, show 0
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +32,8 @@ $username = $_SESSION['username'];
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    
 
     <style>
         body {
@@ -303,10 +324,11 @@ $username = $_SESSION['username'];
 
         <!-- Widgets Section -->
         <div class="widgets">
-            <div class="widget">
-                <h3>Report</h3>
-                <p>9</p>
-            </div>
+    <div class="widget">
+        <h3>Reports</h3>
+        <p> <?php echo $report_count; ?></p>
+    </div>
+
             <div class="widget">
                 <h3>Resolve</h3>
                 <p>3</p>
