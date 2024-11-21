@@ -18,7 +18,7 @@ $email = $_SESSION['email'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        #hamburger {
+         #hamburger {
             background: none;
             border: none;
             cursor: pointer;
@@ -84,14 +84,17 @@ $email = $_SESSION['email'];
             margin-bottom: 5px;
         }
 
-        .settings-section input, .settings-section select {
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
+        .settings-section input,
+.settings-section select {
+    width: 100%; /* Full width for responsiveness */
+    max-width: 1500px; /* Max width for larger screens */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Ensures padding doesn't increase the width */
+}
 
         .settings-section input[type="checkbox"] {
             width: auto;
@@ -108,7 +111,7 @@ $email = $_SESSION['email'];
             border: 1px solid #940b10;
         }
 
-        .edit-btn, .save-btn {
+        .edit-btn, .save-btn, .delete-btn {
             background-color: #940b10;
             color: white;
             border: none;
@@ -121,6 +124,15 @@ $email = $_SESSION['email'];
         .save-btn {
             display: none;
         }
+
+         .delete-btn {
+             background-color: #d9534f;
+                color: white;
+         }
+
+        .delete-btn:hover {
+             background-color: #c9302c;
+         }
 
         body {
             font-family: Arial, sans-serif;
@@ -394,6 +406,8 @@ $email = $_SESSION['email'];
             }
         }
 
+
+
         @media (max-width: 480px) {
             .sidebar {
                 width: 100%;
@@ -414,6 +428,33 @@ $email = $_SESSION['email'];
                 text-align: center;
             }
         }
+
+        .password-container {
+    position: relative;
+    width: 100%;
+}
+
+#password {
+    width: 100%; /* Set to 100% to match the others */
+    padding: 8px;
+    padding-right: 40px; /* Add padding to the right to create space for the eye icon */
+}
+
+.show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.eye-icon {
+    font-size: 18px;
+}
+
     </style>
 </head>
 
@@ -430,7 +471,7 @@ $email = $_SESSION['email'];
         </div>
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
         <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
@@ -455,25 +496,29 @@ $email = $_SESSION['email'];
         <div class="settings-section">
             <label for="username">Username</label>
             <input type="text" id="username" value="<?php echo htmlspecialchars($username); ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('username')">Edit</button>
-            <button class="save-btn" onclick="saveField('username')">Save</button>
+
         </div>
 
         <div class="settings-section">
             <label for="email">Email</label>
             <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('email')">Edit</button>
-            <button class="save-btn" onclick="saveField('email')">Save</button>
         </div>
 
-        <div class="settings-section">
-            <label for="password">Password</label>
-            <input type="password" id="password" value="<?php echo $password; ?>" disabled>
-            <button class="edit-btn" onclick="toggleEdit('password')">Edit</button>
-            <button class="save-btn" onclick="saveField('password')">Save</button>
-        </div>
+       <!-- Password Edit Section -->
+<div class="settings-section">
+    <label for="password">Password</label>
+    <div class="password-container">
+        <!-- Password input field -->
+        <input type="password" id="password" name="password" value="******" disabled> <!-- Initially disabled -->
+
+        <!-- Eye icon button to toggle visibility -->
+        <button type="button" id="show-password-btn" class="show-password-btn" onclick="togglePasswordVisibility()">
+            <i class="fas fa-eye-slash" id="eye-icon"></i> <!-- Initially set as 'eye-slash' (hidden password) -->
+        </button>
     </div>
 </div>
+
+      
 
 
     <script>
@@ -514,6 +559,42 @@ $email = $_SESSION['email'];
             // Add your code to handle saving the updated field value here
             console.log(fieldId + " saved with value: " + inputField.value);
         }
+        function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    if (passwordInput.type === 'password') {
+        // Fetch the password from the server (this could be done via AJAX or a fetch call)
+        fetch('show_pass.php')
+            .then(response => {
+                console.log('Response:', response);  // Log the raw response
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data:', data);  // Log the data returned by the PHP script
+
+                if (data.success) {
+                    passwordInput.value = data.password;  // Replace with actual password
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                } else {
+                    console.error('Error fetching password:', data.error);
+                    alert('Error fetching password: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching password:', error);
+                alert('An error occurred while fetching the password.');
+            });
+    } else {
+        passwordInput.type = 'password';
+        passwordInput.value = '******';  // Masked value again
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    }
+}
+
     </script>
 
 </body>

@@ -468,43 +468,6 @@ $username = $_SESSION['username'];
 .eye-icon {
     font-size: 18px;
 }
-/* Ensure the Edit and Save buttons are in the same row */
-.button-container {
-    display: inline-flex;  /* Use inline-flex to make sure they appear side by side */
-    gap: 10px;  /* Space between the buttons */
-}
-
-/* Hide the Save button by default */
-.save-btn {
-    display: none;  /* Hidden by default */
-}
-
-/* Show the Save button when the input is editable */
-input:enabled + .button-container .save-btn {
-    display: inline-block;
-}
-
-/* Styling for buttons */
-.edit-btn, .save-btn {
-    background-color: #940b10;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.save-btn {
-    display: none;  /* Initially hidden */
-}
-
-.edit-btn {
-    display: inline-block;  /* Ensure edit button is always visible */
-}
-
-
-
-
 
     </style>
 </head>
