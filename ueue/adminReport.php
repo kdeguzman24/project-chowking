@@ -29,6 +29,8 @@ if (isset($_POST['resolve'])) {
 }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +57,7 @@ if (isset($_POST['resolve'])) {
 
         .sidebar {
             height: 96%;
-            width: 250px;
+            width: 250px; /* Adjusted for better responsiveness */
             position: fixed;
             top: 0;
             left: 0;
@@ -67,16 +69,16 @@ if (isset($_POST['resolve'])) {
             border-top-right-radius: 30px; /* Rounded top-right corner */
             border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
             box-shadow:
-            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+            1.3px 0px 0.5px rgba(73, 73, 73, 0.18),
             2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
             4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
             7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
-            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+            10.5px 0px 5.1px rgba(158, 158, 158, 0.1),
             14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
-            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
-            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
-            47.3px 0px 28px rgba(0, 0, 0, 0.056),
-            84px 0px 53px rgba(0, 0, 0, 0.038);
+            21.1px 0px 11.2px rgba(148, 148, 148, 0.08),
+            30.7px 0px 17.1px rgba(192, 192, 192, 0.069),
+            47.3px 0px 28px rgba(138, 138, 138, 0.056),
+            84px 0px 53px rgba(44, 44, 44, 0.038);
             transition: width 0.3s ease;
         }
         

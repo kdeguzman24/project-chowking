@@ -58,19 +58,19 @@ $recordsHtml = ob_get_clean();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>View Students</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         .records {
-    margin: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
+        margin: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
 .search-form {
     margin-bottom: 20px;
@@ -128,29 +128,30 @@ $recordsHtml = ob_get_clean();
             font-size: 24px;
             color: #940b10;
             margin-right: 25px; /* Add some margin-right */
+            align-self: flex-start;
+            margin-bottom: 10px;
         }
 
         h1 {
             color: #940b10;
             font-size: 24px;
-            margin-bottom: 20px;
+            margin: 0; /* Remove default margin to ensure tight alignment */
         }
 
         .fixed-header {
             display: flex;
-            align-items: center;
+            flex-direction: column; /* Stack hamburger and title vertically */
+            align-items: flex-start; /* Align both elements to the left */
             padding: 35px 15px;
             background-color: #f4f4f4;
             border-bottom: 2px solid #940b10;
             margin-bottom: 20px;
         }
+        
 
-        .fixed-header img {
-            width: 90px;
-            border-radius: 50%;
-            margin-right: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
+        .name-position {
+            margin-top: 10px; /* Add some space between the hamburger and the title */}
+
 
         .name-position h2 {
             margin: 0;
@@ -312,7 +313,7 @@ $recordsHtml = ob_get_clean();
             cursor: pointer;
             font-size: 24px;
             color: #940b10;
-            margin-right: 25px; /* Add some margin-right */
+            margin-right: 10px; /* Add some margin-right */
         }
 
         .navbar-title {
@@ -381,7 +382,8 @@ $recordsHtml = ob_get_clean();
         h1 {
             color: #940b10;
             font-size: 24px;
-            margin-bottom: 20px;
+            margin: 0; /* Remove default margin */
+            text-align: left; /* Ensure it aligns left */
         }
 
         .fixed-header {
@@ -401,8 +403,7 @@ $recordsHtml = ob_get_clean();
         }
 
         .name-position {
-            display: flex;
-            flex-direction: column;
+            margin-top: 10px;
         }
 
         .name-position h2 {
@@ -540,23 +541,21 @@ $recordsHtml = ob_get_clean();
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
-  <!-- Main content -->
-  <div class="main-content">
-    <div class="fixed-header">
-        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <img src="ProfilePic.png" alt="Profile Picture">
-        <div class="name-position">
-            <h2>Students</h2>
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="fixed-header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Students</h1>
+        </div>
+
+        <!-- Records Section -->
+        <div class="records">
+            <?php echo $recordsHtml; ?> <!-- Display the records here -->
         </div>
     </div>
 
-    <!-- Records Section -->
-    <div class="records">
-        <?php echo $recordsHtml; ?> <!-- Display the records here -->
-    </div>
-</div>
 
 
 
