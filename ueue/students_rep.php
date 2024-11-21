@@ -1,18 +1,29 @@
+<?php
+session_start();
+
+// Check if user is logged in by verifying session variable
+if (!isset($_SESSION['email'])) {
+    echo json_encode(['success' => false, 'error' => 'User not logged in']);
+    exit();
+}
+
+// If logged in, fetch the session email
+$email = $_SESSION['email'];
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Section</title>
-
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
-        body {
+           body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -395,27 +406,25 @@
             font-size: 24px;
             color: #940b10;
             margin-right: 25px; /* Add some margin-right */
-        }
-    
+        } 
     </style>
 </head>
 <body>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <img src="UE logo.png" alt="Logo">
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
-        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i> <span>Statistics</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>   
+        <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
+        <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="students_notifs.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
     </div>
 
     <!-- Main content -->
@@ -428,50 +437,68 @@
         </div>
 
         <!-- Compose Message Section -->
-      <!-- Compose Message Section -->
-<div class="compose-message">
-    <h2>Compose Message</h2>
-    <form>
-        
-        <div class="choice">
-            <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
-            <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>       
-        </div>
-        <label for="subject">Subject: </label>
-        <select id="subject" name="subject" required>
-            <option value="" disabled selected>Select Subject</option>
-            <option value="hallway">Hallway</option>
-            <option value="classroom">Classroom</option>
-            <option value="cr">Comfort Room (CR)</option>
-            <option value="elevator">Elevator</option>
-            <option value="stairs">Stairs</option>
-            <option value="library">Library</option>
-            <option value="others">Others</option>
-        </select>        
+        <div class="compose-message">
+            <h2>Compose Message</h2>
+            <form method="POST" action="report.php" enctype="multipart/form-data">
+    <div class="choice">
+        <label><input type="radio" name="report-type" value="issue" required> Report an Issue</label>
+        <label><input type="radio" name="report-type" value="suggestion" required> Make a Suggestion</label>
+    </div>
 
-        <label for="issue">Issue</label>
-        <input type="text" id="issue" name="issue" placeholder="Enter the issue">
+    <label for="subject">Subject: </label>
+    <select id="subject" name="subject" required>
+        <option value="" disabled selected>Select Subject</option>
+        <option value="hallway">Hallway</option>
+        <option value="classroom">Classroom</option>
+        <option value="cr">Comfort Room (CR)</option>
+        <option value="elevator">Elevator</option>
+        <option value="stairs">Stairs</option>
+        <option value="library">Library</option>
+        <option value="others">Others</option>
+    </select>
 
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-        
-        <label for="file">Attach a file:</label>
-        <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+    <label for="issue">Issue:</label>
+    <input type="text" id="issue" name="issue" placeholder="Enter the issue" required>
 
-        <button type="submit">Send Message</button>
-    </form>
-</div>
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="4" required></textarea>
+
+    <!-- Prefilled Sender Email -->
+    <label for="sender_email">Your Email:</label>
+    <input 
+        type="email" 
+        id="sender_email" 
+        name="sender_email" 
+        placeholder="Enter your email" 
+        required 
+        value="<?php echo $_SESSION['email']; ?>" 
+        readonly
+    >
+
+    <!-- Prefilled Recipient Email -->
+    <label for="recipient_email">Recipient Email:</label>
+    <input 
+        type="email" 
+        id="recipient_email" 
+        name="recipient_email" 
+        value="admin@ue.edu.ph" 
+        readonly 
+    >
+
+    <label for="file">Attach a file:</label>
+    <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+
+    <button type="submit">Send Message</button>
+</form>
 
 
-
-<script>
-    function toggleSidebar() {
+    <script>
+        function toggleSidebar() {
             var sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             var mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px';
         }
-</script>
-
+    </script>
 </body>
 </html>
