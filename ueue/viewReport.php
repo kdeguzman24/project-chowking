@@ -419,6 +419,7 @@ $result = $mysqli->query($query);
                 <tr style="background-color: #940b10; color: white;">
                     <th>Sender Email</th>
                     <th>Subject</th>
+                    <th>Issue</th>
                     <th>Message</th>
                     <th>Status</th>
                 </tr>
