@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $recipient_email = 'admin@ue.edu.ph'; // Default recipient email
     $message_text = $mysqli->real_escape_string($_POST['message']); // Sanitizing message input
     $subject = $mysqli->real_escape_string($_POST['subject']); // Sanitizing subject input
+    $issue = $mysqli->real_escape_string($_POST['issue']); // Sanitizing issue input
     $status = 'sent'; // Default status
 
     // Validate sender email in the database
@@ -41,13 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
 
-    // Handle file upload if provided (removed)
-    // No need to check for file upload since we're no longer handling it
-
-    // Insert the message into the database (removed file_name column)
-    $query = "INSERT INTO messages (sender_email, recipient_email, message_text, status, subject) VALUES (?, ?, ?, ?, ?)";
+    // Insert the message along with the issue into the database
+    $query = "INSERT INTO messages (sender_email, recipient_email, subject, issues, message_text, status) 
+              VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("sssss", $sender_email, $recipient_email, $message_text, $status, $subject);
+    $stmt->bind_param("ssssss", $sender_email, $recipient_email, $subject, $issue, $message_text, $status);
 
     if ($stmt->execute()) {
         // Set a session variable to display a success message on the next page

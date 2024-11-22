@@ -10,6 +10,7 @@ $result = $mysqli->query($query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@ $result = $mysqli->query($query);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-          body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -43,27 +44,29 @@ $result = $mysqli->query($query);
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top-right-radius: 30px; /* Rounded top-right corner */
-            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            border-top-right-radius: 30px;
+            /* Rounded top-right corner */
+            border-bottom-right-radius: 30px;
+            /* Rounded bottom-right corner */
             box-shadow:
-            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
-            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
-            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
-            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
-            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
-            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
-            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
-            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
-            47.3px 0px 28px rgba(0, 0, 0, 0.056),
-            84px 0px 53px rgba(0, 0, 0, 0.038);
+                1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+                2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
+                4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
+                7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
+                10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+                14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
+                21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+                30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+                47.3px 0px 28px rgba(0, 0, 0, 0.056),
+                84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
-        
+
         .sidebar.active {
             width: 90px;
         }
 
-        .sidebar.active + .main-content {
+        .sidebar.active+.main-content {
             margin-left: 90px;
         }
 
@@ -82,7 +85,8 @@ $result = $mysqli->query($query);
 
         .navbar-text {
             color: white;
-            text-align: center; /* Centered text */
+            text-align: center;
+            /* Centered text */
         }
 
         .navbar-text h2 {
@@ -96,36 +100,40 @@ $result = $mysqli->query($query);
             color: white;
         }
 
-
-
-
         .sidebar a {
-            padding: 15px 20px; /* Increased padding for better click area */
+            padding: 15px 20px;
+            /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            width: 90%; /* Adjusted for better spacing */
+            width: 90%;
+            /* Adjusted for better spacing */
             border-radius: 5px;
-            transition: background 0.3s, transform 0.2s; /* Added transform for hover */
-            margin: 10px 0; /* Reduced margin */
+            transition: background 0.3s, transform 0.2s;
+            /* Added transform for hover */
+            margin: 10px 0;
+            /* Reduced margin */
         }
 
         .sidebar a i {
             margin-left: 30px;
             margin-right: 15px;
-            font-size: 24px; /* Increased icon size for visibility */
+            font-size: 24px;
+            /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
             background-color: #b13333;
-            transform: scale(1.05); /* Added scaling effect on hover */
+            transform: scale(1.05);
+            /* Added scaling effect on hover */
         }
 
         .main-content {
-            margin-left: 250px; /* Adjusted margin */
+            margin-left: 250px;
+            /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -136,21 +144,25 @@ $result = $mysqli->query($query);
 
         /* Hide the text when sidebar is active */
         .sidebar.active a span {
-            display: none; /* This will hide the text */
+            display: none;
+            /* This will hide the text */
         }
 
-        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title h2,
         .sidebar.active .navbar-title p {
-            display: none; /* This hides the University title and campus name */
+            display: none;
+            /* This hides the University title and campus name */
         }
 
         .sidebar.active img {
-            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
+            width: 58px;
+            /* Keep the logo smaller when the sidebar is collapsed */
             margin-left: 10px;
         }
 
         .sidebar a span {
-            margin-left: 10px; /* Adjust margin when text is visible */
+            margin-left: 10px;
+            /* Adjust margin when text is visible */
         }
 
         /* Optional: Adjust icon size when the sidebar is collapsed */
@@ -241,12 +253,14 @@ $result = $mysqli->query($query);
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s; /* Added transition for buttons */
+            transition: background 0.3s, transform 0.2s;
+            /* Added transition for buttons */
         }
 
         .quick-actions button:hover {
             background-color: #b13333;
-            transform: scale(1.05); /* Scale effect on hover */
+            transform: scale(1.05);
+            /* Scale effect on hover */
         }
 
         footer {
@@ -297,6 +311,7 @@ $result = $mysqli->query($query);
                 text-align: center;
             }
         }
+
         #hamburger {
             background: none;
             border: none;
@@ -304,6 +319,7 @@ $result = $mysqli->query($query);
             font-size: 24px;
             color: #940b10;
         }
+
         h1 {
             color: #940b10;
             font-size: 24px;
@@ -362,11 +378,14 @@ $result = $mysqli->query($query);
             .chart-box {
                 width: 90%;
             }
+
             .widget {
                 width: 45%;
-            }} 
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -411,34 +430,36 @@ $result = $mysqli->query($query);
                 <?php unset($_SESSION['message_sent_error']); ?>
             </div>
         <?php endif; ?>
-<!-- Display Reports -->
-<div class="reports">
-    <?php if ($result->num_rows > 0): ?>
-        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
-            <thead>
-                <tr style="background-color: #940b10; color: white;">
-                    <th>Sender Email</th>
-                    <th>Subject</th>
-                    <th>Issue</th>
-                    <th>Message</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
-                        <td style=" color: black;"><?php echo $row['subject']; ?></td>
-                        <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
-                        <td><?php echo $row['status']; ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>No reports found.</p>
-    <?php endif; ?>
-</div>
+        <!-- Display Reports -->
+        <div class="reports">
+            <?php if ($result->num_rows > 0): ?>
+                <table border="1" cellpadding="10" cellspacing="0"
+                    style="width: 100%; margin-top: 20px; background-color: white;">
+                    <thead>
+                        <tr style="background-color: #940b10; color: white;">
+                            <th>Sender Email</th>
+                            <th>Subject</th>
+                            <th>Issue</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
+                                <td style=" color: black;"><?php echo $row['subject']; ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                                <td><?php echo $row['status']; ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No reports found.</p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <script>
@@ -451,5 +472,5 @@ $result = $mysqli->query($query);
     </script>
 
 </body>
-</html>
 
+</html>

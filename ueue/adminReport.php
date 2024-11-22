@@ -6,6 +6,27 @@ require_once "config.php";
 $query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
 $result = $mysqli->query($query);
 
+if (isset($_POST['resolve_report_id'])) {
+    $report_id = intval($_POST['resolve_report_id']);
+    
+    // Update the status to "resolved"
+    $update_query = "UPDATE messages SET status = 'resolved' WHERE id = ?";
+    $stmt = $mysqli->prepare($update_query);
+    $stmt->bind_param("i", $report_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['message_resolved'] = "Report resolved successfully!";
+    } else {
+        $_SESSION['message_resolved_error'] = "Error resolving the report: " . $stmt->error;
+    }
+
+    $stmt->close();
+
+    // Redirect to refresh the page
+    header("Location: adminReport.php");
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -428,6 +449,7 @@ $result = $mysqli->query($query);
                     <tr>
                         <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
                         <td style=" color: black;"><?php echo $row['subject']; ?></td>
+                        <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
                         <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
                         <td><?php echo $row['status']; ?></td>
                     </tr>

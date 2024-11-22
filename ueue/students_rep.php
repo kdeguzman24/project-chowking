@@ -459,7 +459,7 @@ $email = $_SESSION['email'];
     </select>
 
     <label for="issue">Issue:</label>
-    <input type="text" id="issue" name="issue" placeholder="Enter the issue" required>
+    <input type="text" id="issue" name="issue" placeholder="Enter the issue" required></textarea>
 
     <label for="message">Message:</label>
     <textarea id="message" name="message" rows="4" required></textarea>
