@@ -457,10 +457,10 @@ if ($reportsTodayResult) {
         </div>
         <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-pen-to-square"></i> <span>Report</span></a>
-        <a href="inbox.php"><i class="fa-solid fa-envelope"></i> <span>Inbox</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
+        <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>  
     </nav>
 
     <!-- Main Content -->

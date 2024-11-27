@@ -408,12 +408,12 @@ $messages = [
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
-        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="inbox.php"><i class="fa-solid fa-envelope"></i> <span>Inbox</span></a>
-        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
+        <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
+        <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
     </div>
 
     <!-- Main Content -->
@@ -438,5 +438,13 @@ $messages = [
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+        }
+    </script>
 </body>
 </html>
