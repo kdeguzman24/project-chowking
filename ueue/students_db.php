@@ -42,6 +42,8 @@ if ($reportsTodayResult) {
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,6 +55,7 @@ if ($reportsTodayResult) {
             background-color: #eaeaea;
         }
 
+        /* Sidebar */
         .sidebar {
             height: 96%;
             width: 250px;
@@ -98,6 +101,7 @@ if ($reportsTodayResult) {
         .navbar-text {
             color: white;
             text-align: center;
+            /* Centered text */
         }
 
         .navbar-text h2 {
@@ -113,6 +117,7 @@ if ($reportsTodayResult) {
 
         .sidebar a {
             padding: 15px 20px;
+            /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
@@ -132,15 +137,18 @@ if ($reportsTodayResult) {
             margin-left: 30px;
             margin-right: 15px;
             font-size: 24px;
+            /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
             background-color: #b13333;
             transform: scale(1.05);
+            /* Added scaling effect on hover */
         }
 
         .main-content {
             margin-left: 250px;
+            /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -152,7 +160,6 @@ if ($reportsTodayResult) {
         .sidebar a span {
             margin-left: 10px;
         }
-
 
         h1 {
             color: #940b10;
@@ -296,6 +303,7 @@ if ($reportsTodayResult) {
             }
         }
 
+        /* Calendar Wrapper */
         #calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -426,14 +434,12 @@ if ($reportsTodayResult) {
 
         .calendar-date.today {
             background: #940b10;
+            /* Deep red */
             color: #fff;
             font-weight: bold;
-        }
-
-        .calendar-date.today {
-            background: #940b10;
-            color: #fff;
-            font-weight: bold;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            /* Adds a glow effect */
         }
     </style>
 </head>
@@ -449,14 +455,13 @@ if ($reportsTodayResult) {
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
+        <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
-            <span>Statistics</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
+        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+        <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
+        <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="students_notifs.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
     </nav>
 
     <!-- Main Content -->
@@ -474,6 +479,7 @@ if ($reportsTodayResult) {
                 <?php endif; ?>
             </div>
         </div>
+
         <h1>Welcome to Your Dashboard!</h1>
 
         <!-- Widgets Section -->
@@ -492,43 +498,40 @@ if ($reportsTodayResult) {
                 <p>3</p>
             </div>
         </div>
-        <div class="widget">
-            <h3>Resolve</h3>
-            <p>3</p>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h2>Recent Reports</h2>
+            <ul>
+                <li>Submitted report #12345</li>
+                <li>Feedback received from admin</li>
+                <li>Resolved issue #67890</li>
+            </ul>
         </div>
-    </div>
 
-    <!-- Recent Activity -->
-    <div class="recent-activity">
-        <h2>Recent Activity</h2>
-        <ul>
-            <li>Submitted report #12345</li>
-            <li>Feedback received from admin</li>
-            <li>Resolved issue #67890</li>
-        </ul>
-    </div>
+        <!-- Calendar Section -->
+        <div class="calendar">
+            <h2>Calendar</h2>
+            <div id="calendar"></div>
+        </div>
 
-    <!-- Calendar Section -->
-    <div class="calendar">
-        <h2>Calendar</h2>
-        <div id="calendar"></div>
-    </div>
 
-    <!-- Quick Actions -->
-    <div class="quick-actions">
-        <a href="students_rep.php">
-            <button>Send Message</button>
-        </a>
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <a href="viewReport.php">
+                <button>View Reports</button>
+            </a>
+            <a href="students_rep.php">
+                <button>Send Report</button>
+            </a>
 
-        <a href="viewReport.php">
-            <button>View Reports</button>
-        </a>
-    </div>
+        </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 University of the East. All Rights Reserved.</p>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 University of the East. All Rights Reserved.</p>
+        </footer>
     </div>
     <script>
         let currentYear = new Date().getFullYear();
@@ -648,9 +651,12 @@ if ($reportsTodayResult) {
             }
         }
 
+
         // Initialize
         generateCalendar(currentYear, currentMonth);
+
     </script>
+
 </body>
 
 </html>
