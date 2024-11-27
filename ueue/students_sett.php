@@ -511,7 +511,6 @@ $username = $_SESSION['username'];
             <span>Statistics</span></a>
         <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell" aria-hidden="true"></i> <span>Notifications</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
     </div>
 

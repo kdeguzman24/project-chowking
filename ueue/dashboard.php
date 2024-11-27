@@ -460,7 +460,6 @@ if ($reportsTodayResult) {
         <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
         <a href="statistics.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="notifications.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </nav>
 

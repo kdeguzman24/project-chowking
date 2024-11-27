@@ -421,10 +421,9 @@ $email = $_SESSION['email'];
         </div>
         <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="students_stats.php"><i class="fa-solid fa-chart-gantt"></i> <span>Statistics</span></a>
+
         <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="students_notifs.php"><i class="fas fa-bell"></i> <span>Notifications</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>   
     </div>
 
