@@ -397,11 +397,12 @@ $result = $mysqli->query($query);
                 <p>MANILA CAMPUS</p>
             </div>
         </div>
-        <a href="students_db.php"><i class="fa-solid fa-chalkboard" aria-hidden="true"></i> <span>Dashboard</span></a>
-        <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="students_rep.php"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span>Report</span></a>
-        <a href="students_sett.php"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></a>
+        <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
+        <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
+        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="inbox.php"><i class="fa-solid fa-envelope"></i> <span>Inbox</span></a>
+        <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
