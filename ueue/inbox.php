@@ -29,6 +29,7 @@ $messages = [
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +37,7 @@ $messages = [
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-              body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -396,13 +397,52 @@ $messages = [
                 width: 45%;
             }
         }
+
+        .inbox-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 70vh;
+            /* Adjust height as needed */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+            margin-bottom: 20px;
+        }
+
+        /* Message box styling */
+        .message-box {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .message-box h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #940b10;
+        }
+
+        .message-box p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .message-box .date {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+        }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-    <div class="navbar-title">
-        <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+        <div class="navbar-title">
+            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
@@ -425,18 +465,30 @@ $messages = [
             <h1>Inbox</h1>
         </div>
 
-        <?php if (empty($messages)): ?>
-            <p>No messages found.</p>
-        <?php else: ?>
-            <?php foreach ($messages as $message): ?>
-                <div class="message-box">
-                    <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                    <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
-                    <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
-                    <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <div class="inbox-container">
+            <?php if (empty($messages)): ?>
+                <p>No messages found.</p>
+            <?php else: ?>
+                <?php foreach ($messages as $message): ?>
+                    <div class="message-box">
+                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
+                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
+                        <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+        }
+    </script>
 </body>
+
 </html>
