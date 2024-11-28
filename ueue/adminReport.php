@@ -402,7 +402,8 @@ if (isset($_POST['resolve_report_id'])) {
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
         <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="inbox.php"><i class="fa-solid fa-envelope"></i> <span>Inbox</span></a>
+        <a href="report.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
+        <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
@@ -444,16 +445,25 @@ if (isset($_POST['resolve_report_id'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
-                        <td style=" color: black;"><?php echo $row['subject']; ?></td>
-                        <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
-                        <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
-                        <td><?php echo $row['status']; ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <tr>
+            <td style="color: black;"><?php echo $row['sender_email']; ?></td>
+            <td style="color: black;"><?php echo $row['subject']; ?></td>
+            <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
+            <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+            <td>
+                <form action="report.php" method="POST" style="margin: 0;">
+                    <input type="hidden" name="report_id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="recipient_email" value="<?php echo $row['sender_email']; ?>">
+                    <button type="submit" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Reply
+                    </button>
+                </form>
+            </td>
+        </tr>
+    <?php endwhile; ?>
+</tbody>
+
         </table>
     <?php else: ?>
         <p>No reports found.</p>
