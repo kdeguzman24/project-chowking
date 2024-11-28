@@ -437,6 +437,15 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             text-align: right;
         }
 
+        .timestamp {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.9em;
+            color: #666;
+            /* Gray color for a subtle look */
+        }
+
         .header {
             display: flex;
             align-items: center;
@@ -513,16 +522,28 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
                 <p>No messages found.</p>
             <?php else: ?>
                 <?php foreach ($messages as $message): ?>
-                    <div class="message-box">
-                <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
-                <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
-                <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
-                <p class="date"><?php echo htmlspecialchars($message['sent_at']); ?></p>
+                    <div class="message-box"
+                        style="position: relative; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
+                        <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
+                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
+
+                        <!-- Timestamp -->
+                        <span class="timestamp"><?php echo htmlspecialchars($message['sent_at']); ?></span>
+
+                        <button
+                            onclick="replyMessage('<?php echo htmlspecialchars($message['sender_email']); ?>', '<?php echo htmlspecialchars($message['subject']); ?>')"
+                            style="padding: 8px 15px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                            Reply
+                        </button>
                     </div>
+
+
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+
 
 
         <!-- Modal for Compose Message -->
@@ -535,8 +556,10 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
                 <form action="send_message.php" method="POST">
                     <!-- To Field Pre-filled -->
                     <label for="recipient">To:</label><br>
-                    <input type="email" id="recipient" name="recipient" value="<?php echo $recipientEmail; ?>" required
-                        style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"><br>
+                    <!-- Recipient Field -->
+                    <input type="email" id="recipient" name="recipient" required
+                        style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+                    <br>
 
                     <!-- Subject -->
                     <label for="subject">Subject:</label><br>
@@ -587,6 +610,27 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
                 var mainContent = document.querySelector('.main-content');
                 mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
             }
+            // Open Reply Modal and Pre-fill Values
+            function replyMessage(recipient, subject) {
+                console.log("Replying to:", recipient, "Subject:", subject);
+
+                const recipientField = document.getElementById('recipient');
+                const subjectField = document.getElementById('subject');
+                const messageField = document.getElementById('message');
+                const modal = document.getElementById('composeModal');
+
+                if (recipientField && subjectField && messageField && modal) {
+                    recipientField.value = recipient;
+                    subjectField.value = "Re: " + subject;
+                    messageField.value = ""; // Clear previous message
+                    modal.style.display = 'flex'; // Show modal
+                } else {
+                    console.error("Required elements for reply modal not found.");
+                }
+            }
+
+
+
         </script>
 
 </body>

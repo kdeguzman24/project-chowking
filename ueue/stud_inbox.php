@@ -436,36 +436,52 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             color: #888;
             text-align: right;
         }
+
+        .timestamp {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.9em;
+            color: #666;
+            /* Gray color for a subtle look */
+        }
+
         .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Space between elements */
-    padding: 10px 20px;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #940b10;
-    margin-bottom: 20px;
-    position: relative; /* Make it the parent for absolute positioning */
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Space between elements */
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #940b10;
+            margin-bottom: 20px;
+            position: relative;
+            /* Make it the parent for absolute positioning */
+        }
 
-#composeButton {
-    padding: 10px 20px;
-    background-color: #940b10;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    position: absolute; /* Absolute positioning inside header */
-    right: 20px; /* Distance from the right */
-    top: 50%; /* Align vertically */
-    transform: translateY(-50%); /* Center vertically */
-}
+        #composeButton {
+            padding: 10px 20px;
+            background-color: #940b10;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            /* Absolute positioning inside header */
+            right: 20px;
+            /* Distance from the right */
+            top: 50%;
+            /* Align vertically */
+            transform: translateY(-50%);
+            /* Center vertically */
+        }
 
-#composeButton:hover {
-    background-color: #b13333; /* Darker shade on hover */
-}
-
+        #composeButton:hover {
+            background-color: #b13333;
+            /* Darker shade on hover */
+        }
     </style>
 </head>
 
@@ -484,121 +500,113 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
         <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
         <a href="stud_inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>  
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-    <div class="header">
-        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <h1>Inbox</h1>
-        <!-- Compose Message Button -->
-        <button id="composeButton" style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; float: right;">
-            Compose Message
-        </button>
-    </div>
+        <div class="header">
+            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Inbox</h1>
+            <!-- Compose Message Button -->
+            <button id="composeButton"
+                style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; float: right;">
+                Compose Message
+            </button>
+        </div>
 
-    <div class="inbox-container">
-    <?php if (empty($messages)): ?>
-        <p>No messages found.</p>
-    <?php else: ?>
-        <?php foreach ($messages as $message): ?>
-            <div class="message-box">
-            <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
-                <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
-                <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
-                <p class="date"><?php echo htmlspecialchars($message['sent_at']); ?></p>
+        <div class="inbox-container">
+            <?php if (empty($messages)): ?>
+                <p>No messages found.</p>
+            <?php else: ?>
+                <?php foreach ($messages as $message): ?>
+                    <div class="message-box"
+                        style="position: relative; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
+                        <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
+                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
+
+                        <!-- Timestamp -->
+                        <span class="timestamp"><?php echo htmlspecialchars($message['sent_at']); ?></span>
+
+                        <button
+                            onclick="replyMessage('<?php echo htmlspecialchars($message['sender_email']); ?>', '<?php echo htmlspecialchars($message['subject']); ?>')"
+                            style="padding: 8px 15px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                            Reply
+                        </button>
+                    </div>
+
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+
+
+        <!-- Modal for Compose Message -->
+        <!-- Compose Message Modal -->
+        <div id="composeModal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div
+                style="background: white; padding: 20px; border-radius: 10px; width: 50%; max-width: 500px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                <h2 style="color: #940b10;">Compose Message</h2>
+                <form action="send_message.php" method="POST">
+                    <!-- To Field Pre-filled -->
+                    <label for="recipient">To:</label><br>
+                    <input type="email" id="recipient" name="recipient" value="<?php echo $recipientEmail; ?>" required
+                        style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"><br>
+
+                    <!-- Subject -->
+                    <label for="subject">Subject:</label><br>
+                    <input type="text" id="subject" name="subject" required
+                        style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"><br>
+
+                    <!-- Message -->
+                    <label for="message">Message:</label><br>
+                    <textarea id="message" name="message" required rows="5"
+                        style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"></textarea><br>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <button type="submit"
+                        style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Send
+                    </button>
+                    <button type="button" onclick="closeModal()"
+                        style="padding: 10px 20px; background-color: #888; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                        Cancel
+                    </button>
+                </form>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
+        </div>
 
+        <script>
+            // Open Compose Modal
+            document.getElementById('composeButton').addEventListener('click', function () {
+                document.getElementById('composeModal').style.display = 'flex';
+            });
 
-<!-- Modal for Compose Message -->
-<!-- Compose Message Modal -->
-<div id="composeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div style="background: white; padding: 20px; border-radius: 10px; width: 50%; max-width: 500px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
-        <h2 style="color: #940b10;">Compose Message</h2>
-        <form action="send_message.php" method="POST">
-            <!-- To Field Pre-filled -->
-            <label for="recipient">To:</label><br>
-            <input 
-                type="email" 
-                id="recipient" 
-                name="recipient" 
-                value="<?php echo $recipientEmail; ?>" 
-                required 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
-            ><br>
+            window.onload = function () {
+                const recipientEmail = "<?php echo $recipientEmail; ?>";
+                if (recipientEmail) {
+                    document.getElementById('composeModal').style.display = 'flex';
+                }
+            };
 
-            <!-- Subject -->
-            <label for="subject">Subject:</label><br>
-            <input 
-                type="text" 
-                id="subject" 
-                name="subject" 
-                required 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
-            ><br>
-
-            <!-- Message -->
-            <label for="message">Message:</label><br>
-            <textarea 
-                id="message" 
-                name="message" 
-                required 
-                rows="5" 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
-            ></textarea><br>
-
-            <!-- Submit and Cancel Buttons -->
-            <button 
-                type="submit" 
-                style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;"
-            >
-                Send
-            </button>
-            <button 
-                type="button" 
-                onclick="closeModal()" 
-                style="padding: 10px 20px; background-color: #888; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;"
-            >
-                Cancel
-            </button>
-        </form>
-    </div>
-</div>
-
-<script>
-    // Open Compose Modal
-    document.getElementById('composeButton').addEventListener('click', function () {
-        document.getElementById('composeModal').style.display = 'flex';
-    });
-
-    window.onload = function () {
-        const recipientEmail = "<?php echo $recipientEmail; ?>";
-        if (recipientEmail) {
-            document.getElementById('composeModal').style.display = 'flex';
-        }
-    };
-
-    // Function to close the Compose Modal
-    function closeModal() {
-        document.getElementById('composeModal').style.display = 'none';
-        document.getElementById('recipient').value = '';
-        document.getElementById('subject').value = '';
-        document.getElementById('message').value = '';
-    }
-    function toggleSidebar() {
-            var sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-            var mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
-        }
-</script>
+            // Function to close the Compose Modal
+            function closeModal() {
+                document.getElementById('composeModal').style.display = 'none';
+                document.getElementById('recipient').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('message').value = '';
+            }
+            function toggleSidebar() {
+                var sidebar = document.querySelector('.sidebar');
+                sidebar.classList.toggle('active');
+                var mainContent = document.querySelector('.main-content');
+                mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+            }
+        </script>
 
 </body>
 
