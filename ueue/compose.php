@@ -1,32 +1,15 @@
 <?php
 session_start();
-include('config.php');
 
-// Ensure user is logged in
-if (!isset($_SESSION['email'])) {
-    header('Location: login.php');
-    exit();
-}
+// Assuming $data is the array where 'sender' and 'message' keys are expected.
+$sender = isset($data['sender']) ? $data['sender'] : 'Unknown Sender';
+$message = isset($data['message']) ? $data['message'] : 'No Message';
 
-$userEmail = $_SESSION['email'];
+// Check if user is logged in by verifying session variable (e.g., $_SESSION['loggedin'] or similar)
 
-// Fetch received and sent messages
-$query = "
-    SELECT sender_email, recipient_email, subject, message_content, sent_at 
-    FROM compose_message 
-    WHERE sender_email = ? OR recipient_email = ?
-    ORDER BY sent_at DESC
-";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param("ss", $userEmail, $userEmail);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$messages = $result->fetch_all(MYSQLI_ASSOC);
+// Retrieve and sanitize recipient email from POST data
+$recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['recipient_email']) : '';
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -501,20 +484,20 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
     </div>
 
     <div class="inbox-container">
-    <?php if (empty($messages)): ?>
-        <p>No messages found.</p>
-    <?php else: ?>
-        <?php foreach ($messages as $message): ?>
-            <div class="message-box">
-                <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
-                <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
-                <p class="date"><?php echo htmlspecialchars($message['sent_at']); ?></p>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        <?php if (empty($messages)): ?>
+            <p>No messages found.</p>
+        <?php else: ?>
+            <?php foreach ($messages as $message): ?>
+                <div class="message-box">
+                    <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                    <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
+                    <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
+                    <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 </div>
-
 
 <!-- Modal for Compose Message -->
 <!-- Compose Message Modal -->

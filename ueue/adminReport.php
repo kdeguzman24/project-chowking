@@ -452,7 +452,7 @@ if (isset($_POST['resolve_report_id'])) {
             <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
             <td>
                 <!-- Single form directing to inbox.php -->
-                <form action="inbox.php" method="POST" style="margin: 0;">
+                <form action="compose.php" method="POST" style="margin: 0;">
                     <input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row['id']); ?>">
                     <input type="hidden" name="recipient_email" value="<?php echo htmlspecialchars($row['sender_email']); ?>">
                     <button type="submit" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
