@@ -506,8 +506,9 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
     <?php else: ?>
         <?php foreach ($messages as $message): ?>
             <div class="message-box">
-                <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+            <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
                 <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
+                <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
                 <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
                 <p class="date"><?php echo htmlspecialchars($message['sent_at']); ?></p>
             </div>
