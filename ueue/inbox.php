@@ -2,30 +2,10 @@
 session_start();
 
 // Check if user is logged in by verifying session variable
-if (!isset($_SESSION['email'])) {
-    echo json_encode(['success' => false, 'error' => 'User not logged in']);
-    exit();
-}
 
-// Fetch the logged-in user's email
-$email = $_SESSION['email'];
+$recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['recipient_email']) : '';
 
-// Placeholder for retrieving messages
-// In a real implementation, fetch messages from the database for the logged-in user
-$messages = [
-    [
-        'sender' => 'admin@ue.edu.ph',
-        'subject' => 'Welcome',
-        'message' => 'Welcome to the system!',
-        'date' => '2024-11-01'
-    ],
-    [
-        'sender' => 'john.doe@example.com',
-        'subject' => 'Report Follow-Up',
-        'message' => 'Your issue has been addressed. Thank you for reporting!',
-        'date' => '2024-11-05'
-    ]
-];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -435,6 +415,36 @@ $messages = [
             color: #888;
             text-align: right;
         }
+        .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between elements */
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #940b10;
+    margin-bottom: 20px;
+    position: relative; /* Make it the parent for absolute positioning */
+}
+
+#composeButton {
+    padding: 10px 20px;
+    background-color: #940b10;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    position: absolute; /* Absolute positioning inside header */
+    right: 20px; /* Distance from the right */
+    top: 50%; /* Align vertically */
+    transform: translateY(-50%); /* Center vertically */
+}
+
+#composeButton:hover {
+    background-color: #b13333; /* Darker shade on hover */
+}
+
     </style>
 </head>
 
@@ -458,37 +468,116 @@ $messages = [
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="header">
-            <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1>Inbox</h1>
-        </div>
-
-        <div class="inbox-container">
-            <?php if (empty($messages)): ?>
-                <p>No messages found.</p>
-            <?php else: ?>
-                <?php foreach ($messages as $message): ?>
-                    <div class="message-box">
-                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
-                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
-                        <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+    <div class="header">
+        <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1>Inbox</h1>
+        <!-- Compose Message Button -->
+        <button id="composeButton" style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; float: right;">
+            Compose Message
+        </button>
     </div>
 
-    <script>
-        function toggleSidebar() {
+    <div class="inbox-container">
+        <?php if (empty($messages)): ?>
+            <p>No messages found.</p>
+        <?php else: ?>
+            <?php foreach ($messages as $message): ?>
+                <div class="message-box">
+                    <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                    <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
+                    <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
+                    <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Modal for Compose Message -->
+<!-- Compose Message Modal -->
+<div id="composeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 20px; border-radius: 10px; width: 50%; max-width: 500px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+        <h2 style="color: #940b10;">Compose Message</h2>
+        <form action="send_message.php" method="POST">
+            <!-- To Field Pre-filled -->
+            <label for="recipient">To:</label><br>
+            <input 
+                type="email" 
+                id="recipient" 
+                name="recipient" 
+                value="<?php echo $recipientEmail; ?>" 
+                required 
+                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+            ><br>
+
+            <!-- Subject -->
+            <label for="subject">Subject:</label><br>
+            <input 
+                type="text" 
+                id="subject" 
+                name="subject" 
+                required 
+                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+            ><br>
+
+            <!-- Message -->
+            <label for="message">Message:</label><br>
+            <textarea 
+                id="message" 
+                name="message" 
+                required 
+                rows="5" 
+                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+            ></textarea><br>
+
+            <!-- Submit and Cancel Buttons -->
+            <button 
+                type="submit" 
+                style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;"
+            >
+                Send
+            </button>
+            <button 
+                type="button" 
+                onclick="closeModal()" 
+                style="padding: 10px 20px; background-color: #888; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;"
+            >
+                Cancel
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Open Compose Modal
+    document.getElementById('composeButton').addEventListener('click', function () {
+        document.getElementById('composeModal').style.display = 'flex';
+    });
+
+    window.onload = function () {
+        const recipientEmail = "<?php echo $recipientEmail; ?>";
+        if (recipientEmail) {
+            document.getElementById('composeModal').style.display = 'flex';
+        }
+    };
+
+    // Function to close the Compose Modal
+    function closeModal() {
+        document.getElementById('composeModal').style.display = 'none';
+        document.getElementById('recipient').value = '';
+        document.getElementById('subject').value = '';
+        document.getElementById('message').value = '';
+    }
+    function toggleSidebar() {
             var sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             var mainContent = document.querySelector('.main-content');
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
-    </script>
+</script>
+
 </body>
 
 </html>

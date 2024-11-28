@@ -1,31 +1,22 @@
 <?php
+// Assuming you have a database connection file
+require_once 'config.php';
+
+// Start session and get the recipient's email (logged-in user's email)
 session_start();
+$recipientEmail = $_SESSION['email']; // Replace with your session variable if needed
 
-// Check if user is logged in by verifying session variable
-if (!isset($_SESSION['email'])) {
-    echo json_encode(['success' => false, 'error' => 'User not logged in']);
-    exit();
+// Fetch messages for the logged-in user (recipient)
+$query = "SELECT * FROM messages WHERE recipient_email = ? ORDER BY timestamp DESC";
+
+if ($stmt = $mysqli->prepare($query)) {
+    $stmt->bind_param("s", $recipientEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // Handle the error if the query fails
+    echo "Error: " . $mysqli->error;
 }
-
-// Fetch the logged-in user's email
-$email = $_SESSION['email'];
-
-// Placeholder for retrieving messages
-// In a real implementation, fetch messages from the database for the logged-in user
-$messages = [
-    [
-        'sender' => 'admin@ue.edu.ph',
-        'subject' => 'Welcome',
-        'message' => 'Welcome to the system!',
-        'date' => '2024-11-01'
-    ],
-    [
-        'sender' => 'john.doe@example.com',
-        'subject' => 'Report Follow-Up',
-        'message' => 'Your issue has been addressed. Thank you for reporting!',
-        'date' => '2024-11-05'
-    ]
-];
 ?>
 <!DOCTYPE html>
 <html lang="en">
