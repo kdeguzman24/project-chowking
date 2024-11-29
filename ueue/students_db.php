@@ -441,18 +441,7 @@ if ($reportsTodayResult) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             /* Adds a glow effect */
         }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            /* Space between elements */
-            padding: 10px 20px;
-            background-color: #f4f4f4;
-            border-bottom: 2px solid #940b10;
-            margin-bottom: 20px;
-            position: relative;
-            /* Make it the parent for absolute positioning */
-        }
+
     </style>
 </head>
 

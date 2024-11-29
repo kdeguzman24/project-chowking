@@ -386,18 +386,7 @@ if (isset($_POST['resolve_report_id'])) {
             .widget {
                 width: 45%;
             }} 
-            .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            /* Space between elements */
-            padding: 10px 20px;
-            background-color: #f4f4f4;
-            border-bottom: 2px solid #940b10;
-            margin-bottom: 20px;
-            position: relative;
-            /* Make it the parent for absolute positioning */
-        }
+
     </style>
 </head>
 <body>

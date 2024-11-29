@@ -77,10 +77,14 @@ $recordsHtml = ob_get_clean();
 }
 
 .search-form .form-control {
-    width: 80%;
+    width: 93%;
     display: inline-block;
     margin-right: 10px;
+    height: 30px; /* Adjust the height as needed */
+    padding: 10px; /* Optional, adjusts the padding inside the input */
+    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
 }
+
 
 .search-form .btn {
     display: inline-block;
