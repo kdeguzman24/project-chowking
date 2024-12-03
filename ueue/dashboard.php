@@ -441,6 +441,7 @@ if ($reportsTodayResult) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             /* Adds a glow effect */
         }
+
     </style>
 </head>
 
@@ -458,7 +459,7 @@ if ($reportsTodayResult) {
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
         <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-       
+
         <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
@@ -503,11 +504,36 @@ if ($reportsTodayResult) {
         <div class="recent-activity">
             <h2>Recent Reports</h2>
             <ul>
-                <li>Submitted report #12345</li>
-                <li>Feedback received from admin</li>
-                <li>Resolved issue #67890</li>
+                <?php
+                // Include config file for database connection
+                require_once "config.php"; // Assumes this file connects to the `backend` database
+                
+                // Fetch the 5 most recent reports
+                $recentReportsQuery = "SELECT id, issues, timestamp FROM messages ORDER BY timestamp DESC LIMIT 5";
+                $recentReportsResult = $mysqli->query($recentReportsQuery);
+
+                // Check if the query returned any results
+                if ($recentReportsResult && $recentReportsResult->num_rows > 0) {
+                    // Loop through the results and display them
+                    while ($row = $recentReportsResult->fetch_assoc()) {
+                        echo "<li>";
+                        echo "Report #" . htmlspecialchars($row['id']) . ": " . htmlspecialchars($row['issues']);
+                        echo " <span style='color: gray; font-size: 0.9em;'>(" . htmlspecialchars($row['timestamp']) . ")</span>";
+                        echo "</li>";
+                    }
+                } else {
+                    echo "<li>No recent reports found.</li>";
+                }
+
+                // Free result and close connection
+                if ($recentReportsResult) {
+                    $recentReportsResult->free();
+                }
+                $mysqli->close();
+                ?>
             </ul>
         </div>
+
 
         <!-- Calendar Section -->
         <div class="calendar">
