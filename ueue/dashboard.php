@@ -451,7 +451,6 @@ if ($resolvedResult) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             /* Adds a glow effect */
         }
-
     </style>
 </head>
 
@@ -504,9 +503,9 @@ if ($resolvedResult) {
                 <p><?php echo $reportsTodayCount; ?></p>
             </div>
             <div class="widget">
-    <h3>Resolve</h3>
-    <p><?php echo $resolvedCount; ?></p>
-</div>
+                <h3>Resolve</h3>
+                <p><?php echo $resolvedCount; ?></p>
+            </div>
         </div>
 
         <!-- Recent Activity -->
@@ -554,10 +553,9 @@ if ($resolvedResult) {
         <!-- Quick Actions -->
         <div class="quick-actions">
             <h2>Quick Actions</h2>
-            <a href="viewReport.php">
+            <a href="adminReport.php">
                 <button>View Reports</button>
             </a>
-
         </div>
 
         <!-- Footer -->
