@@ -539,7 +539,8 @@ $recordsHtml = ob_get_clean();
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
         <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="inbox.php"><i class="fa-solid fa-envelope"></i> <span>Inbox</span></a>
+        <a href="viewResolved.php"><i class="fa-solid fa-check"></i> <span>Resolved Reports</span></a>
+        <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>

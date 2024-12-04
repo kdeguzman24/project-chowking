@@ -2,10 +2,9 @@
 session_start();
 require_once "config.php";
 
-// Fetch reports from the database
-$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
+// Fetch resolved reports from the database
+$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph' AND status = 'Resolved'";
 $result = $mysqli->query($query);
-
 ?>
 
 <!DOCTYPE html>
@@ -14,16 +13,11 @@ $result = $mysqli->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Reports</title>
-
-    <!-- FontAwesome Icons -->
+    <title>View Resolved Reports</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
-        body {
+                body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -382,7 +376,7 @@ $result = $mysqli->query($query);
             .widget {
                 width: 45%;
             }
-        }
+        } 
     </style>
 </head>
 
@@ -391,7 +385,7 @@ $result = $mysqli->query($query);
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <img src="UE logo.png" alt="Logo">
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
@@ -399,11 +393,11 @@ $result = $mysqli->query($query);
         </div>
         <a href="students_db.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="viewReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
-        <a href="viewReport.php"><i class="fa-solid fa-check"></i> <span>Resolved Reports</span></a>
+        <a href="viewResolved.php"><i class="fa-solid fa-check"></i> <span>Resolved Reports</span></a>
         <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
         <a href="stud_inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>  
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Main content -->
@@ -412,23 +406,9 @@ $result = $mysqli->query($query);
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Reports</h1>
+            <h1>Resolved Reports</h1>
         </div>
 
-        <!-- Display Success or Error Message -->
-        <?php if (isset($_SESSION['message_sent'])): ?>
-            <div style="color: green; padding: 10px; background-color: #dff0d8; margin-bottom: 20px;">
-                <?php echo $_SESSION['message_sent']; ?>
-                <?php unset($_SESSION['message_sent']); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['message_sent_error'])): ?>
-            <div style="color: red; padding: 10px; background-color: #f2dede; margin-bottom: 20px;">
-                <?php echo $_SESSION['message_sent_error']; ?>
-                <?php unset($_SESSION['message_sent_error']); ?>
-            </div>
-        <?php endif; ?>
         <!-- Display Reports -->
         <div class="reports">
             <?php if ($result->num_rows > 0): ?>
@@ -446,17 +426,17 @@ $result = $mysqli->query($query);
                     <tbody>
                         <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
-                                <td style=" color: black;"><?php echo $row['sender_email']; ?></td>
-                                <td style=" color: black;"><?php echo $row['subject']; ?></td>
+                                <td style="color: black;"><?php echo htmlspecialchars($row['sender_email']); ?></td>
+                                <td style="color: black;"><?php echo htmlspecialchars($row['subject']); ?></td>
                                 <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
                                 <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
-                                <td><?php echo $row['status']; ?></td>
+                                <td><?php echo htmlspecialchars($row['status']); ?></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
             <?php else: ?>
-                <p>No reports found.</p>
+                <p>No resolved reports found.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -466,7 +446,7 @@ $result = $mysqli->query($query);
             var sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             var mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px';
         }
     </script>
 
