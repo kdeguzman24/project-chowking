@@ -477,7 +477,7 @@ if ($resolvedResult) {
     <!-- Main Content -->
     <div class="main-content" role="main">
         <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
+            <img src="ue_logo.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
             <div class="name-position">
                 <h2><?php echo htmlspecialchars($_SESSION['username']); ?></h2>
 

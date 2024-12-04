@@ -520,7 +520,7 @@ $username = $_SESSION['username'];
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <img src="ProfilePic.png" alt="Profile Picture">
+            <img src="ue_logo.png" alt="Profile Picture">
             <div class="name-position">
                 <h2><?php echo htmlspecialchars($username); ?></h2>
                 <p>Settings</p>
@@ -528,50 +528,52 @@ $username = $_SESSION['username'];
         </div>
 
         <div class="settings-details">
-            <h2>Account Settings</h2>
-            <div class="settings-section">
-                <label for="username">Username</label>
-                <input type="text" id="username" value="<?php echo htmlspecialchars($username); ?>" disabled>
+    <h2>Account Settings</h2>
+    <form action="update.php" method="POST" id="username-form">
+        <div class="settings-section">
+            <label for="username">Username</label>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                value="<?php echo htmlspecialchars($_SESSION['username']); ?>" 
+                disabled
+            >
+        </div>
+        <button 
+            type="button" 
+            id="edit-btn" 
+            onclick="toggleEdit()"
+        >Edit</button>
+    </form>
 
-            </div>
+    <div class="settings-section">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
+    </div>
 
-            <div class="settings-section">
-                <label for="email">Email</label>
-                <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" disabled>
-            </div>
-
-            <!-- Password Edit Section -->
-            <div class="settings-section">
-                <label for="password">Password</label>
-                <div class="password-container">
-                    <!-- Password input field -->
-                    <input type="password" id="password" name="password" value="******" disabled>
-                    <!-- Initially disabled -->
-
-                    <!-- Eye icon button to toggle visibility -->
-                    <button type="button" id="show-password-btn" class="show-password-btn"
-                        onclick="togglePasswordVisibility()">
-                        <i class="fas fa-eye-slash" id="eye-icon"></i>
-                        <!-- Initially set as 'eye-slash' (hidden password) -->
-                    </button>
-                </div>
-            </div>
-
-            <!-- Archive Account Section -->
-            <div class="settings-section delete-account">
-                <h3>Delete Account</h3>
-                <p>Warning: Deleting your account will permanently remove all your data and cannot be undone.</p>
-                <form action="delete.php" method="POST">
-                    <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
-                    <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
-                    <button type="submit" class="delete-btn"
-                        onclick="return confirm('Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.')">Delete
-                        Account</button>
-                </form>
-            </div>
-
+    <div class="settings-section">
+        <label for="password">Password</label>
+        <div class="password-container">
+            <input type="password" id="password" name="password" value="******" disabled>
+            <button type="button" id="show-password-btn" class="show-password-btn" onclick="togglePasswordVisibility()">
+                <i class="fas fa-eye-slash" id="eye-icon"></i>
+            </button>
         </div>
     </div>
+
+    <div class="settings-section delete-account">
+        <h3>Delete Account</h3>
+        <p>Warning: Deleting your account will permanently remove all your data and cannot be undone.</p>
+        <form action="delete.php" method="POST">
+            <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+            <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</button>
+        </form>
+    </div>
+</div>
+
+
 
 
     <script>
@@ -582,6 +584,22 @@ $username = $_SESSION['username'];
             var mainContent = document.querySelector('.main-content');
             mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px'; // Adjust margin based on the collapsed state
         }
+    
+    function toggleEdit() {
+        const usernameInput = document.getElementById('username');
+        const editBtn = document.getElementById('edit-btn');
+
+        if (usernameInput.disabled) {
+            // Enable the input and change button text
+            usernameInput.disabled = false;
+            usernameInput.focus(); // Focus on the input for convenience
+            editBtn.textContent = 'Save Changes';
+        } else {
+            // Submit the form if Save Changes is clicked
+            document.getElementById('username-form').submit();
+        }
+    }
+
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eye-icon');

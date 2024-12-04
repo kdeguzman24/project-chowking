@@ -507,7 +507,7 @@ $email = $_SESSION['email'];
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <img src="ProfilePic.png" alt="Profile Picture">
+            <img src="ue_logo.png" alt="Profile Picture">
             <div class="name-position">
                 <h2><?php echo htmlspecialchars($username); ?></h2>
                 <p>Settings</p>

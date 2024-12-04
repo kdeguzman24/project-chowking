@@ -51,10 +51,33 @@ if ($resolvedResult) {
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 
 
     <style>
+        @media (max-width: 768px) {
+    /* Styles for tablets and smaller screens */
+    body {
+        font-size: 14px;
+    }
+    .login-container {
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Styles for phones */
+    body {
+        font-size: 12px;
+    }
+    .login-container {
+        width: 90%;
+    }
+}
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -451,7 +474,6 @@ if ($resolvedResult) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             /* Adds a glow effect */
         }
-
     </style>
 </head>
 
@@ -472,13 +494,13 @@ if ($resolvedResult) {
         <a href="students_rep.php"><i class="fa-solid fa-envelope"></i> <span>Report</span></a>
         <a href="stud_inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="students_sett.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>  
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </nav>
 
     <!-- Main Content -->
     <div class="main-content" role="main">
         <div class="fixed-header">
-            <img src="ProfilePic.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
+            <img src="ue_logo.png" alt="Profile Picture of <?php echo htmlspecialchars($_SESSION['username']); ?>">
             <div class="name-position">
                 <h2><?php echo htmlspecialchars($_SESSION['username']); ?></h2>
 
@@ -505,9 +527,9 @@ if ($resolvedResult) {
             </div>
 
             <div class="widget">
-    <h3>Resolve</h3>
-    <p><?php echo $resolvedCount; ?></p>
-</div>
+                <h3>Resolve</h3>
+                <p><?php echo $resolvedCount; ?></p>
+            </div>
         </div>
 
         <div class="recent-activity">
