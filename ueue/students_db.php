@@ -31,6 +31,16 @@ if ($reportsTodayResult) {
 } else {
     $reportsTodayCount = 0; // If there's an error, show 0
 }
+
+// Query to count resolved issues
+$resolvedQuery = "SELECT COUNT(*) AS resolved_count FROM messages WHERE status = 'Resolved'";
+$resolvedResult = $mysqli->query($resolvedQuery);
+if ($resolvedResult) {
+    $resolvedRow = $resolvedResult->fetch_assoc();
+    $resolvedCount = $resolvedRow['resolved_count'];
+} else {
+    $resolvedCount = 0; // If there's an error, show 0
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -494,9 +504,9 @@ if ($reportsTodayResult) {
             </div>
 
             <div class="widget">
-                <h3>Resolve</h3>
-                <p>3</p>
-            </div>
+    <h3>Resolve</h3>
+    <p><?php echo $resolvedCount; ?></p>
+</div>
         </div>
 
         <div class="recent-activity">
