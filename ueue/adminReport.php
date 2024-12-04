@@ -8,7 +8,7 @@ $result = $mysqli->query($query);
 
 if (isset($_POST['resolve_report_id'])) {
     $report_id = intval($_POST['resolve_report_id']);
-    
+
     // Update the status to "resolved"
     $update_query = "UPDATE messages SET status = 'resolved' WHERE id = ?";
     $stmt = $mysqli->prepare($update_query);
@@ -31,6 +31,7 @@ if (isset($_POST['resolve_report_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +44,7 @@ if (isset($_POST['resolve_report_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-          body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -64,27 +65,29 @@ if (isset($_POST['resolve_report_id'])) {
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top-right-radius: 30px; /* Rounded top-right corner */
-            border-bottom-right-radius: 30px; /* Rounded bottom-right corner */
+            border-top-right-radius: 30px;
+            /* Rounded top-right corner */
+            border-bottom-right-radius: 30px;
+            /* Rounded bottom-right corner */
             box-shadow:
-            1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
-            2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
-            4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
-            7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
-            10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
-            14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
-            21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
-            30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
-            47.3px 0px 28px rgba(0, 0, 0, 0.056),
-            84px 0px 53px rgba(0, 0, 0, 0.038);
+                1.3px 0px 0.5px rgba(0, 0, 0, 0.18),
+                2.9px 0px 1.2px rgba(0, 0, 0, 0.142),
+                4.8px 0px 2.1px rgba(0, 0, 0, 0.124),
+                7.3px 0px 3.4px rgba(0, 0, 0, 0.111),
+                10.5px 0px 5.1px rgba(0, 0, 0, 0.1),
+                14.9px 0px 7.6px rgba(0, 0, 0, 0.09),
+                21.1px 0px 11.2px rgba(0, 0, 0, 0.08),
+                30.7px 0px 17.1px rgba(0, 0, 0, 0.069),
+                47.3px 0px 28px rgba(0, 0, 0, 0.056),
+                84px 0px 53px rgba(0, 0, 0, 0.038);
             transition: width 0.3s ease;
         }
-        
+
         .sidebar.active {
             width: 90px;
         }
 
-        .sidebar.active + .main-content {
+        .sidebar.active+.main-content {
             margin-left: 90px;
         }
 
@@ -103,7 +106,8 @@ if (isset($_POST['resolve_report_id'])) {
 
         .navbar-text {
             color: white;
-            text-align: center; /* Centered text */
+            text-align: center;
+            /* Centered text */
         }
 
         .navbar-text h2 {
@@ -121,32 +125,39 @@ if (isset($_POST['resolve_report_id'])) {
 
 
         .sidebar a {
-            padding: 15px 20px; /* Increased padding for better click area */
+            padding: 15px 20px;
+            /* Increased padding for better click area */
             text-decoration: none;
             font-size: 16px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            width: 90%; /* Adjusted for better spacing */
+            width: 90%;
+            /* Adjusted for better spacing */
             border-radius: 5px;
-            transition: background 0.3s, transform 0.2s; /* Added transform for hover */
-            margin: 10px 0; /* Reduced margin */
+            transition: background 0.3s, transform 0.2s;
+            /* Added transform for hover */
+            margin: 10px 0;
+            /* Reduced margin */
         }
 
         .sidebar a i {
             margin-left: 30px;
             margin-right: 15px;
-            font-size: 24px; /* Increased icon size for visibility */
+            font-size: 24px;
+            /* Increased icon size for visibility */
         }
 
         .sidebar a:hover {
             background-color: #b13333;
-            transform: scale(1.05); /* Added scaling effect on hover */
+            transform: scale(1.05);
+            /* Added scaling effect on hover */
         }
 
         .main-content {
-            margin-left: 250px; /* Adjusted margin */
+            margin-left: 250px;
+            /* Adjusted margin */
             padding: 20px;
             flex-grow: 1;
             background-color: #f4f4f4;
@@ -157,21 +168,25 @@ if (isset($_POST['resolve_report_id'])) {
 
         /* Hide the text when sidebar is active */
         .sidebar.active a span {
-            display: none; /* This will hide the text */
+            display: none;
+            /* This will hide the text */
         }
 
-        .sidebar.active .navbar-title h2, 
+        .sidebar.active .navbar-title h2,
         .sidebar.active .navbar-title p {
-            display: none; /* This hides the University title and campus name */
+            display: none;
+            /* This hides the University title and campus name */
         }
 
         .sidebar.active img {
-            width: 58px; /* Keep the logo smaller when the sidebar is collapsed */
+            width: 58px;
+            /* Keep the logo smaller when the sidebar is collapsed */
             margin-left: 10px;
         }
 
         .sidebar a span {
-            margin-left: 10px; /* Adjust margin when text is visible */
+            margin-left: 10px;
+            /* Adjust margin when text is visible */
         }
 
         /* Optional: Adjust icon size when the sidebar is collapsed */
@@ -262,12 +277,14 @@ if (isset($_POST['resolve_report_id'])) {
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s; /* Added transition for buttons */
+            transition: background 0.3s, transform 0.2s;
+            /* Added transition for buttons */
         }
 
         .quick-actions button:hover {
             background-color: #b13333;
-            transform: scale(1.05); /* Scale effect on hover */
+            transform: scale(1.05);
+            /* Scale effect on hover */
         }
 
         footer {
@@ -318,6 +335,7 @@ if (isset($_POST['resolve_report_id'])) {
                 text-align: center;
             }
         }
+
         #hamburger {
             background: none;
             border: none;
@@ -325,6 +343,7 @@ if (isset($_POST['resolve_report_id'])) {
             font-size: 24px;
             color: #940b10;
         }
+
         h1 {
             color: #940b10;
             font-size: 24px;
@@ -383,12 +402,14 @@ if (isset($_POST['resolve_report_id'])) {
             .chart-box {
                 width: 90%;
             }
+
             .widget {
                 width: 45%;
-            }} 
-
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -402,7 +423,7 @@ if (isset($_POST['resolve_report_id'])) {
         </div>
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
-        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>  
+        <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
         <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
@@ -431,10 +452,10 @@ if (isset($_POST['resolve_report_id'])) {
                 <?php unset($_SESSION['message_sent_error']); ?>
             </div>
         <?php endif; ?>
-<!-- Display Reports -->
-<div class="reports">
+        <!-- Display Reports -->
+        <div class="reports">
     <?php if ($result->num_rows > 0): ?>
-        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white;">
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; background-color: white; table-layout: fixed;">
             <thead>
                 <tr style="background-color: #940b10; color: white;">
                     <th>Sender Email</th>
@@ -445,33 +466,44 @@ if (isset($_POST['resolve_report_id'])) {
                 </tr>
             </thead>
             <tbody>
-    <?php while ($row = $result->fetch_assoc()): ?>
-        <tr>
-            <td style="color: black;"><?php echo htmlspecialchars($row['sender_email']); ?></td>
-            <td style="color: black;"><?php echo htmlspecialchars($row['subject']); ?></td>
-            <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
-            <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
-            <td>
-                <!-- Single form directing to inbox.php -->
-                <form action="compose.php" method="POST" style="margin: 0;">
-                    <input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row['id']); ?>">
-                    <input type="hidden" name="recipient_email" value="<?php echo htmlspecialchars($row['sender_email']); ?>">
-                    <button type="submit" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Reply
-                    </button>
-                </form>
-            </td>
-        </tr>
-    <?php endwhile; ?>
-</tbody>
-
-
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td style="color: black;"><?php echo htmlspecialchars($row['sender_email']); ?></td>
+                        <td style="color: black;"><?php echo htmlspecialchars($row['subject']); ?></td>
+                        <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
+                        <td style="white-space: pre-wrap; word-wrap: break-word; max-width: 300px;"><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td> <!-- Handle long messages -->
+                        <td style="text-align: center;">
+                            <!-- Reply Button -->
+                            <form action="compose.php" method="POST" style="margin: 0; display: inline;">
+                                <input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                                <input type="hidden" name="recipient_email" value="<?php echo htmlspecialchars($row['sender_email']); ?>">
+                                <button type="submit" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Reply
+                                </button>
+                            </form>
+                            <!-- Resolve Button -->
+                            <form action="resolve_status.php" method="POST" style="margin: 0; display: inline;">
+                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                                <?php if ($row['status'] == 'pending'): ?>
+                                    <button type="submit" style="padding: 5px 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                        Resolve
+                                    </button>
+                                <?php else: ?>
+                                    <button type="button" style="padding: 5px 10px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: not-allowed;" disabled>
+                                        Resolved
+                                    </button>
+                                <?php endif; ?>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
     <?php else: ?>
         <p>No reports found.</p>
     <?php endif; ?>
 </div>
-    </div>
+
 
     <script>
         function toggleSidebar() {
@@ -483,5 +515,5 @@ if (isset($_POST['resolve_report_id'])) {
     </script>
 
 </body>
-</html>
 
+</html>

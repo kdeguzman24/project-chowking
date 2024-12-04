@@ -448,13 +448,13 @@ $email = $_SESSION['email'];
     <label for="subject">Subject: </label>
     <select id="subject" name="subject" required>
         <option value="" disabled selected>Select Subject</option>
-        <option value="hallway">Hallway</option>
-        <option value="classroom">Classroom</option>
-        <option value="cr">Comfort Room (CR)</option>
-        <option value="elevator">Elevator</option>
-        <option value="stairs">Stairs</option>
-        <option value="library">Library</option>
-        <option value="others">Others</option>
+        <option value="HALLWAY">Hallway</option>
+        <option value="CLASROOM">Classroom</option>
+        <option value="CR">Comfort Room (CR)</option>
+        <option value="ELEVATOR">Elevator</option>
+        <option value="STAIRS">Stairs</option>
+        <option value="LIBRARY">Library</option>
+        <option value="OTHERS">Others</option>
     </select>
 
     <label for="issue">Issue:</label>

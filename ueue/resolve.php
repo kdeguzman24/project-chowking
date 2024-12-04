@@ -1,6 +1,7 @@
 <?php
-require_once "config.php";
+require_once "config.php"; // Include database connection
 
+// Handle Resolve button functionality
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['report_id'])) {
     $report_id = intval($_POST['report_id']); // Ensure the ID is an integer
 

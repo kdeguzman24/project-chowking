@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message_text = $mysqli->real_escape_string($_POST['message']); // Sanitizing message input
     $subject = $mysqli->real_escape_string($_POST['subject']); // Sanitizing subject input
     $issue = $mysqli->real_escape_string($_POST['issue']); // Sanitizing issue input
-    $status = 'sent'; // Default status
+    $status = 'pending'; // Default status to 'pending' when the message is sent
 
     // Validate sender email in the database
     $userCheckQuery = "SELECT email FROM users WHERE email = ?";
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
 
-    // Insert the message along with the issue into the database
+    // Insert the message along with the issue into the database with 'pending' status
     $query = "INSERT INTO messages (sender_email, recipient_email, subject, issues, message_text, status) 
               VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         // Set a session variable to display a success message on the next page
-        $_SESSION['message_sent'] = "Message sent successfully!";
+        $_SESSION['message_sent'] = "Message sent successfully! Your message is now pending.";
     } else {
         // If error occurs, set an error message
         $_SESSION['message_sent_error'] = "Error: " . $stmt->error;
