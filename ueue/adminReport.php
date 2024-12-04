@@ -462,7 +462,7 @@ if (isset($_POST['resolve_report_id'])) {
                     <th>Subject</th>
                     <th>Issue</th>
                     <th>Message</th>
-                    <th>Status</th>
+                    <th>Action</th> <!-- Changed from 'Status' to 'Action' -->
                 </tr>
             </thead>
             <tbody>
@@ -472,24 +472,25 @@ if (isset($_POST['resolve_report_id'])) {
                         <td style="color: black;"><?php echo htmlspecialchars($row['subject']); ?></td>
                         <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
                         <td style="white-space: pre-wrap; word-wrap: break-word; max-width: 300px;"><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td> <!-- Handle long messages -->
-                        <td style="text-align: center;">
-                            <!-- Reply Button -->
-                            <form action="compose.php" method="POST" style="margin: 0; display: inline;">
+                        <td style="text-align: center;"> <!-- Changed from 'Status' to 'Action' -->
+                            <!-- Reply Button (Positioned at the top) -->
+                            <form action="compose.php" method="POST" style="margin: 0; display: inline-block; margin-bottom: 10px;">
                                 <input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row['id']); ?>">
                                 <input type="hidden" name="recipient_email" value="<?php echo htmlspecialchars($row['sender_email']); ?>">
-                                <button type="submit" style="padding: 5px 10px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
                                     Reply
                                 </button>
                             </form>
-                            <!-- Resolve Button -->
-                            <form action="resolve_status.php" method="POST" style="margin: 0; display: inline;">
+
+                            <!-- Resolve Button (Positioned at the bottom) -->
+                            <form action="resolve_status.php" method="POST" style="margin: 0; display: inline-block;">
                                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                                 <?php if ($row['status'] == 'pending'): ?>
-                                    <button type="submit" style="padding: 5px 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
                                         Resolve
                                     </button>
                                 <?php else: ?>
-                                    <button type="button" style="padding: 5px 10px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: not-allowed;" disabled>
+                                    <button type="button" style="padding: 10px 20px; font-size: 16px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: not-allowed;" disabled>
                                         Resolved
                                     </button>
                                 <?php endif; ?>
@@ -503,6 +504,7 @@ if (isset($_POST['resolve_report_id'])) {
         <p>No reports found.</p>
     <?php endif; ?>
 </div>
+
 
 
     <script>

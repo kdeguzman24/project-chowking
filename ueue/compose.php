@@ -513,7 +513,7 @@ $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['re
                 name="recipient" 
                 value="<?php echo $recipientEmail; ?>" 
                 required 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+                style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
             ><br>
 
             <!-- Subject -->
@@ -523,7 +523,7 @@ $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['re
                 id="subject" 
                 name="subject" 
                 required 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+                style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
             ><br>
 
             <!-- Message -->
@@ -533,7 +533,7 @@ $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['re
                 name="message" 
                 required 
                 rows="5" 
-                style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
+                style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"
             ></textarea><br>
 
             <!-- Submit and Cancel Buttons -->

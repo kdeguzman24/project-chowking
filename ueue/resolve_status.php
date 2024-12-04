@@ -5,8 +5,8 @@ if (isset($_POST['id'])) {
     $id = intval($_POST['id']); // Sanitize input
 
     // Update the status
-    $sql = "UPDATE your_table_name SET status = 'resolved' WHERE id = ?";
-    $stmt = $conn->prepare($sql);
+    $sql = "UPDATE messages SET status = 'resolved' WHERE id = ?";
+    $stmt = $mysqli->prepare($sql);
 
     if ($stmt) {
         $stmt->bind_param('i', $id);
