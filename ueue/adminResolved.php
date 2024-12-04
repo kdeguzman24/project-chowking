@@ -1,32 +1,11 @@
 <?php
 session_start();
-include('config.php');
+require_once "config.php";
 
-// Ensure user is logged in
-if (!isset($_SESSION['email'])) {
-    header('Location: login.php');
-    exit();
-}
-
-$userEmail = $_SESSION['email'];
-
-// Fetch received and sent messages
-$query = "
-    SELECT sender_email, recipient_email, subject, message_content, sent_at 
-    FROM compose_message 
-    WHERE sender_email = ? OR recipient_email = ?
-    ORDER BY sent_at DESC
-";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param("ss", $userEmail, $userEmail);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$messages = $result->fetch_all(MYSQLI_ASSOC);
+// Fetch resolved reports from the database
+$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph' AND status = 'Resolved'";
+$result = $mysqli->query($query);
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,11 +13,11 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inbox</title>
-    <!-- FontAwesome Icons -->
+    <title>View Resolved Reports</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
+                body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -397,99 +376,16 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             .widget {
                 width: 45%;
             }
-        }
-
-        .inbox-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-height: 70vh;
-            /* Adjust height as needed */
-            overflow-y: auto;
-            /* Enable vertical scrolling */
-            margin-bottom: 20px;
-        }
-
-        /* Message box styling */
-        .message-box {
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .message-box h3 {
-            margin: 0 0 10px;
-            font-size: 18px;
-            color: #940b10;
-        }
-
-        .message-box p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .message-box .date {
-            font-size: 12px;
-            color: #888;
-            text-align: right;
-        }
-
-        .timestamp {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 0.9em;
-            color: #666;
-            /* Gray color for a subtle look */
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            /* Space between elements */
-            padding: 10px 20px;
-            background-color: #f4f4f4;
-            border-bottom: 2px solid #940b10;
-            margin-bottom: 20px;
-            position: relative;
-            /* Make it the parent for absolute positioning */
-        }
-
-        #composeButton {
-            padding: 10px 20px;
-            background-color: #940b10;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-            position: absolute;
-            /* Absolute positioning inside header */
-            right: 20px;
-            /* Distance from the right */
-            top: 50%;
-            /* Align vertically */
-            transform: translateY(-50%);
-            /* Center vertically */
-        }
-
-        #composeButton:hover {
-            background-color: #b13333;
-            /* Darker shade on hover */
-        }
+        } 
     </style>
 </head>
 
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="navbar-title">
-            <img src="UE logo.png" alt="Logo"> <!-- Add your image URL here -->
+            <img src="UE logo.png" alt="Logo">
             <div class="navbar-text">
                 <h2>UNIVERSITY<br>OF THE EAST</h2>
                 <p>MANILA CAMPUS</p>
@@ -504,109 +400,55 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
         <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main content -->
     <div class="main-content">
         <div class="header">
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Inbox</h1>
-            <!-- Compose Message Button -->
-            <button id="composeButton"
-                style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer; float: right;">
-                Compose Message
-            </button>
+            <h1>Resolved Reports</h1>
         </div>
 
-        <div class="inbox-container">
-            <?php if (empty($messages)): ?>
-                <p>No messages found.</p>
+        <!-- Display Reports -->
+        <div class="reports">
+            <?php if ($result->num_rows > 0): ?>
+                <table border="1" cellpadding="10" cellspacing="0"
+                    style="width: 100%; margin-top: 20px; background-color: white;">
+                    <thead>
+                        <tr style="background-color: #940b10; color: white;">
+                            <th>Sender Email</th>
+                            <th>Subject</th>
+                            <th>Issue</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td style="color: black;"><?php echo htmlspecialchars($row['sender_email']); ?></td>
+                                <td style="color: black;"><?php echo htmlspecialchars($row['subject']); ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['issues'])); ?></td>
+                                <td><?php echo nl2br(htmlspecialchars($row['message_text'])); ?></td>
+                                <td><?php echo htmlspecialchars($row['status']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
             <?php else: ?>
-                <?php foreach ($messages as $message): ?>
-                    <div class="message-box"
-                        style="position: relative; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
-                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
-                        <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
-                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
-
-                        <!-- Timestamp -->
-                        <span class="timestamp"><?php echo htmlspecialchars($message['sent_at']); ?></span>
-                    </div>
-                <?php endforeach; ?>
+                <p>No resolved reports found.</p>
             <?php endif; ?>
         </div>
-        <!-- Modal for Compose Message -->
-        <!-- Compose Message Modal -->
+    </div>
 
-        <div id="composeModal"
-            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
-            <div
-                style="background: white; padding: 20px; border-radius: 10px; width: 50%; max-width: 500px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
-                <h2 style="color: #940b10;">Compose Message</h2>
-                <form action="send_message.php" method="POST">
-                    <!-- To Field Pre-filled -->
-                    <label for="recipient">To:</label><br>
-                    <!-- Recipient Field -->
-                    <input type="email" id="recipient" name="recipient" required
-                        style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
-                    <br>
-
-                    <!-- Subject -->
-                    <label for="subject">Subject:</label><br>
-                    <input type="text" id="subject" name="subject" required
-                        style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"><br>
-
-                    <!-- Message -->
-                    <label for="message">Message:</label><br>
-                    <textarea id="message" name="message" required rows="5"
-                        style="width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"></textarea><br>
-
-                    <!-- Submit and Cancel Buttons -->
-                    <button type="submit"
-                        style="padding: 10px 20px; background-color: #940b10; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Send
-                    </button>
-                    <button type="button" onclick="closeComposeModal()"
-                        style="padding: 10px 20px; background-color: #888; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
-                        Cancel
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Attach event listener for opening the modal
-                document.getElementById('composeButton').addEventListener('click', openComposeModal);
-
-                // Attach event listener for closing the modal
-                document.getElementById('closeComposeButton').addEventListener('click', closeComposeModal);
-            });
-
-            // Function to open the modal
-            function openComposeModal() {
-                document.getElementById('composeModal').style.display = 'flex';
-            }
-
-            // Function to close the modal
-            function closeComposeModal() {
-                document.getElementById('composeModal').style.display = 'none';
-                document.getElementById('recipient').value = '';
-                document.getElementById('subject').value = '';
-                document.getElementById('message').value = '';
-            }
-
-            // Sidebar Toggle Function
-            function toggleSidebar() {
-                const sidebar = document.querySelector('.sidebar');
-                sidebar.classList.toggle('active');
-                const mainContent = document.querySelector('.main-content');
-                mainContent.style.marginLeft = sidebar.classList.contains('active') ? '90px' : '250px';
-            }
-
-
-        </script>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+            var mainContent = document.querySelector('.main-content');
+            mainContent.style.marginLeft = sidebar.classList.contains('active') ? '80px' : '250px';
+        }
+    </script>
 
 </body>
 
