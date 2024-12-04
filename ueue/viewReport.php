@@ -2,10 +2,9 @@
 session_start();
 require_once "config.php";
 
-// Fetch reports from the database
-$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
+// Fetch only unresolved reports
+$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph' AND status != 'resolved'";
 $result = $mysqli->query($query);
-
 ?>
 
 <!DOCTYPE html>
@@ -412,7 +411,7 @@ $result = $mysqli->query($query);
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Reports</h1>
+            <h1>Pending Reports</h1>
         </div>
 
         <!-- Display Success or Error Message -->

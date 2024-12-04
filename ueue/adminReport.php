@@ -436,7 +436,7 @@ if (isset($_POST['resolve_report_id'])) {
             <button id="hamburger" class="hamburger" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Reports</h1>
+            <h1>Pending Reports</h1>
         </div>
 
         <!-- Display Success or Error Message -->
