@@ -3,9 +3,9 @@ session_start();
 // Include config file
 require_once "config.php";
 
-// Define variables and initialize with empty values
-$username = $email = $password = "";
-$username_err = $email_err = $password_err = "";
+// Initialize error variables
+$email_err = "";
+$password_err = "";
 
 // Check database connection
 if ($mysqli->connect_error) {
@@ -137,8 +137,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $mysqli->close();
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,14 +146,14 @@ $mysqli->close();
     <!-- Include Font Awesome for the eye icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-body {
+       body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: flex-end; /* Default alignment */
-    align-items: center;
+    justify-content: flex-end; /* Default for larger screens */
+    align-items: center; /* Default for larger screens */
     height: 100vh;
     padding-right: 150px;
-    background-image: url('lualhati3.jpg'); /* Default background for larger screens */
+    background-image: url('lualhati3.jpg');
     overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
@@ -236,52 +234,25 @@ body {
     position: relative;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    body {
-        background-image: url('login4.jpg'); /* Use a different image optimized for phones */
-        background-size: contain; /* Adjust image to fit the phone screen */
-        background-repeat: no-repeat;
-        background-position: left top; /* Align the image to the left */
-        padding-right: 0; /* Remove padding for centering */
-        display: flex;
-        justify-content: center; /* Center-align horizontally */
-    }
-
-    .login-container {
-        width: 90%; /* Allow the form to shrink for smaller screens */
-        max-width: 400px;
-    }
+.note {
+    font-size: 14px;
+    color: #555;
+    margin-top: 20px;
 }
 
-@media (max-width: 480px) {
+/* Mobile-specific Styles */
+@media (max-width: 768px) {
     body {
-        background-image: url('login4.jpg'); /* Ensure consistency for very small screens */
-        background-size: cover; /* Fit the new image within the screen */
-        background-position: left; /* Ensure image stays on the left */
-        justify-content: center; /* Center-align horizontally */
-        align-items: center; /* Center-align vertically */
-        padding: 0; /* Remove padding to keep centered layout */
+        display: flex;
+        justify-content: center; /* Center the container horizontally */
+        align-items: center; /* Center the container vertically */
+        height: 100vh; /* Ensure it takes full height */
+        padding-right: 0; /* Remove the extra right padding on mobile */
     }
 
     .login-container {
-        padding: 20px; /* Reduce padding for smaller screens */
-    }
-
-    .login-container img {
-        max-width: 80px; /* Adjust logo size */
-    }
-
-    .login-container h2 {
-        font-size: 18px; /* Adjust title font size */
-    }
-
-    .login-container input, .login-container button {
-        font-size: 14px; /* Adjust input and button font size */
-    }
-
-    .login-container button {
-        padding: 12px; /* Slightly reduce button padding */
+        width: 90%; /* Allow the form to take up more width on mobile */
+        max-width: 350px; /* Optional: Limit the max width of the form */
     }
 }
 
@@ -346,6 +317,11 @@ body {
 <span id="forgot-password-link" class="toggle-link" onclick="toggleForgotPasswordForm()">Forgot Password?</span>
 
         <span id="toggle-link" class="toggle-link" onclick="toggleForms()">Don’t have an account? Sign Up</span>
+        
+        <!-- Note for mobile users -->
+        <div class="note">
+            If you are using this on a phone, please view this site as "Desktop Site" for better experience.
+        </div>
     </div>
 
     <script>
@@ -402,34 +378,21 @@ body {
         function toggleForgotPasswordForm() {
     var signInForm = document.getElementById("sign-in-form");
     var forgotPasswordForm = document.getElementById("forgot-password-form");
-    var forgotPasswordLink = document.getElementById("forgot-password-link");
+    var formTitle = document.getElementById("form-title");
+    var toggleLink = document.getElementById("toggle-link");
 
     if (forgotPasswordForm.style.display === "none") {
         signInForm.style.display = "none";
         forgotPasswordForm.style.display = "block";
-        forgotPasswordLink.textContent = "Back to Sign In";
+        formTitle.textContent = "Forgot Password";
+        toggleLink.style.display = "none"; // Hide sign-up/sign-in toggle
     } else {
         signInForm.style.display = "block";
         forgotPasswordForm.style.display = "none";
-        forgotPasswordLink.textContent = "Forgot Password?";
+        formTitle.textContent = "Sign In";
+        toggleLink.style.display = "block"; // Show sign-up/sign-in toggle
     }
 }
-function validateForgotPasswordForm() {
-    var newPassword = document.getElementById("new-password").value;
-    var confirmPassword = document.getElementById("confirm-password").value;
-
-    if (newPassword.length < 8) {
-        alert("Password must be at least 8 characters long.");
-        return false;
-    }
-    if (newPassword !== confirmPassword) {
-        alert("Passwords do not match.");
-        return false;
-    }
-    return true;
-}
-
-
     </script>
 </body>
 </html>

@@ -20,6 +20,6 @@ if (isset($_POST['id'])) {
         echo "Error preparing statement: " . $conn->error;
     }
 }
-header('Location: inbox.php'); // Redirect to refresh the table
+header('Location: adminReport.php'); // Redirect to refresh the table
 exit;
 ?>

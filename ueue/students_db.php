@@ -51,33 +51,8 @@ if ($resolvedResult) {
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-
 
     <style>
-        @media (max-width: 768px) {
-    /* Styles for tablets and smaller screens */
-    body {
-        font-size: 14px;
-    }
-    .login-container {
-        width: 100%;
-        padding: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    /* Styles for phones */
-    body {
-        font-size: 12px;
-    }
-    .login-container {
-        width: 90%;
-    }
-}
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -540,7 +515,7 @@ if ($resolvedResult) {
                 require_once "config.php"; // Assumes this file connects to the `backend` database
                 
                 // Fetch the 5 most recent reports
-                $recentReportsQuery = "SELECT id, issues, timestamp FROM messages ORDER BY timestamp DESC LIMIT 5";
+                $recentReportsQuery = "SELECT id, issues, timestamp FROM messages ORDER BY timestamp ASC LIMIT 5";
                 $recentReportsResult = $mysqli->query($recentReportsQuery);
 
                 // Check if the query returned any results

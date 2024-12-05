@@ -517,7 +517,7 @@ if ($resolvedResult) {
                 require_once "config.php"; // Assumes this file connects to the `backend` database
                 
                 // Fetch the 5 most recent reports
-                $recentReportsQuery = "SELECT id, issues, timestamp FROM messages ORDER BY timestamp DESC LIMIT 5";
+                $recentReportsQuery = "SELECT id, issues, timestamp FROM messages ORDER BY timestamp ASC LIMIT 5";
                 $recentReportsResult = $mysqli->query($recentReportsQuery);
 
                 // Check if the query returned any results

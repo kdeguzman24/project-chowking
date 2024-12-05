@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['report_id'])) {
 
     if ($stmt->execute()) {
         // Redirect back to the "View Reports" page
-        header("Location: viewReport.php");
+        header("Location: adminReport.php");
         exit();
     } else {
         // Log error if the query fails

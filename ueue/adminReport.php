@@ -3,7 +3,7 @@ session_start();
 require_once "config.php";
 
 // Fetch reports from the database
-$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph'"; // Adjust the query as per your needs
+$query = "SELECT * FROM messages WHERE recipient_email = 'admin@ue.edu.ph' AND status != 'resolved'";
 $result = $mysqli->query($query);
 
 if (isset($_POST['resolve_report_id'])) {
