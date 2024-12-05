@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('config.php');
 
 // Assuming $data is the array where 'sender' and 'message' keys are expected.
 $sender = isset($data['sender']) ? $data['sender'] : 'Unknown Sender';
@@ -8,12 +9,25 @@ $message = isset($data['message']) ? $data['message'] : 'No Message';
 // Check if user is logged in by verifying session variable (e.g., $_SESSION['loggedin'] or similar)
 
 // Retrieve and sanitize recipient email from POST data
+$userEmail = $_SESSION['email'];
 $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['recipient_email']) : '';
+$query = "
+    SELECT sender_email, recipient_email, subject, message_content, sent_at 
+    FROM compose_message 
+    WHERE sender_email = ? OR recipient_email = ?
+    ORDER BY sent_at ASC
+";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param("ss", $userEmail, $userEmail);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$messages = $result->fetch_all(MYSQLI_ASSOC);
+?>
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -465,9 +479,10 @@ $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['re
         <a href="dashboard.php"><i class="fa-solid fa-chalkboard"></i> <span>Dashboard</span></a>
         <a href="students.php"><i class="fa-regular fa-user"></i> <span>Students</span></a>
         <a href="adminReport.php"><i class="fa-solid fa-magnifying-glass"></i> <span>View Reports</span></a>
+        <a href="adminResolved.php"><i class="fa-solid fa-check"></i> <span>Resolved Reports</span></a>
         <a href="inbox.php"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
         <a href="settings.php"><i class="fas fa-sliders-h"></i> <span>Settings</span></a>
-        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        <a href="index.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></button>
     </div>
 
     <!-- Main Content -->
@@ -488,11 +503,15 @@ $recipientEmail = isset($_POST['recipient_email']) ? htmlspecialchars($_POST['re
             <p>No messages found.</p>
         <?php else: ?>
             <?php foreach ($messages as $message): ?>
-                <div class="message-box">
-                    <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
-                    <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender']); ?></p>
-                    <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
-                    <p class="date"><?php echo htmlspecialchars($message['date']); ?></p>
+                <div class="message-box"
+                style="position: relative; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                        <h3><?php echo htmlspecialchars($message['subject']); ?></h3>
+                        <p><strong>From:</strong> <?php echo htmlspecialchars($message['sender_email']); ?></p>
+                        <p><strong>To:</strong> <?php echo htmlspecialchars($message['recipient_email']); ?></p>
+                        <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message_content']); ?></p>
+
+                        <!-- Timestamp -->
+                        <span class="timestamp"><?php echo htmlspecialchars($message['sent_at']); ?></span>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>

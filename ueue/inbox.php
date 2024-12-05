@@ -15,7 +15,7 @@ $query = "
     SELECT sender_email, recipient_email, subject, message_content, sent_at 
     FROM compose_message 
     WHERE sender_email = ? OR recipient_email = ?
-    ORDER BY sent_at DESC
+    ORDER BY sent_at ASC
 ";
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param("ss", $userEmail, $userEmail);
