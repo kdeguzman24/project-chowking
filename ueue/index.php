@@ -148,82 +148,143 @@ $mysqli->close();
     <!-- Include Font Awesome for the eye icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            height: 100vh;
-            padding-right: 150px;
-            background-image: url('lualhati3.jpg');
-            overflow: hidden;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            text-align: center;
-            box-sizing: border-box;
-            color: black;
-        }
-        .login-container img {
-            max-width: 100px;
-            margin-bottom: 20px;
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: black;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .login-container button {
-            width: 100%;
-            padding: 15px;
-            background-color: #28a745;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            box-sizing: border-box;
-        }
-        .login-container button:hover {
-            background-color: #218838;
-        }
-        .toggle-link {
-            color: #007bff;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 10px;
-            display: block;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        /* Eye icon styling */
-        .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-        .password-container {
-            position: relative;
-        }
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: flex-end; /* Default alignment */
+    align-items: center;
+    height: 100vh;
+    padding-right: 150px;
+    background-image: url('lualhati3.jpg'); /* Default background for larger screens */
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    box-sizing: border-box;
+    color: black;
+}
+
+.login-container img {
+    max-width: 100px;
+    margin-bottom: 20px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: black;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.login-container button:hover {
+    background-color: #218838;
+}
+
+.toggle-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+    display: block;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Eye icon styling */
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-container {
+    position: relative;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        background-image: url('login4.jpg'); /* Use a different image optimized for phones */
+        background-size: contain; /* Adjust image to fit the phone screen */
+        background-repeat: no-repeat;
+        background-position: left top; /* Align the image to the left */
+        padding-right: 0; /* Remove padding for centering */
+        display: flex;
+        justify-content: center; /* Center-align horizontally */
+    }
+
+    .login-container {
+        width: 90%; /* Allow the form to shrink for smaller screens */
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        background-image: url('login4.jpg'); /* Ensure consistency for very small screens */
+        background-size: cover; /* Fit the new image within the screen */
+        background-position: left; /* Ensure image stays on the left */
+        justify-content: center; /* Center-align horizontally */
+        align-items: center; /* Center-align vertically */
+        padding: 0; /* Remove padding to keep centered layout */
+    }
+
+    .login-container {
+        padding: 20px; /* Reduce padding for smaller screens */
+    }
+
+    .login-container img {
+        max-width: 80px; /* Adjust logo size */
+    }
+
+    .login-container h2 {
+        font-size: 18px; /* Adjust title font size */
+    }
+
+    .login-container input, .login-container button {
+        font-size: 14px; /* Adjust input and button font size */
+    }
+
+    .login-container button {
+        padding: 12px; /* Slightly reduce button padding */
+    }
+}
+
     </style>
 </head>
 <body>
