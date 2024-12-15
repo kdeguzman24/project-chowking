@@ -261,7 +261,7 @@ $mysqli->close();
 <body>
     <div class="login-container">
         <img src="UE logo.png" alt="UE Logo">
-        <h2 id="form-title">Sign In</h2>
+        <h2 id="form-title">UEngage: UE Facility Reporting App</h2>
         
         <form id="sign-in-form" onsubmit="return validateSignInForm()" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" style="display: block;">
             <input type="hidden" name="action" value="sign_in">
@@ -375,6 +375,7 @@ $mysqli->close();
                 toggleLink.textContent = "Already have an account? Sign In";
             }
         }
+        
         function toggleForgotPasswordForm() {
     var signInForm = document.getElementById("sign-in-form");
     var forgotPasswordForm = document.getElementById("forgot-password-form");

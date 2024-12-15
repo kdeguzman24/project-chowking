@@ -28,15 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $input_email;
     }
 
-    // Validate password
+
+// Validate password
     $input_password = trim($_POST["password"]);
     if (empty($input_password)) {
         $password_err = "Please enter a password.";
-    } elseif (strlen($input_password) < 6) {
-        $password_err = "Password must have at least 6 characters.";
+    } elseif (strlen($input_password) < 8) { // Change the minimum length to 8
+        $password_err = "Password must have at least 8 characters.";
     } else {
         $password = password_hash($input_password, PASSWORD_DEFAULT); // Hash password
     }
+
 
     // Check input errors before inserting in database
     if (empty($username_err) && empty($email_err) && empty($password_err)) {
@@ -73,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
@@ -84,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container-fluid">
@@ -94,17 +98,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                            <input type="text" name="username"
+                                class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
+                                value="<?php echo $username; ?>">
                             <span class="invalid-feedback"><?php echo $username_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                            <input type="email" name="email"
+                                class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>"
+                                value="<?php echo $email; ?>">
                             <span class="invalid-feedback"><?php echo $email_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
+                            <input type="password" name="password"
+                                class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
                             <span class="invalid-feedback"><?php echo $password_err; ?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
@@ -115,4 +124,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
+
 </html>
